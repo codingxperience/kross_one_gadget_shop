@@ -19,6 +19,11 @@ requireText("if (this.state.auth) page = 'checkout'", 'checkout route account gu
 requireText("if (!this.state.auth)", 'payment action account guard');
 requireText('--cart-bg:#ffffff; --cart-fg:#0d0f14;', 'dark-mode white cart treatment');
 
+const rootRelativeUrls = [...html.matchAll(/(?:src|href)=["']\/(?!\/)/g)];
+if (rootRelativeUrls.length) {
+  throw new Error('Root-relative URLs are not allowed because the site is deployed from a GitHub Pages project subpath.');
+}
+
 const componentMatch = html.match(/<script type="text\/x-dc"[\s\S]*?>([\s\S]*?)<\/script>/);
 if (!componentMatch) throw new Error('Design-export component script is missing.');
 new Function('DCLogic', `${componentMatch[1]}\nreturn Component;`);
@@ -46,4 +51,4 @@ if (!(savedIndex >= 0 && savedIndex < cartIndex && cartIndex < signInIndex)) {
 if (builtHtml !== html) throw new Error('dist/index.html differs from the authoritative storefront source.');
 
 const assetFiles = await readdir(path.join(root, 'public', 'assets'));
-console.log(`QA passed: component/runtime syntax, ${assetRefs.length} local references, ${assetFiles.length} packaged assets, auth-gated checkout, dark defaults, and exact dist output.`);
+console.log(`QA passed: component/runtime syntax, ${assetRefs.length} local references, ${assetFiles.length} packaged assets, GitHub Pages-safe URLs, auth-gated checkout, dark defaults, and exact dist output.`);

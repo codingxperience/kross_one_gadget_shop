@@ -2,6 +2,8 @@
 
 Production-ready static prototype based directly on the latest supplied Claude Design handoff. The handoff is treated as the visual and content source of truth; this revision adds only the five client-requested refinements documented below.
 
+Live site: [codingxperience.github.io/kross_one_gadget_shop](https://codingxperience.github.io/kross_one_gadget_shop/)
+
 ## Local project
 
 `C:\Users\send2\projects101\kross_one_gadget_shop`
@@ -22,6 +24,12 @@ npm run preview
 ```
 
 The build copies the authoritative storefront and its public assets to `dist/` without transforming the design-export HTML. This keeps the production output visually faithful and avoids altering the custom design runtime.
+
+## GitHub Pages deployment
+
+`.github/workflows/deploy-pages.yml` builds, validates, uploads, and deploys `dist/` whenever `main` is updated. The workflow follows GitHub's official Pages artifact deployment model and can also be started manually from the repository's Actions tab.
+
+The storefront uses hash routes and relative asset URLs, so pages such as `#/shop` and `#/checkout` work beneath the project path `/kross_one_gadget_shop/` without a server-side route fallback.
 
 ## Authoritative handoff
 
