@@ -12,6 +12,7 @@ const assetSources = await readFile(path.join(root, 'ASSET_SOURCES.md'), 'utf8')
 const manifest = await readFile(path.join(root, 'public', 'site.webmanifest'), 'utf8');
 const foldFlip = await readFile(path.join(root, 'public', 'assets', 'official-samsung-flip8-hero.jpg'));
 const foldZ = await readFile(path.join(root, 'public', 'assets', 'official-samsung-fold8-ultra-hero.jpg'));
+const socialCard = await readFile(path.join(root, 'public', 'assets', 'og-kross-one-gadgets-v3.png'));
 const builtHtml = await readFile(path.join(root, 'dist', 'index.html'), 'utf8');
 const builtAdminHtml = await readFile(path.join(root, 'dist', 'admin.html'), 'utf8');
 
@@ -23,7 +24,7 @@ const hashText = (source) => createHash('sha256').update(source.replace(/\r\n/g,
 const hashBytes = (source) => createHash('sha256').update(source).digest('hex');
 
 // Storefront: keep the approved v2 client revision and its runtime/assets lossless.
-if (hashText(html) !== 'cfb717a7a41f458d79aef3ad90a9c10fce26abe2ad928208a6ab1d18bd8c1d40') {
+if (hashText(html) !== '3952e8306e8fc38cec5d8ac8a9119759b2f0fbdb400b6f35e596403f89c4033c') {
   throw new Error('index.html differs from the approved responsive Kross One Gadgets v2 client revision.');
 }
 if (hashText(support) !== 'ae4f0ac8449655e17cca1e3b179effcb6817a3b0d8dc47f112a9c39c25c39fd7') {
@@ -46,13 +47,16 @@ requireText(html, '@media (max-width: 1100px)', 'phone/tablet circular motion br
 requireText(html, 'data-mobile-orbit', 'phone/tablet circular product motion');
 requireText(html, 'data-util-window', 'small-screen utility message window');
 requireText(html, 'data-menubtn', 'left navigation menu control');
-requireText(html, '<title>Kross One Gadgets | Apple, Samsung &amp; More at Lugogo Mall</title>', 'polished storefront title');
 requireText(html, 'data-filterbtn', 'premium collection filter control');
 requireText(html, 'data-viewbtn', 'collection layout control');
 requireText(html, 'data-viewmode="{{ viewMode }}"', 'grid/list collection mode');
 requireText(html, 'data-recent-grid', 'recent inventory category emphasis');
 requireText(html, '[data-wa-fab] { display: none !important; }', 'single small-screen WhatsApp action');
-requireText(html, 'assets/og-kross-one-gadgets.png', 'branded social preview metadata');
+requireText(html, '<title>Kross One Gadgets | Apple &amp; Samsung Store | Lugogo Mall</title>', 'approved storefront title');
+requireText(html, 'property="og:title" content="Kross One Gadgets | Apple &amp; Samsung Store | Lugogo Mall"', 'approved Open Graph title');
+requireText(html, 'name="twitter:title" content="Kross One Gadgets | Apple &amp; Samsung Store | Lugogo Mall"', 'approved Twitter title');
+requireText(html, 'assets/og-kross-one-gadgets-v3.png', 'approved Kross One social preview');
+if (socialCard.length < 20_000) throw new Error('The versioned social card is unexpectedly small.');
 requireText(manifest, '"name": "Kross One Gadgets"', 'installable storefront name');
 requireText(html, 'assets/official-hp-omnibook-x-flip-14.png', 'official HP OmniBook X Flip catalog artwork');
 requireText(html, 'assets/official-apple-watch-ultra3-og.png', 'official Apple Watch Ultra 3 artwork');
@@ -75,9 +79,18 @@ requireText(html, "else if (seg[0] === 'visit') page = 'visit';", 'visit route')
 requireText(html, "else if (seg[0] === 'technology') { page = 'home'; param = 'inside'; }", 'inside route');
 requireText(html, 'Shop #18A, Lugogo Mall', 'shop location');
 
+const foldStart = html.indexOf('<section data-fold ');
+const stageStart = html.indexOf('<div data-fold-stage', foldStart);
+const stageEnd = html.indexOf('<div style="position:relative;max-width:1440px;margin:0 auto;padding:clamp(28px', stageStart);
+if (foldStart < 0 || stageStart < 0 || stageEnd < 0) throw new Error('Samsung Fold 8 animated stage is missing.');
+const foldStageHtml = html.slice(stageStart, stageEnd);
+requireText(foldStageHtml, 'assets/official-samsung-fold8-hero.jpg', 'Galaxy Z Fold8 in the Fold-stage motion');
+requireText(foldStageHtml, 'assets/official-samsung-flip8-hero.jpg', 'Galaxy Z Flip8 in the Fold-stage motion');
+if (foldStageHtml.includes('fold8-ultra')) throw new Error('Galaxy Z Fold8 Ultra must not appear in the Fold-stage motion.');
+
 const typerMatch = html.match(/TYPE = \[([\s\S]*?)\];/);
 if (!typerMatch) throw new Error('Animated search prompt inventory is missing.');
-for (const model of ['iPhone 17 Pro Max 256GB', 'Samsung Galaxy S25 256GB', 'Galaxy Z Fold8 Ultra', 'Galaxy Z Flip8', 'RIDE 5 for PlayStation 5', 'EA SPORTS FC 26 game disc', 'ThinkPad Professional 16-inch Topload', 'Pierre Cardin 72cm trolley case', 'HP OmniBook X Flip 14-fm0013dx', 'Apple Watch Ultra 3 49mm', 'Braun Series 5 51-B1000s', 'Philips Trimmer 5000 MG5921/15', 'JBL Tune 770NC Headphones', 'Bose SoundLink Max Speaker', 'Creed Viking Cologne']) {
+for (const model of ['iPhone 17 Pro Max 256GB', 'Samsung Galaxy S25 256GB', 'Galaxy Z Fold8 Ultra', 'Galaxy Z Flip8', 'RIDE 5 for PlayStation 5', 'EA SPORTS FC 26 game disc', 'ThinkPad Professional 16-inch Topload', 'Pierre Cardin 72cm trolley case', 'HP OmniBook X Flip 14-fm0013dx', 'HP Smart Tank 580 printer', 'Apple Watch Ultra 3 49mm', 'HUAWEI WATCH GT 6 Pro', 'HUAWEI WATCH Ultimate 2', 'Green Lion Strive Smart Watch', 'Braun Series 5 51-B1000s', 'Philips Trimmer 5000 MG5921/15', 'JBL PartyBox Stage 320', 'JBL Tune 770NC Headphones', 'Bose SoundLink Max Speaker', 'Ray-Ban Meta Smart Glasses', 'Powerology portable projector', 'Porodo Sovo 10000mAh MagSafe Power Bank', 'Creed Viking Cologne']) {
   requireText(typerMatch[1], model, 'specific animated search inventory item');
 }
 if (/Sony/i.test(typerMatch[1])) {
@@ -91,7 +104,7 @@ const ownerMediaNames = [
   'philips-rotary-shaver.webp', 'samsung-watch8-bedtime.mp4', 'smartwatch-alexa-pink.jpg',
   'trolley-bag-silver.webp'
 ];
-for (const privateReference of ['game cds.jpeg', 'laptop bags on shop.jpeg', 'ladys bag.jpeg', 'trolly bags-onshop.jpeg']) {
+for (const privateReference of ['game cds.jpeg', 'laptop bags on shop.jpeg', 'ladys bag.jpeg', 'trolly bags-onshop.jpeg', 'WhatsApp Image 2026-08-02 at 3.29.59 PM.jpeg', 'WhatsApp Image 2026-08-02 at 3.29.15 PM.jpeg', 'WhatsApp Image 2026-08-02 at 3.28.44 PM.jpeg', 'WhatsApp Image 2026-08-02 at 3.28.01 PM.jpeg', 'WhatsApp Image 2026-08-02 at 3.27.29 PM.jpeg', 'Watch huweai.jpeg', 'Smart watch.jpeg', 'Wireless power bank.jpeg']) {
   if (html.toLowerCase().includes(privateReference)) throw new Error(`Private owner reference must not be displayed: ${privateReference}`);
 }
 const ownerMediaPattern = /^(?:apple-watch-ultra-2|bose-qc-ultra-|bose-soundlink-max-|bose-soundlink-micro-|games-ps4-|hp-omnibook-7-flip|jbl-tune-770nc-|laptop-bag-|perfume-(?:amber|kkw)|philips-(?:rotary|shaver)|samsung-watch8-(?:bedtime|rear|side|silver)|smartwatch-|trolley-bag-)/;
@@ -108,7 +121,10 @@ const ownerRefs = [...html.matchAll(/assets\/([^"']+)/g)].map((match) => match[1
 if (ownerRefs.length) throw new Error(`Owner-supplied media references remain: ${ownerRefs.join(', ')}`);
 const ownerFiles = (await readdir(path.join(root, 'public', 'assets'))).filter((name) => ownerMediaPattern.test(name) && !name.startsWith('official-'));
 if (ownerFiles.length) throw new Error(`Owner-supplied media files remain packaged: ${ownerFiles.join(', ')}`);
-for (const maker of ['HP', 'Braun', 'Philips', 'JBL', 'Bose', 'Samsung', 'Apple', 'Creed', 'Chanel', 'Dior', 'Valentino', 'Armani', 'Carolina Herrera', 'PlayStation', 'Electronic Arts', 'Nintendo', 'Lenovo', 'Pierre Cardin']) {
+for (const item of ['HP Smart Tank 580 Wireless All-in-One Printer', 'JBL PartyBox Stage 320', 'Powerology Rotating Stand Portable Projector', 'Ray-Ban Meta Smart Glasses', 'HUAWEI WATCH GT 6 Pro', 'HUAWEI WATCH Ultimate 2', 'Green Lion Strive Smart Watch', 'Porodo Sovo 10000mAh MagSafe Power Bank']) {
+  requireText(html, item, 'owner-confirmed catalog item');
+}
+for (const maker of ['HP', 'Braun', 'Philips', 'JBL', 'Bose', 'Samsung', 'Apple', 'Creed', 'Chanel', 'Dior', 'Valentino', 'Armani', 'Carolina Herrera', 'PlayStation', 'Electronic Arts', 'Nintendo', 'Lenovo', 'Pierre Cardin', 'Powerology', 'Ray-Ban', 'HUAWEI', 'Green Lion', 'Porodo']) {
   requireText(assetSources, maker, 'official asset source ledger');
 }
 
