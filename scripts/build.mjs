@@ -15,4 +15,4 @@ await copyFile(sourceHtml, path.join(output, 'index.html'));
 await copyFile(sourceAdminHtml, path.join(output, 'admin.html'));
 await cp(sourcePublic, output, { recursive: true });
 
-console.log('Production storefront and admin console copied to dist/ without transforming the authoritative handoff.');
+console.log('Production storefront and admin console copied to dist/ without transforming the approved v2 client revision.');

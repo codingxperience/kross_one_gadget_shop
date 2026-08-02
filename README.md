@@ -1,6 +1,6 @@
 # Kross One Gadget Shop
 
-Production-ready static prototype based directly on the supplied Claude Design v2 handoff (`Kross One Gadget Shop v2`). The handoff is treated as the visual, content, and interaction source of truth. This revision replaces the storefront with the v2 source and its matching runtime while preserving the staff admin console as a second page.
+Production-ready static prototype based directly on the supplied Claude Design v2 handoff (`Kross One Gadget Shop v2`). The handoff remains the visual and interaction source of truth; this revision applies the client-approved mobile motion, search copy, and catalog/media updates while preserving the staff admin console as a second page.
 
 Live site: [codingxperience.github.io/kross_one_gadget_shop](https://codingxperience.github.io/kross_one_gadget_shop/)
 Admin console: [codingxperience.github.io/kross_one_gadget_shop/admin.html](https://codingxperience.github.io/kross_one_gadget_shop/admin.html)
@@ -24,7 +24,7 @@ npm run qa
 npm run preview
 ```
 
-The build copies the authoritative storefront, the admin console, and the public assets to `dist/` without transforming the design-export HTML. This keeps the production output visually faithful and avoids altering the custom design runtime.
+The build copies the approved storefront revision, the admin console, and the public assets to `dist/` without transforming the design-export HTML. This keeps the production output visually faithful and avoids altering the custom design runtime.
 
 ## GitHub Pages deployment
 
@@ -40,21 +40,22 @@ The storefront uses hash routes and relative asset URLs, so pages such as `#/sho
 
 Project mapping:
 
-- `index.html` — authoritative v2 storefront from the handoff, unmodified.
+- `index.html` — v2 storefront with the approved client catalog, mobile orbit, search, and product-video revisions.
 - `admin.html` — authoritative admin console from the handoff, unmodified.
 - `public/support.js` — v2 design runtime, unchanged.
 - `public/admin-data.js` — supplied shared catalog (85 products) used by the admin console, unchanged.
-- `public/assets/` — all 52 curated handoff assets, including the Galaxy Z Flip 8 and Z Fold 8 launch artwork.
+- `public/assets/` — 99 curated assets, including the original handoff artwork and supplied laptop, watch, audio, grooming, fragrance, bag, trolley, and gaming media.
 - `scripts/build.mjs` — lossless static production build for both pages.
-- `scripts/qa.mjs` — v2 source fingerprint, runtime, asset, route, enquiry-flow, admin-gate, and output-integrity checks.
+- `scripts/qa.mjs` — approved v2 revision fingerprint, Apple/Samsung prompt, mobile-orbit, catalog/media, runtime, asset, route, enquiry-flow, admin-gate, and output-integrity checks.
 
 ## Storefront behaviour carried by the handoff source
 
-1. Dark editorial storefront with the v2 typography, hero, product staging, motion, brand wall, shop story, and responsive navigation supplied by the handoff.
-2. Search, category and condition filters, product galleries, related-product cards, and individual product routes are driven by the handoff catalog.
+1. Dark editorial storefront with the v2 typography, hero, product staging, brand wall, shop story, and responsive navigation supplied by the handoff. Desktop retains the vertical product lanes; small screens use the client-requested circular product orbit around the aligned hero content.
+2. The animated search examples advertise specific Apple and Samsung configurations only. Search, category and condition filters, product galleries, related-product cards, and individual product routes are driven by the expanded catalog.
 3. Visitors build an enquiry list and send the complete selection to Kross One in one pre-filled WhatsApp message.
 4. The Galaxy Z Flip 8 and Z Fold 8 launch stage uses the two new handoff PNG assets and a dedicated pre-booking WhatsApp action.
 5. The Inside section and Visit page include the handoff's animated product presentation, shop details, opening hours, and Leaflet map.
+6. Apple Watch Ultra 2 and Samsung Galaxy Watch8 detail pages include the supplied playable product videos; the expanded catalog also includes HP OmniBook, smartwatches, fragrances, shavers, JBL and Bose audio, laptop and trolley bags, and PS4 discs.
 
 ## Route map
 
@@ -78,7 +79,7 @@ The console remains a separate browser-local prototype and seeds realistic demo 
 ## Verification performed
 
 - `npm run build` succeeds and creates byte-identical `dist/index.html` and `dist/admin.html` output.
-- `npm run qa` verifies the exact v2 source/runtime/foldable artwork, parses both design components, checks all local references and packaged assets, validates the v2 routes and enquiry flow, and confirms byte-identical production output.
+- `npm run qa` verifies the approved v2 client revision, Apple/Samsung search prompts, mobile orbit, expanded catalog/media, runtime/foldable artwork, both design components, local references, routes, enquiry flow, and byte-identical production output.
 
 ## Prototype boundaries
 
