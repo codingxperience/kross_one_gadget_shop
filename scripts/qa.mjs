@@ -10,8 +10,9 @@ const support = await readFile(path.join(root, 'public', 'support.js'), 'utf8');
 const adminData = await readFile(path.join(root, 'public', 'admin-data.js'), 'utf8');
 const assetSources = await readFile(path.join(root, 'ASSET_SOURCES.md'), 'utf8');
 const manifest = await readFile(path.join(root, 'public', 'site.webmanifest'), 'utf8');
-const foldFlip = await readFile(path.join(root, 'public', 'assets', 'official-samsung-flip8-hero.jpg'));
-const foldZ = await readFile(path.join(root, 'public', 'assets', 'official-samsung-fold8-ultra-hero.jpg'));
+const foldMotionBlue = await readFile(path.join(root, 'public', 'assets', 'fold-motion-flip-blue.jpeg'));
+const foldMotionBurgundy = await readFile(path.join(root, 'public', 'assets', 'fold-motion-fold-burgundy.jpeg'));
+const foldMotionVideo = await readFile(path.join(root, 'public', 'assets', 'fold-motion-galaxy-series.mp4'));
 const socialCard = await readFile(path.join(root, 'public', 'assets', 'og-kross-one-gadgets-v3.png'));
 const builtHtml = await readFile(path.join(root, 'dist', 'index.html'), 'utf8');
 const builtAdminHtml = await readFile(path.join(root, 'dist', 'admin.html'), 'utf8');
@@ -24,25 +25,32 @@ const hashText = (source) => createHash('sha256').update(source.replace(/\r\n/g,
 const hashBytes = (source) => createHash('sha256').update(source).digest('hex');
 
 // Storefront: keep the approved v2 client revision and its runtime/assets lossless.
-if (hashText(html) !== '3952e8306e8fc38cec5d8ac8a9119759b2f0fbdb400b6f35e596403f89c4033c') {
+if (hashText(html) !== '74ce46a1b8efd58592ce682fea856c58ce9ee64c13adf33eeeba0e6014c9ec91') {
   throw new Error('index.html differs from the approved responsive Kross One Gadgets v2 client revision.');
 }
 if (hashText(support) !== 'ae4f0ac8449655e17cca1e3b179effcb6817a3b0d8dc47f112a9c39c25c39fd7') {
   throw new Error('public/support.js differs from the runtime supplied with the v2 handoff.');
 }
-if (hashBytes(foldFlip) !== '4d009d3b81e6fda3838eb6015e3d128fb7d8c70a2d540d984a2e28fabb50bf5b') {
-  throw new Error('official Galaxy Z Flip8 hero differs from the approved Samsung asset.');
+if (hashBytes(foldMotionBlue) !== 'f3a4969d23d2999007bdb3fe7ff659e7da1d5deaca7a525e72b0e305ce6cd97d') {
+  throw new Error('Blue Galaxy Fold-series motion visual differs from the approved supplied asset.');
 }
-if (hashBytes(foldZ) !== '2f01156b7e5f092bf920ae941156c4f826338a9d5a1cf9bb3889d40ea61f10c0') {
-  throw new Error('official Galaxy Z Fold8 Ultra hero differs from the approved Samsung asset.');
+if (hashBytes(foldMotionBurgundy) !== '0bf2cde2b70297150550bb39079266596aae50ebbef3b7ff87b1e82be3230b8b') {
+  throw new Error('Burgundy Galaxy Fold-series motion visual differs from the approved supplied asset.');
+}
+if (hashBytes(foldMotionVideo) !== '79d5459f3e91c7102dd56ba4c3510019dd19bfc499098d75c905b6ec8ef7df2f') {
+  throw new Error('Galaxy Fold-series motion clip differs from the approved supplied asset.');
 }
 
 // Storefront: distinctive v2 structure, routes, content, and enquiry flow.
 requireText(html, "html { scroll-behavior: smooth; background: #08080b; }", 'v2 dark canvas');
 requireText(html, 'family=Archivo:wdth,wght@62..125,400..900&family=Instrument+Sans', 'v2 typography');
 requireText(html, 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js', 'visit map runtime');
-requireText(html, 'assets/official-samsung-flip8-hero.jpg', 'official Galaxy Z Flip8 artwork');
-requireText(html, 'assets/official-samsung-fold8-ultra-hero.jpg', 'official Galaxy Z Fold8 Ultra artwork');
+requireText(html, 'assets/fold-motion-flip-blue.jpeg', 'approved blue Galaxy motion artwork');
+requireText(html, 'assets/fold-motion-fold-burgundy.jpeg', 'approved burgundy Galaxy motion artwork');
+requireText(html, 'assets/fold-motion-galaxy-series.mp4', 'approved Galaxy motion clip');
+requireText(html, 'assets/kross-one-gadgets-poster.jpg', 'approved Kross One storefront poster');
+requireText(html, 'Original products. The people behind the promise.', 'Kross One poster feature headline');
+requireText(assetSources, 'kross-one-gadgets-poster.jpg', 'Kross One poster source ledger');
 requireText(html, '@media (max-width: 1100px)', 'phone/tablet circular motion breakpoint');
 requireText(html, 'data-mobile-orbit', 'phone/tablet circular product motion');
 requireText(html, 'data-util-window', 'small-screen utility message window');
@@ -84,13 +92,14 @@ const stageStart = html.indexOf('<div data-fold-stage', foldStart);
 const stageEnd = html.indexOf('<div style="position:relative;max-width:1440px;margin:0 auto;padding:clamp(28px', stageStart);
 if (foldStart < 0 || stageStart < 0 || stageEnd < 0) throw new Error('Samsung Fold 8 animated stage is missing.');
 const foldStageHtml = html.slice(stageStart, stageEnd);
-requireText(foldStageHtml, 'assets/official-samsung-fold8-hero.jpg', 'Galaxy Z Fold8 in the Fold-stage motion');
-requireText(foldStageHtml, 'assets/official-samsung-flip8-hero.jpg', 'Galaxy Z Flip8 in the Fold-stage motion');
-if (foldStageHtml.includes('fold8-ultra')) throw new Error('Galaxy Z Fold8 Ultra must not appear in the Fold-stage motion.');
+requireText(foldStageHtml, 'assets/fold-motion-flip-blue.jpeg', 'approved blue Galaxy visual in the Fold-stage motion');
+requireText(foldStageHtml, 'assets/fold-motion-fold-burgundy.jpeg', 'approved burgundy Galaxy visual in the Fold-stage motion');
+requireText(foldStageHtml, 'assets/fold-motion-galaxy-series.mp4', 'approved Galaxy clip in the Fold-stage motion');
+if (foldStageHtml.includes('official-samsung-')) throw new Error('The Fold-stage motion must retain the approved supplied Galaxy visuals, not the product-card media.');
 
 const typerMatch = html.match(/TYPE = \[([\s\S]*?)\];/);
 if (!typerMatch) throw new Error('Animated search prompt inventory is missing.');
-for (const model of ['iPhone 17 Pro Max 256GB', 'Samsung Galaxy S25 256GB', 'Galaxy Z Fold8 Ultra', 'Galaxy Z Flip8', 'RIDE 5 for PlayStation 5', 'EA SPORTS FC 26 game disc', 'ThinkPad Professional 16-inch Topload', 'Pierre Cardin 72cm trolley case', 'HP OmniBook X Flip 14-fm0013dx', 'HP Smart Tank 580 printer', 'Apple Watch Ultra 3 49mm', 'HUAWEI WATCH GT 6 Pro', 'HUAWEI WATCH Ultimate 2', 'Green Lion Strive Smart Watch', 'Braun Series 5 51-B1000s', 'Philips Trimmer 5000 MG5921/15', 'JBL PartyBox Stage 320', 'JBL Tune 770NC Headphones', 'Bose SoundLink Max Speaker', 'Ray-Ban Meta Smart Glasses', 'Powerology portable projector', 'Porodo Sovo 10000mAh MagSafe Power Bank', 'Creed Viking Cologne']) {
+for (const model of ['iPhone 17 Pro Max 256GB', 'iPhone 17 Pro Cosmic Orange', 'iPhone 17 256GB', 'Samsung Galaxy S26 Ultra 1TB', 'Samsung Galaxy S25 256GB', 'Galaxy Z Fold8 Ultra', 'Galaxy Z Flip8', 'RIDE 5 for PlayStation 5', 'EA SPORTS FC 26 game disc', 'ThinkPad Professional 16-inch Topload', 'Pierre Cardin 72cm trolley case', 'HP OmniBook X Flip 14-fm0013dx', 'HP Smart Tank 580 printer', 'Apple Watch Ultra 3 49mm', 'HUAWEI WATCH GT 6 Pro', 'HUAWEI WATCH Ultimate 2', 'Green Lion Strive Smart Watch', 'Braun Series 5 51-B1000s', 'Philips Trimmer 5000 MG5921/15', 'JBL PartyBox Stage 320', 'JBL Tune 770NC Headphones', 'Bose SoundLink Max Speaker', 'Ray-Ban Meta Smart Glasses', 'Powerology portable projector', 'Porodo Sovo 10000mAh MagSafe Power Bank', 'Creed Viking Cologne']) {
   requireText(typerMatch[1], model, 'specific animated search inventory item');
 }
 if (/Sony/i.test(typerMatch[1])) {
@@ -121,7 +130,7 @@ const ownerRefs = [...html.matchAll(/assets\/([^"']+)/g)].map((match) => match[1
 if (ownerRefs.length) throw new Error(`Owner-supplied media references remain: ${ownerRefs.join(', ')}`);
 const ownerFiles = (await readdir(path.join(root, 'public', 'assets'))).filter((name) => ownerMediaPattern.test(name) && !name.startsWith('official-'));
 if (ownerFiles.length) throw new Error(`Owner-supplied media files remain packaged: ${ownerFiles.join(', ')}`);
-for (const item of ['HP Smart Tank 580 Wireless All-in-One Printer', 'JBL PartyBox Stage 320', 'Powerology Rotating Stand Portable Projector', 'Ray-Ban Meta Smart Glasses', 'HUAWEI WATCH GT 6 Pro', 'HUAWEI WATCH Ultimate 2', 'Green Lion Strive Smart Watch', 'Porodo Sovo 10000mAh MagSafe Power Bank']) {
+for (const item of ['iPhone 17 Pro Max', 'iPhone 17 Pro', 'iPhone 17', 'Samsung Galaxy S26 Ultra', 'HP Smart Tank 580 Wireless All-in-One Printer', 'JBL PartyBox Stage 320', 'Powerology Rotating Stand Portable Projector', 'Ray-Ban Meta Smart Glasses', 'HUAWEI WATCH GT 6 Pro', 'HUAWEI WATCH Ultimate 2', 'Green Lion Strive Smart Watch', 'Porodo Sovo 10000mAh MagSafe Power Bank']) {
   requireText(html, item, 'owner-confirmed catalog item');
 }
 for (const maker of ['HP', 'Braun', 'Philips', 'JBL', 'Bose', 'Samsung', 'Apple', 'Creed', 'Chanel', 'Dior', 'Valentino', 'Armani', 'Carolina Herrera', 'PlayStation', 'Electronic Arts', 'Nintendo', 'Lenovo', 'Pierre Cardin', 'Powerology', 'Ray-Ban', 'HUAWEI', 'Green Lion', 'Porodo']) {
