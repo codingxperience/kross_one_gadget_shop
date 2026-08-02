@@ -1,13 +1,13 @@
 # Kross One Gadget Shop
 
-Production-ready static prototype based directly on the latest supplied Claude Design handoff (`Kross One Gadget Shop Redesign`). The handoff is treated as the visual and content source of truth. This revision syncs the storefront to the newest handoff source and adds the handoff's staff admin console as a second page.
+Production-ready static prototype based directly on the supplied Claude Design v2 handoff (`Kross One Gadget Shop v2`). The handoff is treated as the visual, content, and interaction source of truth. This revision replaces the storefront with the v2 source and its matching runtime while preserving the staff admin console as a second page.
 
 Live site: [codingxperience.github.io/kross_one_gadget_shop](https://codingxperience.github.io/kross_one_gadget_shop/)
 Admin console: [codingxperience.github.io/kross_one_gadget_shop/admin.html](https://codingxperience.github.io/kross_one_gadget_shop/admin.html)
 
 ## Local project
 
-`C:\Users\send2\projects101\kross_one_gadget_shop`
+`E:\project101\kross_one_gadget_shop`
 
 ## Setup
 
@@ -30,32 +30,31 @@ The build copies the authoritative storefront, the admin console, and the public
 
 `.github/workflows/deploy-pages.yml` builds, validates, uploads, and deploys `dist/` whenever `main` is updated. The workflow follows GitHub's official Pages artifact deployment model and can also be started manually from the repository's Actions tab.
 
-The storefront uses hash routes and relative asset URLs, so pages such as `#/shop` and `#/checkout` work beneath the project path `/kross_one_gadget_shop/` without a server-side route fallback. The admin console is served at `admin.html` beneath the same path.
+The storefront uses hash routes and relative asset URLs, so pages such as `#/shop`, `#/technology`, and `#/visit` work beneath the project path `/kross_one_gadget_shop/` without a server-side route fallback. The admin console is served at `admin.html` beneath the same path.
 
 ## Authoritative handoff
 
-- Primary storefront source inside the handoff: `project/Kross One Gadget Shop.dc.html`
-- Admin console source inside the handoff: `project/Kross One Admin.dc.html`
-- Shared catalog data inside the handoff: `project/admin-data.js`
+- Primary storefront source inside the handoff: `Kross One Gadget Shop v2.dc.html`
+- Admin console source inside the handoff: `Kross One Admin.dc.html`
+- Shared catalog data inside the handoff: `admin-data.js`
 
 Project mapping:
 
-- `index.html` — authoritative storefront from the latest handoff. Sole adaptation: the document opens with `<html data-theme="dark">` so the dark-first default paints before the runtime mounts.
+- `index.html` — authoritative v2 storefront from the handoff, unmodified.
 - `admin.html` — authoritative admin console from the handoff, unmodified.
-- `public/support.js` — supplied design runtime, unchanged.
+- `public/support.js` — v2 design runtime, unchanged.
 - `public/admin-data.js` — supplied shared catalog (85 products) used by the admin console, unchanged.
-- `public/assets/` — all 50 curated handoff assets.
+- `public/assets/` — all 52 curated handoff assets, including the Galaxy Z Flip 8 and Z Fold 8 launch artwork.
 - `scripts/build.mjs` — lossless static production build for both pages.
-- `scripts/qa.mjs` — syntax, asset, navigation, authentication-gate, dark-mode, promo-code, admin-gate, and output-integrity checks.
+- `scripts/qa.mjs` — v2 source fingerprint, runtime, asset, route, enquiry-flow, admin-gate, and output-integrity checks.
 
 ## Storefront behaviour carried by the handoff source
 
-1. Dark mode is the default in the raw document, component state, and normal browser view. A visitor's explicit saved theme preference is still respected; embedded/iframe contexts render light.
-2. Checkout and payment actions require an account. Direct signed-out access to `#/checkout` redirects to Create account, preserves checkout intent through Sign in/Create account, and returns the authenticated user to Checkout.
-3. Input, textarea, and select text/carets inherit the active theme color, so fields stay legible on dark.
-4. The Cart control inverts with the theme (light pill with dark label and badge in dark mode), on desktop and mobile.
-5. Desktop right-side navigation is ordered Saved → Cart → Sign in/account.
-6. Promo codes are accepted in both the cart and checkout summaries, validated against the admin console's promo list, and carried through the payment sheet, order, and tracking view.
+1. Dark editorial storefront with the v2 typography, hero, product staging, motion, brand wall, shop story, and responsive navigation supplied by the handoff.
+2. Search, category and condition filters, product galleries, related-product cards, and individual product routes are driven by the handoff catalog.
+3. Visitors build an enquiry list and send the complete selection to Kross One in one pre-filled WhatsApp message.
+4. The Galaxy Z Flip 8 and Z Fold 8 launch stage uses the two new handoff PNG assets and a dedicated pre-booking WhatsApp action.
+5. The Inside section and Visit page include the handoff's animated product presentation, shop details, opening hours, and Leaflet map.
 
 ## Route map
 
@@ -63,23 +62,10 @@ Project mapping:
 | --- | --- |
 | `#/` | Home |
 | `#/shop` | All products |
-| `#/c/mobiles` | Mobiles |
-| `#/c/audio` | Audio |
-| `#/c/laptops` | Laptops |
-| `#/c/watches` | Smart Watches |
-| `#/c/gaming` | Gaming |
-| `#/c/accessories` | Accessories |
-| `#/deals` | Deals |
+| `#/shop/:category` | Filtered product collection |
 | `#/p/:product-id` | Product detail |
-| `#/about` | About |
-| `#/contact` | Contact |
-| `#/saved` | Saved items |
-| `#/cart` | Cart |
-| `#/checkout` | Account-gated checkout |
-| `#/login` | Sign in |
-| `#/register` | Create account |
-| `#/account` | Account and order history |
-| `#/track/:order-ref` | Order tracking |
+| `#/technology` | Inside the technology section |
+| `#/visit` | Shop location and contact details |
 
 ## Admin console (`admin.html`)
 
@@ -87,17 +73,15 @@ Staff console from the handoff. Demo credentials are shown on the sign-in card (
 
 Sections: Overview (live KPIs, revenue-by-order bars, payment and channel mix, 7-day trend, sales by category, low-stock alerts), Orders (search/filter, detail drawer, status advance, refunds, rider assignment, internal notes, CSV export, receipts), In-store point-of-sale, Inventory (stock adjust, price overrides), Customers (WhatsApp messaging), Payments ledger, Discounts & promos, Delivery riders, Reviews moderation, Returns & repairs, Expense tracking, Supplier purchase orders, Staff roles & permissions, Security, and Audit log. A Daily summary email composer sits in the Overview header.
 
-The console computes from the same browser-local storefront data as the shop — orders placed on the site appear in the console on the same device — and seeds realistic demo data on first load without overwriting real activity.
+The console remains a separate browser-local prototype and seeds realistic demo data on first load. The v2 storefront's enquiry list is sent directly through WhatsApp and is not written into the admin console.
 
 ## Verification performed
 
 - `npm run build` succeeds and creates byte-identical `dist/index.html` and `dist/admin.html` output.
-- `npm run qa` parses both design components and the supplied runtime, verifies all 42 storefront and 38 admin local asset references, confirms all 50 packaged assets, and checks the dark-mode, checkout-gate, promo-code, cart-treatment, navigation-order, and admin-gate markers.
-- Chromium rendered the storefront at 1440 × 960: dark default active, signed-out `#/checkout` redirected to Create account, promo entry present in cart and checkout markup.
-- Chromium ran the admin console end to end: sign-in → two-factor code → console; all 15 sections rendered their labelled view (Overview, Orders, In-store sales, Inventory, Customers, Payments, Discounts & promos, Riders, Reviews, Returns, Expenses, Suppliers, Staff, Security, Audit log) with no page-level browser exceptions.
+- `npm run qa` verifies the exact v2 source/runtime/foldable artwork, parses both design components, checks all local references and packaged assets, validates the v2 routes and enquiry flow, and confirms byte-identical production output.
 
 ## Prototype boundaries
 
-The supplied handoff uses browser-local storage for accounts, carts, saved items, orders, admin data, and theme preference. Its payment, order, delivery, stock, product, review, and tracking data are prototype presentation data, and the admin credentials are demo values shown on the sign-in card. Before production commerce launch, connect authentication, catalogue/inventory, pricing, payments, order management, delivery, and customer communications to verified backend services, and move the admin console behind real server-side authentication.
+The v2 storefront is an enquiry-led static prototype: catalog content is embedded in the handoff, prices and availability are requested through WhatsApp, and the enquiry list is browser-session state. The separate admin console still uses browser-local prototype data, and its credentials are demo values shown on the sign-in card. Before production launch, connect the catalogue, inventory, pricing, enquiries, customer communications, and admin access to verified backend services.
 
-The supplied runtime also loads React, ReactDOM, Instrument Sans, some brand icons, and several catalogue images from external CDN URLs. A production hardening pass should self-host critical runtime dependencies and confirm licensing/availability for every remote asset without changing the approved design.
+The supplied runtime loads React, ReactDOM, Babel, typography, and Leaflet resources from external CDNs. A production hardening pass should self-host critical runtime dependencies and confirm licensing/availability without changing the approved design.

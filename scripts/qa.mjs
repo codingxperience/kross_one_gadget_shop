@@ -1,4 +1,5 @@
 import { readFile, readdir, stat } from 'node:fs/promises';
+import { createHash } from 'node:crypto';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -7,6 +8,8 @@ const html = await readFile(path.join(root, 'index.html'), 'utf8');
 const adminHtml = await readFile(path.join(root, 'admin.html'), 'utf8');
 const support = await readFile(path.join(root, 'public', 'support.js'), 'utf8');
 const adminData = await readFile(path.join(root, 'public', 'admin-data.js'), 'utf8');
+const foldFlip = await readFile(path.join(root, 'public', 'assets', 'fold-flip8.png'));
+const foldZ = await readFile(path.join(root, 'public', 'assets', 'fold-zfold8.png'));
 const builtHtml = await readFile(path.join(root, 'dist', 'index.html'), 'utf8');
 const builtAdminHtml = await readFile(path.join(root, 'dist', 'admin.html'), 'utf8');
 
@@ -14,22 +17,34 @@ const requireText = (source, needle, label) => {
   if (!source.includes(needle)) throw new Error(`Missing ${label}: ${needle}`);
 };
 
-// Storefront: dark-first defaults, native to the latest handoff.
-requireText(html, '<html data-theme="dark">', 'dark-first document state');
-requireText(html, "theme: 'dark'", 'dark-first component state');
-requireText(html, "let theme = 'dark';", 'dark-first mounted state');
-requireText(html, 'color: var(--tx); caret-color: var(--tx);', 'theme-aware input text');
+const hashText = (source) => createHash('sha256').update(source.replace(/\r\n/g, '\n')).digest('hex');
+const hashBytes = (source) => createHash('sha256').update(source).digest('hex');
 
-// Storefront: checkout requires an account and preserves checkout intent through auth.
-const checkoutIntents = html.split("this._postAuth = '#/checkout';").length - 1;
-if (checkoutIntents < 2) throw new Error('Checkout must be account-gated on both the route and the payment action, preserving checkout intent.');
+// Storefront: keep the supplied v2 handoff and its new runtime/assets lossless.
+if (hashText(html) !== '1ebdc39e2c3381f26021208f310534bcbf9dace8593bb0c556a177289b5f389c') {
+  throw new Error('index.html differs from the authoritative Kross One Gadget Shop v2 handoff.');
+}
+if (hashText(support) !== 'ae4f0ac8449655e17cca1e3b179effcb6817a3b0d8dc47f112a9c39c25c39fd7') {
+  throw new Error('public/support.js differs from the runtime supplied with the v2 handoff.');
+}
+if (hashBytes(foldFlip) !== '118dbc80075088641904f8082fc4084ec8b0068e01610b9af9807d22fe4e2583') {
+  throw new Error('fold-flip8.png differs from the v2 handoff asset.');
+}
+if (hashBytes(foldZ) !== '73f8ec353b15cb37bf5a42effc7ea05033b50e6505a9a56eb90862048147bd87') {
+  throw new Error('fold-zfold8.png differs from the v2 handoff asset.');
+}
 
-// Storefront: cart control inverts with the theme (light-on-dark in dark mode).
-requireText(html, 'aria-label="Cart" style="display:flex;align-items:center;gap:9px;background:var(--tx);color:var(--bg)', 'theme-inverting cart treatment');
-
-// Storefront: promo codes accepted in cart and checkout, shown in tracking.
-if (html.split('placeholder="Promo code"').length - 1 < 2) throw new Error('Promo code entry must be present in both cart and checkout.');
-requireText(html, 'trackHasPromo', 'promo line on order tracking');
+// Storefront: distinctive v2 structure, routes, content, and enquiry flow.
+requireText(html, "html { scroll-behavior: smooth; background: #08080b; }", 'v2 dark canvas');
+requireText(html, 'family=Archivo:wdth,wght@62..125,400..900&family=Instrument+Sans', 'v2 typography');
+requireText(html, 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js', 'visit map runtime');
+requireText(html, 'assets/fold-flip8.png', 'Galaxy Z Flip 8 artwork');
+requireText(html, 'assets/fold-zfold8.png', 'Galaxy Z Fold 8 artwork');
+requireText(html, 'aria-label="Enquiry list"', 'enquiry list control');
+requireText(html, 'Send list on WhatsApp', 'WhatsApp enquiry-list action');
+requireText(html, "else if (seg[0] === 'visit') page = 'visit';", 'visit route');
+requireText(html, "else if (seg[0] === 'technology') { page = 'home'; param = 'inside'; }", 'inside route');
+requireText(html, 'Shop #18A, Lugogo Mall', 'shop location');
 
 const pagesSafe = (label, source) => {
   const rootRelativeUrls = [...source.matchAll(/(?:src|href)=["']\/(?!\/)/g)];
@@ -70,16 +85,8 @@ for (const ref of new Set([...assetRefs, ...adminAssetRefs])) {
 }
 if (missingAssets.length) throw new Error(`Missing local assets: ${missingAssets.join(', ')}`);
 
-const desktopHeader = html.slice(html.indexOf('<sc-if value="{{ isDesktop }}"'), html.indexOf('<sc-if value="{{ isMobile }}"'));
-const savedIndex = desktopHeader.indexOf('href="#/saved"');
-const cartIndex = desktopHeader.indexOf('aria-label="Cart"');
-const signInIndex = desktopHeader.indexOf('href="#/login"');
-if (!(savedIndex >= 0 && savedIndex < cartIndex && cartIndex < signInIndex)) {
-  throw new Error('Desktop navigation order must be Saved, Cart, Sign in.');
-}
-
 if (builtHtml !== html) throw new Error('dist/index.html differs from the authoritative storefront source.');
 if (builtAdminHtml !== adminHtml) throw new Error('dist/admin.html differs from the authoritative admin console source.');
 
 const assetFiles = await readdir(path.join(root, 'public', 'assets'));
-console.log(`QA passed: component/runtime syntax for storefront + admin, ${assetRefs.length} storefront and ${adminAssetRefs.length} admin local references, ${assetFiles.length} packaged assets, GitHub Pages-safe URLs, auth-gated checkout, promo codes, dark defaults, admin gate/2FA, and exact dist output.`);
+console.log(`QA passed: exact v2 storefront/runtime/fold assets, component syntax for storefront + admin, ${assetRefs.length} storefront and ${adminAssetRefs.length} admin local references, ${assetFiles.length} packaged assets, GitHub Pages-safe URLs, v2 routes/enquiry flow, admin gate/2FA, and exact dist output.`);
