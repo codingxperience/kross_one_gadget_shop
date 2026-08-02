@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://kross-one-gadget-shop.vercel.app/sitemap.xml

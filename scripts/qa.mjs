@@ -10,6 +10,8 @@ const support = await readFile(path.join(root, 'public', 'support.js'), 'utf8');
 const adminData = await readFile(path.join(root, 'public', 'admin-data.js'), 'utf8');
 const assetSources = await readFile(path.join(root, 'ASSET_SOURCES.md'), 'utf8');
 const manifest = await readFile(path.join(root, 'public', 'site.webmanifest'), 'utf8');
+const robots = await readFile(path.join(root, 'public', 'robots.txt'), 'utf8');
+const sitemap = await readFile(path.join(root, 'public', 'sitemap.xml'), 'utf8');
 const foldMotionBlue = await readFile(path.join(root, 'public', 'assets', 'fold-motion-flip-blue.jpeg'));
 const foldMotionBurgundy = await readFile(path.join(root, 'public', 'assets', 'fold-motion-fold-burgundy.jpeg'));
 const foldMotionVideo = await readFile(path.join(root, 'public', 'assets', 'fold-motion-galaxy-series.mp4'));
@@ -25,7 +27,7 @@ const hashText = (source) => createHash('sha256').update(source.replace(/\r\n/g,
 const hashBytes = (source) => createHash('sha256').update(source).digest('hex');
 
 // Storefront: keep the approved v2 client revision and its runtime/assets lossless.
-if (hashText(html) !== '2cc09bf4a34858272ad78413e3510b1b88dfa383f980ac3c20779c7c71055bab') {
+if (hashText(html) !== '67b79fa09f61cebb8c0bf2593e012ef02db83fabb82b05b2736b42bfa3364443') {
   throw new Error('index.html differs from the approved responsive Kross One Gadgets v2 client revision.');
 }
 if (hashText(support) !== 'ae4f0ac8449655e17cca1e3b179effcb6817a3b0d8dc47f112a9c39c25c39fd7') {
@@ -67,6 +69,10 @@ requireText(html, 'data-recent-grid', 'recent inventory category emphasis');
 requireText(html, '[data-wa-fab] { display: none !important; }', 'single small-screen WhatsApp action');
 requireText(html, '<title>Kross One Gadgets | Apple &amp; Samsung Store | Lugogo Mall</title>', 'approved storefront title');
 requireText(html, 'property="og:title" content="Kross One Gadgets | Apple &amp; Samsung Store | Lugogo Mall"', 'approved Open Graph title');
+requireText(html, '"@type": "ElectronicsStore"', 'Google Local Business structured data');
+requireText(html, 'name="robots" content="index,follow', 'Google crawl directive');
+requireText(robots, 'Sitemap: https://kross-one-gadget-shop.vercel.app/sitemap.xml', 'Google sitemap directive');
+requireText(sitemap, '<loc>https://kross-one-gadget-shop.vercel.app/</loc>', 'canonical sitemap URL');
 requireText(html, 'name="twitter:title" content="Kross One Gadgets | Apple &amp; Samsung Store | Lugogo Mall"', 'approved Twitter title');
 requireText(html, 'assets/og-kross-one-gadgets-v3.png', 'approved Kross One social preview');
 if (socialCard.length < 20_000) throw new Error('The versioned social card is unexpectedly small.');
