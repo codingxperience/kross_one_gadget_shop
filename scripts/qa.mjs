@@ -9,6 +9,7 @@ const adminHtml = await readFile(path.join(root, 'admin.html'), 'utf8');
 const support = await readFile(path.join(root, 'public', 'support.js'), 'utf8');
 const adminData = await readFile(path.join(root, 'public', 'admin-data.js'), 'utf8');
 const assetSources = await readFile(path.join(root, 'ASSET_SOURCES.md'), 'utf8');
+const manifest = await readFile(path.join(root, 'public', 'site.webmanifest'), 'utf8');
 const foldFlip = await readFile(path.join(root, 'public', 'assets', 'fold-flip8.png'));
 const foldZ = await readFile(path.join(root, 'public', 'assets', 'fold-zfold8.png'));
 const builtHtml = await readFile(path.join(root, 'dist', 'index.html'), 'utf8');
@@ -22,8 +23,8 @@ const hashText = (source) => createHash('sha256').update(source.replace(/\r\n/g,
 const hashBytes = (source) => createHash('sha256').update(source).digest('hex');
 
 // Storefront: keep the approved v2 client revision and its runtime/assets lossless.
-if (hashText(html) !== '21b6658aef93be1a5ceaa660d1d21a19c305e8ef340e0603c1d5188208f7202f') {
-  throw new Error('index.html differs from the approved responsive Kross One Gadget Shop v2 client revision.');
+if (hashText(html) !== '9353b0ca686175d9a20970f8ffddb2036d28e70e52551d0ef133ddced621c58f') {
+  throw new Error('index.html differs from the approved responsive Kross One Gadgets v2 client revision.');
 }
 if (hashText(support) !== 'ae4f0ac8449655e17cca1e3b179effcb6817a3b0d8dc47f112a9c39c25c39fd7') {
   throw new Error('public/support.js differs from the runtime supplied with the v2 handoff.');
@@ -45,6 +46,14 @@ requireText(html, '@media (max-width: 1100px)', 'phone/tablet circular motion br
 requireText(html, 'data-mobile-orbit', 'phone/tablet circular product motion');
 requireText(html, 'data-util-window', 'small-screen utility message window');
 requireText(html, 'data-menubtn', 'left navigation menu control');
+requireText(html, '<title>Kross One Gadgets | Apple, Samsung &amp; More at Lugogo Mall</title>', 'polished storefront title');
+requireText(html, 'data-filterbtn', 'premium collection filter control');
+requireText(html, 'data-viewbtn', 'collection layout control');
+requireText(html, 'data-viewmode="{{ viewMode }}"', 'grid/list collection mode');
+requireText(html, 'data-recent-grid', 'recent inventory category emphasis');
+requireText(html, '[data-wa-fab] { display: none !important; }', 'single small-screen WhatsApp action');
+requireText(html, 'assets/og-kross-one-gadgets.png', 'branded social preview metadata');
+requireText(manifest, '"name": "Kross One Gadgets"', 'installable storefront name');
 requireText(html, 'assets/official-hp-omnibook-x-flip-14.png', 'official HP OmniBook X Flip catalog artwork');
 requireText(html, 'assets/official-apple-watch-ultra2-hero.jpg', 'official Apple Watch Ultra 2 artwork');
 requireText(html, 'assets/official-samsung-watch8-silver-perspective.jpg', 'official Samsung Galaxy Watch8 artwork');
@@ -56,6 +65,10 @@ requireText(html, 'assets/official-armani-prive-rouge-malachite.jpg', 'official 
 requireText(html, 'assets/official-carolina-herrera-212-vip-men.jpg', 'official Carolina Herrera fragrance artwork');
 requireText(html, 'Bose SoundLink Max Portable Speaker', 'Bose speaker catalog item');
 requireText(html, 'JBL Tune 770NC Wireless Headphones', 'JBL headphone catalog item');
+requireText(html, 'RIDE 5 — PlayStation 5', 'PlayStation game-disc catalog item');
+requireText(html, 'EA SPORTS FC 26 — PlayStation', 'EA game-disc catalog item');
+requireText(html, 'ThinkPad Professional 16″ Topload Gen 2', 'Lenovo laptop bag catalog item');
+requireText(html, 'Pierre Cardin 72cm Soft-Shell Trolley Case', 'travel-bag catalog item');
 requireText(html, 'aria-label="Enquiry list"', 'enquiry list control');
 requireText(html, 'Send list on WhatsApp', 'WhatsApp enquiry-list action');
 requireText(html, "else if (seg[0] === 'visit') page = 'visit';", 'visit route');
@@ -64,11 +77,11 @@ requireText(html, 'Shop #18A, Lugogo Mall', 'shop location');
 
 const typerMatch = html.match(/TYPE = \[([\s\S]*?)\];/);
 if (!typerMatch) throw new Error('Animated search prompt inventory is missing.');
-for (const model of ['iPhone 17 Pro Max 256GB', 'Samsung Galaxy S25 Ultra 256GB', 'HP OmniBook X Flip 14-fm0013dx', 'Braun Series 5 51-B1000s', 'Philips Trimmer 5000 MG5921/15', 'JBL Tune 770NC Headphones', 'Bose SoundLink Max Speaker', 'Creed Viking Cologne', 'Bleu de Chanel Eau de Parfum', 'Dior Sauvage Eau de Parfum', 'Valentino Donna Born in Roma', 'Armani Privé Rouge Malachite', 'Carolina Herrera 212 VIP Men']) {
+for (const model of ['iPhone 17 Pro Max 256GB', 'Samsung Galaxy S25 Ultra 256GB', 'RIDE 5 for PlayStation 5', 'EA SPORTS FC 26 game disc', 'ThinkPad Professional 16-inch Topload', 'Pierre Cardin 72cm trolley case', 'HP OmniBook X Flip 14-fm0013dx', 'Braun Series 5 51-B1000s', 'Philips Trimmer 5000 MG5921/15', 'JBL Tune 770NC Headphones', 'Bose SoundLink Max Speaker', 'Creed Viking Cologne']) {
   requireText(typerMatch[1], model, 'specific animated search inventory item');
 }
-if (/Sony|PlayStation/i.test(typerMatch[1])) {
-  throw new Error('Animated search prompts advertise inventory the owner did not confirm.');
+if (/Sony/i.test(typerMatch[1])) {
+  throw new Error('Animated search prompts include Sony, which the owner did not confirm as phone/electronics inventory.');
 }
 
 const ownerMediaNames = [
@@ -78,6 +91,9 @@ const ownerMediaNames = [
   'philips-rotary-shaver.webp', 'samsung-watch8-bedtime.mp4', 'smartwatch-alexa-pink.jpg',
   'trolley-bag-silver.webp'
 ];
+for (const privateReference of ['game cds.jpeg', 'laptop bags on shop.jpeg', 'ladys bag.jpeg', 'trolly bags-onshop.jpeg']) {
+  if (html.toLowerCase().includes(privateReference)) throw new Error(`Private owner reference must not be displayed: ${privateReference}`);
+}
 const ownerMediaPattern = /^(?:apple-watch-ultra-2|bose-qc-ultra-|bose-soundlink-max-|bose-soundlink-micro-|games-ps4-|hp-omnibook-7-flip|jbl-tune-770nc-|laptop-bag-|perfume-(?:amber|kkw)|philips-(?:rotary|shaver)|samsung-watch8-(?:bedtime|rear|side|silver)|smartwatch-|trolley-bag-)/;
 for (const name of ownerMediaNames) {
   if (html.includes(name)) throw new Error(`Owner-supplied media must not be displayed: ${name}`);
@@ -92,7 +108,7 @@ const ownerRefs = [...html.matchAll(/assets\/([^"']+)/g)].map((match) => match[1
 if (ownerRefs.length) throw new Error(`Owner-supplied media references remain: ${ownerRefs.join(', ')}`);
 const ownerFiles = (await readdir(path.join(root, 'public', 'assets'))).filter((name) => ownerMediaPattern.test(name) && !name.startsWith('official-'));
 if (ownerFiles.length) throw new Error(`Owner-supplied media files remain packaged: ${ownerFiles.join(', ')}`);
-for (const maker of ['HP', 'Braun', 'Philips', 'JBL', 'Bose', 'Samsung', 'Apple', 'Creed', 'Chanel', 'Dior', 'Valentino', 'Armani', 'Carolina Herrera']) {
+for (const maker of ['HP', 'Braun', 'Philips', 'JBL', 'Bose', 'Samsung', 'Apple', 'Creed', 'Chanel', 'Dior', 'Valentino', 'Armani', 'Carolina Herrera', 'PlayStation', 'Electronic Arts', 'Nintendo', 'Lenovo', 'Pierre Cardin']) {
   requireText(assetSources, maker, 'official asset source ledger');
 }
 
