@@ -1,0 +1,10 @@
+{
+  "name": "Kross One Gadgets",
+  "short_name": "Kross One",
+  "description": "Apple, Samsung, gaming and lifestyle essentials at Lugogo Mall, Kampala.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#08080b",
+  "theme_color": "#08080b"
+}

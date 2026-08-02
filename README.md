@@ -1,6 +1,6 @@
-# Kross One Gadget Shop
+# Kross One Gadgets
 
-Production-ready static prototype based directly on the supplied Claude Design v2 handoff (`Kross One Gadget Shop v2`). The handoff remains the visual and interaction source of truth; this revision applies the client-approved responsive motion, search copy, and authenticated catalog imagery while preserving the staff admin console as a second page.
+Production-ready static prototype based directly on the supplied Claude Design v2 handoff (`Kross One Gadget Shop v2`). The storefront brand is now Kross One Gadgets, with the handoff remaining the visual and interaction source of truth. This revision applies the client-approved responsive motion, premium collection controls, broader inventory search, and authenticated catalog imagery while preserving the staff admin console as a second page.
 
 Live site: [codingxperience.github.io/kross_one_gadget_shop](https://codingxperience.github.io/kross_one_gadget_shop/)
 Admin console: [codingxperience.github.io/kross_one_gadget_shop/admin.html](https://codingxperience.github.io/kross_one_gadget_shop/admin.html)
@@ -40,11 +40,11 @@ The storefront uses hash routes and relative asset URLs, so pages such as `#/sho
 
 Project mapping:
 
-- `index.html` — v2 storefront with the approved client catalog, phone/tablet orbit, expanded search prompts, and responsive navigation revisions.
+- `index.html` — v2 storefront with the approved client catalog, phone/tablet orbit, premium filter/view panels, expanded search prompts, and responsive navigation revisions.
 - `admin.html` — authoritative admin console from the handoff, unmodified.
 - `public/support.js` — v2 design runtime, unchanged.
 - `public/admin-data.js` — supplied shared catalog (85 products) used by the admin console, unchanged.
-- `public/assets/` — curated original handoff artwork plus official manufacturer-hosted laptop, watch, audio, grooming, and fragrance imagery. Owner-supplied media is not packaged or displayed.
+- `public/assets/` — curated original handoff artwork plus sourced product imagery for laptops, watches, audio, grooming, fragrances, game discs, laptop bags, and travel cases. Owner-supplied media is not packaged or displayed.
 - `ASSET_SOURCES.md` — traceable manufacturer product pages and direct image origins for every newly added official product asset.
 - `scripts/build.mjs` — lossless static production build for both pages.
 - `scripts/qa.mjs` — approved v2 revision fingerprint, responsive-orbit, expanded prompt, official-media, runtime, asset, route, enquiry-flow, admin-gate, and output-integrity checks.
@@ -52,11 +52,11 @@ Project mapping:
 ## Storefront behaviour carried by the handoff source
 
 1. Dark editorial storefront with the v2 typography, hero, product staging, brand wall, shop story, and responsive navigation supplied by the handoff. Large desktop screens retain the vertical product lanes; phone and tablet screens use the client-requested circular product orbit around the aligned hero content.
-2. The animated search examples cover specific Apple and Samsung configurations plus the confirmed HP, Braun, Philips, JBL, Bose, Creed, Chanel, Dior, Valentino, Armani, and Carolina Herrera inventory. Search, category and condition filters, product galleries, related-product cards, and individual product routes are driven by the expanded catalog.
+2. The animated search examples cover specific Apple and Samsung configurations plus confirmed gaming, laptop bag, travel case, HP, Braun, Philips, JBL, Bose, and fragrance inventory. Search, premium category and condition filters, grid/list views, product galleries, related-product cards, and individual product routes are driven by the expanded catalog.
 3. Visitors build an enquiry list and send the complete selection to Kross One in one pre-filled WhatsApp message.
 4. The Galaxy Z Flip 8 and Z Fold 8 launch stage uses the two new handoff PNG assets and a dedicated pre-booking WhatsApp action.
 5. The Inside section and Visit page include the handoff's animated product presentation, shop details, opening hours, and Leaflet map.
-6. The expanded catalog includes the exact HP OmniBook X Flip 14-fm0013dx, Apple Watch Ultra 2, Samsung Galaxy Watch8 44mm, Braun Series 5 51-B1000s, Philips MG5921/15, JBL Tune 770NC, Bose audio, and every fragrance positively identified from the reference video. All new catalog imagery comes from official manufacturer websites.
+6. The expanded catalog includes the exact HP OmniBook X Flip 14-fm0013dx, Apple Watch Ultra 2, Samsung Galaxy Watch8 44mm, Braun Series 5 51-B1000s, Philips MG5921/15, JBL Tune 770NC, Bose audio, identified fragrances, current game discs, Lenovo laptop bags, and Pierre Cardin travel cases. New imagery is source-documented in `ASSET_SOURCES.md`; private owner reference media is never shipped.
 
 ## Route map
 
