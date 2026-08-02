@@ -25,7 +25,7 @@ const hashText = (source) => createHash('sha256').update(source.replace(/\r\n/g,
 const hashBytes = (source) => createHash('sha256').update(source).digest('hex');
 
 // Storefront: keep the approved v2 client revision and its runtime/assets lossless.
-if (hashText(html) !== '74ce46a1b8efd58592ce682fea856c58ce9ee64c13adf33eeeba0e6014c9ec91') {
+if (hashText(html) !== '2cc09bf4a34858272ad78413e3510b1b88dfa383f980ac3c20779c7c71055bab') {
   throw new Error('index.html differs from the approved responsive Kross One Gadgets v2 client revision.');
 }
 if (hashText(support) !== 'ae4f0ac8449655e17cca1e3b179effcb6817a3b0d8dc47f112a9c39c25c39fd7') {
@@ -48,6 +48,11 @@ requireText(html, 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js', 'visit map 
 requireText(html, 'assets/fold-motion-flip-blue.jpeg', 'approved blue Galaxy motion artwork');
 requireText(html, 'assets/fold-motion-fold-burgundy.jpeg', 'approved burgundy Galaxy motion artwork');
 requireText(html, 'assets/fold-motion-galaxy-series.mp4', 'approved Galaxy motion clip');
+requireText(html, 'mix-blend-mode:screen', 'screen-blended transparent Fold motion treatment');
+requireText(html, 'mix-blend-mode:multiply', 'light-background transparent Fold motion treatment');
+requireText(html, 'mask-image:radial-gradient', 'feathered transparent Fold motion treatment');
+requireText(html, 'official-samsung-galaxy-s26-ultra-share.jpg', 'official Galaxy S26 Ultra camera visual');
+requireText(html, 'official-samsung-galaxy-s26-ultra-key-visual.jpg', 'official Galaxy S26 Ultra key visual');
 requireText(html, 'assets/kross-one-gadgets-poster.jpg', 'approved Kross One storefront poster');
 requireText(html, 'Original products. The people behind the promise.', 'Kross One poster feature headline');
 requireText(assetSources, 'kross-one-gadgets-poster.jpg', 'Kross One poster source ledger');
@@ -99,7 +104,7 @@ if (foldStageHtml.includes('official-samsung-')) throw new Error('The Fold-stage
 
 const typerMatch = html.match(/TYPE = \[([\s\S]*?)\];/);
 if (!typerMatch) throw new Error('Animated search prompt inventory is missing.');
-for (const model of ['iPhone 17 Pro Max 256GB', 'iPhone 17 Pro Cosmic Orange', 'iPhone 17 256GB', 'Samsung Galaxy S26 Ultra 1TB', 'Samsung Galaxy S25 256GB', 'Galaxy Z Fold8 Ultra', 'Galaxy Z Flip8', 'RIDE 5 for PlayStation 5', 'EA SPORTS FC 26 game disc', 'ThinkPad Professional 16-inch Topload', 'Pierre Cardin 72cm trolley case', 'HP OmniBook X Flip 14-fm0013dx', 'HP Smart Tank 580 printer', 'Apple Watch Ultra 3 49mm', 'HUAWEI WATCH GT 6 Pro', 'HUAWEI WATCH Ultimate 2', 'Green Lion Strive Smart Watch', 'Braun Series 5 51-B1000s', 'Philips Trimmer 5000 MG5921/15', 'JBL PartyBox Stage 320', 'JBL Tune 770NC Headphones', 'Bose SoundLink Max Speaker', 'Ray-Ban Meta Smart Glasses', 'Powerology portable projector', 'Porodo Sovo 10000mAh MagSafe Power Bank', 'Creed Viking Cologne']) {
+for (const model of ['iPhone 17 Pro Max 256GB', 'iPhone 17 Pro Cosmic Orange', 'iPhone 17 256GB', 'Samsung Galaxy S26 Ultra 1TB', 'Samsung Galaxy S26 Ultra Black 512GB', 'Samsung Galaxy S25 256GB', 'Galaxy Z Fold8 Ultra', 'Galaxy Z Flip8', 'RIDE 5 for PlayStation 5', 'EA SPORTS FC 26 game disc', 'ThinkPad Professional 16-inch Topload', 'Pierre Cardin 72cm trolley case', 'HP OmniBook X Flip 14-fm0013dx', 'HP Smart Tank 580 printer', 'Apple Watch Ultra 3 49mm', 'HUAWEI WATCH GT 6 Pro', 'HUAWEI WATCH Ultimate 2', 'Green Lion Strive Smart Watch', 'Braun Series 5 51-B1000s', 'Philips Trimmer 5000 MG5921/15', 'JBL PartyBox Stage 320', 'JBL Tune 770NC Headphones', 'Bose SoundLink Max Speaker', 'Ray-Ban Meta Smart Glasses', 'Powerology portable projector', 'Porodo Sovo 10000mAh MagSafe Power Bank', 'Creed Viking Cologne']) {
   requireText(typerMatch[1], model, 'specific animated search inventory item');
 }
 if (/Sony/i.test(typerMatch[1])) {
