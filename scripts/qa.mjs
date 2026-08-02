@@ -25,7 +25,7 @@ const hashText = (source) => createHash('sha256').update(source.replace(/\r\n/g,
 const hashBytes = (source) => createHash('sha256').update(source).digest('hex');
 
 // Storefront: keep the approved v2 client revision and its runtime/assets lossless.
-if (hashText(html) !== '90f4c97f3ac7be00ca2b3f0dc68e7d1db42eb3fe597b1d473651e6a633147a6d') {
+if (hashText(html) !== '74ce46a1b8efd58592ce682fea856c58ce9ee64c13adf33eeeba0e6014c9ec91') {
   throw new Error('index.html differs from the approved responsive Kross One Gadgets v2 client revision.');
 }
 if (hashText(support) !== 'ae4f0ac8449655e17cca1e3b179effcb6817a3b0d8dc47f112a9c39c25c39fd7') {
@@ -48,6 +48,9 @@ requireText(html, 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js', 'visit map 
 requireText(html, 'assets/fold-motion-flip-blue.jpeg', 'approved blue Galaxy motion artwork');
 requireText(html, 'assets/fold-motion-fold-burgundy.jpeg', 'approved burgundy Galaxy motion artwork');
 requireText(html, 'assets/fold-motion-galaxy-series.mp4', 'approved Galaxy motion clip');
+requireText(html, 'assets/kross-one-gadgets-poster.jpg', 'approved Kross One storefront poster');
+requireText(html, 'Original products. The people behind the promise.', 'Kross One poster feature headline');
+requireText(assetSources, 'kross-one-gadgets-poster.jpg', 'Kross One poster source ledger');
 requireText(html, '@media (max-width: 1100px)', 'phone/tablet circular motion breakpoint');
 requireText(html, 'data-mobile-orbit', 'phone/tablet circular product motion');
 requireText(html, 'data-util-window', 'small-screen utility message window');
