@@ -10,8 +10,8 @@ const support = await readFile(path.join(root, 'public', 'support.js'), 'utf8');
 const adminData = await readFile(path.join(root, 'public', 'admin-data.js'), 'utf8');
 const assetSources = await readFile(path.join(root, 'ASSET_SOURCES.md'), 'utf8');
 const manifest = await readFile(path.join(root, 'public', 'site.webmanifest'), 'utf8');
-const foldFlip = await readFile(path.join(root, 'public', 'assets', 'fold-flip8.png'));
-const foldZ = await readFile(path.join(root, 'public', 'assets', 'fold-zfold8.png'));
+const foldFlip = await readFile(path.join(root, 'public', 'assets', 'official-samsung-flip8-hero.jpg'));
+const foldZ = await readFile(path.join(root, 'public', 'assets', 'official-samsung-fold8-ultra-hero.jpg'));
 const builtHtml = await readFile(path.join(root, 'dist', 'index.html'), 'utf8');
 const builtAdminHtml = await readFile(path.join(root, 'dist', 'admin.html'), 'utf8');
 
@@ -23,25 +23,25 @@ const hashText = (source) => createHash('sha256').update(source.replace(/\r\n/g,
 const hashBytes = (source) => createHash('sha256').update(source).digest('hex');
 
 // Storefront: keep the approved v2 client revision and its runtime/assets lossless.
-if (hashText(html) !== '9353b0ca686175d9a20970f8ffddb2036d28e70e52551d0ef133ddced621c58f') {
+if (hashText(html) !== 'cfb717a7a41f458d79aef3ad90a9c10fce26abe2ad928208a6ab1d18bd8c1d40') {
   throw new Error('index.html differs from the approved responsive Kross One Gadgets v2 client revision.');
 }
 if (hashText(support) !== 'ae4f0ac8449655e17cca1e3b179effcb6817a3b0d8dc47f112a9c39c25c39fd7') {
   throw new Error('public/support.js differs from the runtime supplied with the v2 handoff.');
 }
-if (hashBytes(foldFlip) !== '118dbc80075088641904f8082fc4084ec8b0068e01610b9af9807d22fe4e2583') {
-  throw new Error('fold-flip8.png differs from the v2 handoff asset.');
+if (hashBytes(foldFlip) !== '4d009d3b81e6fda3838eb6015e3d128fb7d8c70a2d540d984a2e28fabb50bf5b') {
+  throw new Error('official Galaxy Z Flip8 hero differs from the approved Samsung asset.');
 }
-if (hashBytes(foldZ) !== '73f8ec353b15cb37bf5a42effc7ea05033b50e6505a9a56eb90862048147bd87') {
-  throw new Error('fold-zfold8.png differs from the v2 handoff asset.');
+if (hashBytes(foldZ) !== '2f01156b7e5f092bf920ae941156c4f826338a9d5a1cf9bb3889d40ea61f10c0') {
+  throw new Error('official Galaxy Z Fold8 Ultra hero differs from the approved Samsung asset.');
 }
 
 // Storefront: distinctive v2 structure, routes, content, and enquiry flow.
 requireText(html, "html { scroll-behavior: smooth; background: #08080b; }", 'v2 dark canvas');
 requireText(html, 'family=Archivo:wdth,wght@62..125,400..900&family=Instrument+Sans', 'v2 typography');
 requireText(html, 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js', 'visit map runtime');
-requireText(html, 'assets/fold-flip8.png', 'Galaxy Z Flip 8 artwork');
-requireText(html, 'assets/fold-zfold8.png', 'Galaxy Z Fold 8 artwork');
+requireText(html, 'assets/official-samsung-flip8-hero.jpg', 'official Galaxy Z Flip8 artwork');
+requireText(html, 'assets/official-samsung-fold8-ultra-hero.jpg', 'official Galaxy Z Fold8 Ultra artwork');
 requireText(html, '@media (max-width: 1100px)', 'phone/tablet circular motion breakpoint');
 requireText(html, 'data-mobile-orbit', 'phone/tablet circular product motion');
 requireText(html, 'data-util-window', 'small-screen utility message window');
@@ -55,7 +55,7 @@ requireText(html, '[data-wa-fab] { display: none !important; }', 'single small-s
 requireText(html, 'assets/og-kross-one-gadgets.png', 'branded social preview metadata');
 requireText(manifest, '"name": "Kross One Gadgets"', 'installable storefront name');
 requireText(html, 'assets/official-hp-omnibook-x-flip-14.png', 'official HP OmniBook X Flip catalog artwork');
-requireText(html, 'assets/official-apple-watch-ultra2-hero.jpg', 'official Apple Watch Ultra 2 artwork');
+requireText(html, 'assets/official-apple-watch-ultra3-og.png', 'official Apple Watch Ultra 3 artwork');
 requireText(html, 'assets/official-samsung-watch8-silver-perspective.jpg', 'official Samsung Galaxy Watch8 artwork');
 requireText(html, 'assets/official-braun-series5-51-b1000s.jpg', 'official Braun Series 5 artwork');
 requireText(html, 'assets/official-philips-mg5921-15.png', 'official Philips MG5921/15 artwork');
@@ -77,7 +77,7 @@ requireText(html, 'Shop #18A, Lugogo Mall', 'shop location');
 
 const typerMatch = html.match(/TYPE = \[([\s\S]*?)\];/);
 if (!typerMatch) throw new Error('Animated search prompt inventory is missing.');
-for (const model of ['iPhone 17 Pro Max 256GB', 'Samsung Galaxy S25 Ultra 256GB', 'RIDE 5 for PlayStation 5', 'EA SPORTS FC 26 game disc', 'ThinkPad Professional 16-inch Topload', 'Pierre Cardin 72cm trolley case', 'HP OmniBook X Flip 14-fm0013dx', 'Braun Series 5 51-B1000s', 'Philips Trimmer 5000 MG5921/15', 'JBL Tune 770NC Headphones', 'Bose SoundLink Max Speaker', 'Creed Viking Cologne']) {
+for (const model of ['iPhone 17 Pro Max 256GB', 'Samsung Galaxy S25 256GB', 'Galaxy Z Fold8 Ultra', 'Galaxy Z Flip8', 'RIDE 5 for PlayStation 5', 'EA SPORTS FC 26 game disc', 'ThinkPad Professional 16-inch Topload', 'Pierre Cardin 72cm trolley case', 'HP OmniBook X Flip 14-fm0013dx', 'Apple Watch Ultra 3 49mm', 'Braun Series 5 51-B1000s', 'Philips Trimmer 5000 MG5921/15', 'JBL Tune 770NC Headphones', 'Bose SoundLink Max Speaker', 'Creed Viking Cologne']) {
   requireText(typerMatch[1], model, 'specific animated search inventory item');
 }
 if (/Sony/i.test(typerMatch[1])) {
