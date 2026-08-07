@@ -2,6 +2,7 @@ import { readFile, readdir, stat } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { collectionPages, parseCatalog, siteUrl } from './seo-pages.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const html = await readFile(path.join(root, 'index.html'), 'utf8');
@@ -13,6 +14,7 @@ const manifest = await readFile(path.join(root, 'public', 'site.webmanifest'), '
 const robots = await readFile(path.join(root, 'public', 'robots.txt'), 'utf8');
 const sitemap = await readFile(path.join(root, 'public', 'sitemap.xml'), 'utf8');
 const googleVerification = await readFile(path.join(root, 'public', 'googlee264a0cdaaba06d8.html'), 'utf8');
+const vercelConfig = await readFile(path.join(root, 'vercel.json'), 'utf8');
 const foldMotionBlue = await readFile(path.join(root, 'public', 'assets', 'fold-motion-flip-blue.jpeg'));
 const foldMotionBurgundy = await readFile(path.join(root, 'public', 'assets', 'fold-motion-fold-burgundy.jpeg'));
 const foldMotionVideo = await readFile(path.join(root, 'public', 'assets', 'fold-motion-galaxy-series.mp4'));
@@ -20,6 +22,11 @@ const socialCard = await readFile(path.join(root, 'public', 'assets', 'og-kross-
 const builtHtml = await readFile(path.join(root, 'dist', 'index.html'), 'utf8');
 const builtAdminHtml = await readFile(path.join(root, 'dist', 'admin.html'), 'utf8');
 const builtGoogleVerification = await readFile(path.join(root, 'dist', 'googlee264a0cdaaba06d8.html'), 'utf8');
+const builtSitemap = await readFile(path.join(root, 'dist', 'sitemap.xml'), 'utf8');
+const builtLaptopCollection = await readFile(path.join(root, 'dist', 'collections', 'laptops', 'index.html'), 'utf8');
+const builtIpadCollection = await readFile(path.join(root, 'dist', 'collections', 'ipads-tablets', 'index.html'), 'utf8');
+const builtProductPage = await readFile(path.join(root, 'dist', 'products', 'macbook-air-13-m5', 'index.html'), 'utf8');
+const seoCatalog = parseCatalog(html);
 
 const requireText = (source, needle, label) => {
   if (!source.includes(needle)) throw new Error(`Missing ${label}: ${needle}`);
@@ -29,7 +36,7 @@ const hashText = (source) => createHash('sha256').update(source.replace(/\r\n/g,
 const hashBytes = (source) => createHash('sha256').update(source).digest('hex');
 
 // Storefront: keep the approved v2 client revision and its runtime/assets lossless.
-if (hashText(html) !== '7d643d3395caa18c22e5576353623f336f8c638e9a50b945fbc8a523ffc3bfb0') {
+if (hashText(html) !== '3d0e5e6a41fa5c3c6c9fbf62e7bdd3890e858e49e9f23895e053b2cd859cc0b6') {
   throw new Error('index.html differs from the approved responsive Kross One Gadgets v2 client revision.');
 }
 if (hashText(support) !== 'ae4f0ac8449655e17cca1e3b179effcb6817a3b0d8dc47f112a9c39c25c39fd7') {
@@ -76,6 +83,12 @@ requireText(html, 'name="robots" content="index,follow', 'Google crawl directive
 requireText(robots, 'Sitemap: https://kross-one-gadget-shop.vercel.app/sitemap.xml', 'Google sitemap directive');
 requireText(sitemap, '<loc>https://kross-one-gadget-shop.vercel.app/</loc>', 'canonical sitemap URL');
 requireText(googleVerification, 'google-site-verification: googlee264a0cdaaba06d8.html', 'Google Search Console verification token');
+requireText(html, 'assets/kross-one-gadgets-logo-square.png', 'square Kross One logo icon');
+requireText(html, '"@type": "WebSite"', 'website structured data');
+requireText(html, '"@type": "SiteNavigationElement"', 'site navigation structured data');
+requireText(adminHtml, 'name="robots" content="noindex,nofollow,noarchive,nosnippet"', 'admin search exclusion');
+requireText(vercelConfig, 'Content-Security-Policy', 'Vercel content security policy');
+requireText(vercelConfig, 'X-Robots-Tag', 'Vercel admin search exclusion header');
 requireText(html, 'name="twitter:title" content="Kross One Gadgets | Apple &amp; Samsung Store | Lugogo Mall"', 'approved Twitter title');
 requireText(html, 'assets/og-kross-one-gadgets-v3.png', 'approved Kross One social preview');
 if (socialCard.length < 20_000) throw new Error('The versioned social card is unexpectedly small.');
@@ -124,6 +137,14 @@ for (const model of ['iPhone 17 Pro Max 256GB', 'iPhone 17 Pro Cosmic Orange', '
 if (/Sony/i.test(typerMatch[1])) {
   throw new Error('Animated search prompts include Sony, which the owner did not confirm as phone/electronics inventory.');
 }
+
+if (seoCatalog.filter((product) => product.cat === 'laptops').length < 6) {
+  throw new Error('The storefront must include the requested HP laptop plus five authentic current MacBook models.');
+}
+if (seoCatalog.filter((product) => product.cat === 'tablets').length < 5) {
+  throw new Error('The storefront must include at least five authentic iPad models.');
+}
+if (collectionPages.length < 10) throw new Error('Crawlable collection pages are incomplete.');
 
 const ownerMediaNames = [
   'apple-watch-ultra-2.mp4', 'bose-qc-ultra-white.webp', 'bose-soundlink-max-black.jpg',
@@ -198,6 +219,11 @@ if (missingAssets.length) throw new Error(`Missing local assets: ${missingAssets
 if (builtHtml !== html) throw new Error('dist/index.html differs from the authoritative storefront source.');
 if (builtAdminHtml !== adminHtml) throw new Error('dist/admin.html differs from the authoritative admin console source.');
 if (builtGoogleVerification !== googleVerification) throw new Error('The Google Search Console verification file was not copied to the deployment root.');
+requireText(builtSitemap, `${siteUrl}/collections/laptops/`, 'generated laptops collection sitemap URL');
+requireText(builtSitemap, `${siteUrl}/products/macbook-air-13-m5/`, 'generated product sitemap URL');
+requireText(builtLaptopCollection, 'MacBook Air 13-inch', 'crawlable laptops collection content');
+requireText(builtIpadCollection, 'iPad Pro 13-inch', 'crawlable iPads collection content');
+requireText(builtProductPage, '"@type":"Product"', 'product structured data');
 
 const assetFiles = await readdir(path.join(root, 'public', 'assets'));
 console.log(`QA passed: approved responsive v2 client revision, expanded search prompts, phone/tablet orbit, official catalog media with owner-media exclusion, component syntax for storefront + admin, ${assetRefs.length} storefront and ${adminAssetRefs.length} admin local references, ${assetFiles.length} packaged assets, GitHub Pages-safe URLs, routes/enquiry flow, admin gate/2FA, and exact dist output.`);
