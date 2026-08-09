@@ -139,8 +139,7 @@
     [data-fold-media] { width:100%;height:100%;object-fit:contain;display:block;opacity:.9;-webkit-mask-image:radial-gradient(ellipse at center,#000 38%,rgba(0,0,0,.96) 62%,transparent 92%);mask-image:radial-gradient(ellipse at center,#000 38%,rgba(0,0,0,.96) 62%,transparent 92%);filter:saturate(1.08) contrast(1.04) drop-shadow(0 40px 70px rgba(0,0,0,.72)); }
     [data-fold-tone="dark"] { mix-blend-mode:screen; }
     [data-fold-tone="light"] { mix-blend-mode:multiply;filter:saturate(1.2) contrast(1.08) brightness(1.28) drop-shadow(0 40px 70px rgba(0,0,0,.72)); }
-    [data-showcase-frame] { isolation:isolate; }
-    [data-showcase-video] { width:100%;height:100%;object-fit:cover;display:block;background:#050506; }
+    [data-showcase-video] { width:100%;height:100%;object-fit:contain;display:block;background:#050506; }
     [data-brand-logo] { width:clamp(30px,3.3vw,42px);height:clamp(30px,3.3vw,42px);object-fit:cover;border-radius:50%;border:1px solid rgba(212,175,90,.42);box-shadow:0 0 0 3px rgba(212,175,90,.05),0 8px 22px rgba(0,0,0,.45);flex-shrink:0; }
     [data-menubtn]:focus-visible, [data-filterbtn]:focus-visible, [data-viewbtn]:focus-visible, [data-listbtn]:focus-visible { outline: 2px solid #e3bd6a; outline-offset: 3px; }
     [data-shop-grid][data-viewmode="list"] { grid-template-columns: 1fr !important; max-width: 1040px; }
@@ -449,7 +448,7 @@
             <img data-fold-media data-fold-tone="light" src="assets/fold-motion-fold-burgundy.jpeg" alt="Burgundy Samsung Galaxy Z Fold phone" loading="lazy" decoding="async" style="animation:k-tilt 11s ease-in-out infinite reverse">
           </div>
           <div data-orb data-fold-device="cosmos-1414989321" style="position:absolute;left:50%;top:50%;width:min(310px,36vw);height:70%;animation:k-orbC 18s cubic-bezier(.45,0,.55,1) infinite;will-change:transform">
-            <video data-fold-media data-fold-tone="dark" src="assets/fold-motion-galaxy-series.mp4" aria-label="Owner-supplied Samsung Galaxy foldable device motion" autoplay muted loop playsinline preload="auto" style="animation:k-tilt 10s ease-in-out infinite"></video>
+            <video data-loop-video data-fold-media data-fold-tone="dark" src="assets/fold-motion-galaxy-series.mp4" aria-label="Owner-supplied Samsung Galaxy foldable device video" autoplay muted loop playsinline preload="auto" style="animation:k-tilt 10s ease-in-out infinite"></video>
           </div>
         </div>
       </div>
@@ -523,35 +522,19 @@
 
     <section id="inside" data-explode-section style="position:relative;z-index:10;background:#08080b">
       <div style="max-width:1440px;margin:0 auto;padding:clamp(56px,10vh,120px) clamp(16px,3.4vw,44px) clamp(20px,3vh,40px);text-align:center">
-        <p data-reveal style="margin:0 0 14px;font-size:11px;font-weight:750;letter-spacing:.42em;color:#c9922e;text-transform:uppercase;opacity:0;transform:translateY(20px);transition:opacity .8s ease,transform .8s cubic-bezier(.2,.8,.2,1)">Interactive · Drag to rotate</p>
+        <p data-reveal style="margin:0 0 14px;font-size:11px;font-weight:750;letter-spacing:.42em;color:#c9922e;text-transform:uppercase;opacity:0;transform:translateY(20px);transition:opacity .8s ease,transform .8s cubic-bezier(.2,.8,.2,1)">Featured · Playing on loop</p>
         <h2 data-reveal style="margin:0;font-family:'Archivo',sans-serif;font-variation-settings:'wdth' 108;font-weight:850;font-size:clamp(30px,5.6vw,74px);line-height:1;letter-spacing:-.032em;opacity:0;transform:translateY(24px);transition:opacity .85s ease .06s,transform .85s cubic-bezier(.2,.8,.2,1) .06s">See it <span style="background:linear-gradient(174deg,#fffaea,#e0b866 42%,#c9922e 68%,#f5dfa4);-webkit-background-clip:text;background-clip:text;color:transparent">in motion.</span></h2>
-        <p data-reveal style="margin:16px auto 0;max-width:58ch;font-size:clamp(14px,1.5vw,17px);line-height:1.65;color:#98917f;opacity:0;transform:translateY(20px);transition:opacity .8s ease .12s,transform .8s cubic-bezier(.2,.8,.2,1) .12s">The showcase plays continuously. Scroll through the scene, then drag left or right to rotate it in space.</p>
+        <p data-reveal style="margin:16px auto 0;max-width:58ch;font-size:clamp(14px,1.5vw,17px);line-height:1.65;color:#98917f;opacity:0;transform:translateY(20px);transition:opacity .8s ease .12s,transform .8s cubic-bezier(.2,.8,.2,1) .12s">A simple continuous showcase. It starts muted, loops automatically and includes a play control if your browser pauses autoplay.</p>
       </div>
 
-      <div data-explode-track style="position:relative;height:240vh">
-        <div style="position:sticky;top:0;height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden">
-          <div style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:min(760px,90vw);height:min(760px,90vw);border-radius:50%;background:radial-gradient(circle,rgba(212,175,90,.15),transparent 62%);pointer-events:none"></div>
-
-          <div data-stage style="position:relative;width:100%;height:100%;display:flex;align-items:center;justify-content:center;perspective:1600px;cursor:grab;touch-action:pan-y">
-            <div data-phone aria-label="Interactive rotating Kross One video showcase" style="position:relative;width:clamp(220px,28vw,390px);aspect-ratio:9/16;transform-style:preserve-3d;transform:rotateX(-7deg) rotateY(-26deg);will-change:transform">
-              <div data-layer="0" data-showcase-frame style="position:absolute;inset:0;border-radius:clamp(22px,3vw,36px);overflow:hidden;background:#030303;border:1px solid rgba(212,175,90,.38);box-shadow:0 42px 100px rgba(0,0,0,.72),0 0 0 7px rgba(212,175,90,.035),inset 0 1px rgba(255,255,255,.1);transform-style:preserve-3d">
-                <video data-showcase-video src="assets/kross-one-interactive-showcase-loop.mp4" aria-label="Kross One interactive looping video showcase" autoplay muted loop playsinline preload="metadata" disablepictureinpicture></video>
-                <span style="position:absolute;left:14px;top:14px;padding:6px 10px;border-radius:999px;background:rgba(5,5,7,.68);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.16);font-size:8px;font-weight:850;letter-spacing:.17em;text-transform:uppercase;color:#f2efe7">Looping showcase</span>
-                <span style="position:absolute;left:0;right:0;bottom:0;padding:58px 16px 16px;background:linear-gradient(transparent,rgba(5,5,7,.9));display:flex;align-items:end;justify-content:space-between;gap:12px"><strong style="font-family:'Archivo',sans-serif;font-size:clamp(16px,2.1vw,25px);letter-spacing:-.025em">Kross One Gadgets</strong><small style="font-size:9px;font-weight:750;letter-spacing:.14em;text-transform:uppercase;color:#e5c77b">Drag to rotate</small></span>
-              </div>
-            </div>
-          </div>
-
-          <div data-explode-progress style="position:absolute;left:clamp(14px,3vw,44px);top:50%;transform:translateY(-50%);display:flex;flex-direction:column;align-items:center;gap:10px;z-index:6">
-            <span style="font-size:9px;font-weight:700;letter-spacing:.24em;color:#6f6a5f;writing-mode:vertical-rl;text-transform:uppercase">Motion</span>
-            <span style="position:relative;width:2px;height:clamp(90px,16vh,150px);background:rgba(212,175,90,.16);border-radius:99px;overflow:hidden">
-              <span data-explode-bar style="position:absolute;left:0;top:0;width:100%;height:0%;background:linear-gradient(180deg,#f0d38a,#c9922e)"></span>
-            </span>
-          </div>
+      <div style="position:relative;max-width:460px;margin:clamp(30px,5vh,58px) auto 0;padding:0 clamp(16px,3.4vw,28px)">
+        <div aria-hidden="true" style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:min(650px,96vw);height:min(650px,96vw);border-radius:50%;background:radial-gradient(circle,rgba(212,175,90,.15),transparent 64%);pointer-events:none"></div>
+        <div style="position:relative;aspect-ratio:9/16;border-radius:clamp(20px,4vw,34px);overflow:hidden;background:#050506;border:1px solid rgba(212,175,90,.38);box-shadow:0 38px 90px rgba(0,0,0,.7),0 0 0 6px rgba(212,175,90,.035)">
+          <video data-loop-video data-showcase-video src="assets/kross-one-interactive-showcase-loop.mp4" aria-label="Kross One looping video showcase" autoplay muted loop playsinline preload="auto" controls controlslist="nodownload noremoteplayback" disablepictureinpicture></video>
         </div>
       </div>
 
-      <div style="max-width:1440px;margin:0 auto;padding:clamp(10px,2vh,26px) clamp(16px,3.4vw,44px) clamp(56px,10vh,110px);display:flex;justify-content:center">
+      <div style="max-width:1440px;margin:0 auto;padding:clamp(28px,4vh,48px) clamp(16px,3.4vw,44px) clamp(56px,10vh,110px);display:flex;justify-content:center">
         <a data-reveal href="{{ waInside }}" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:11px;background:rgba(255,255,255,.045);border:1px solid rgba(212,175,90,.35);border-radius:999px;padding:15px 28px;font-size:14.5px;font-weight:650;opacity:0;transform:translateY(20px);transition:opacity .8s ease,transform .8s cubic-bezier(.2,.8,.2,1),background .3s,border-color .3s" style-hover="background:rgba(212,175,90,.13);border-color:rgba(212,175,90,.7)">
           Ask us about what you see
           <span style="color:#d4af5a">→</span>
@@ -1543,8 +1526,8 @@ class Component extends DCLogic {
       c.addEventListener('mouseenter', () => { img.style.transform = 'scale(1.07)'; if (img.hasAttribute('data-cat-img')) img.style.filter = 'saturate(1) brightness(.9)'; });
       c.addEventListener('mouseleave', () => { img.style.transform = 'none'; if (img.hasAttribute('data-cat-img')) img.style.filter = 'saturate(.82) brightness(.72)'; });
     });
-    this.bindStage();
     this.cache();
+    this.ensureVideoPlayback();
     this.paintTyper();
     if (motion) { this.startTyper(); this.startStrip(); this.startUtil(); } else { this.paintStrip(); }
     this.initMap();
@@ -1563,11 +1546,7 @@ class Component extends DCLogic {
       fold: document.querySelector('[data-fold]'),
       foldStage: document.querySelector('[data-fold-stage]'),
       foldWord: document.querySelector('[data-fold-word]'),
-      storyImgs: [...document.querySelectorAll('[data-story-img]')],
-      track: document.querySelector('[data-explode-track]'),
-      phone: document.querySelector('[data-phone]'),
-      layers: [...document.querySelectorAll('[data-layer]')],
-      bar: document.querySelector('[data-explode-bar]')
+      storyImgs: [...document.querySelectorAll('[data-story-img]')]
     };
     this.measure();
     if (!this._onRz) { this._onRz = () => { clearTimeout(this._rz); this._rz = setTimeout(() => { this.measure(); this._lastY = -1; }, 140); }; window.addEventListener('resize', this._onRz); }
@@ -1577,25 +1556,25 @@ class Component extends DCLogic {
   measure() {
     this._storyTops = [...document.querySelectorAll('[data-story-step]')].map((e) => e.getBoundingClientRect().top + (window.scrollY || 0));
     this._storyIdx = -1;
-    const t = this.el && this.el.track;
-    if (!t) { this.geo = null; return; }
-    this.geo = { top: t.getBoundingClientRect().top + (window.scrollY || 0), total: Math.max(1, t.offsetHeight - window.innerHeight) };
     this._lastY = -1;
   }
 
-  bindStage() {
-    const stage = document.querySelector('[data-stage]');
-    if (!stage || stage.dataset.bound) return;
-    stage.dataset.bound = '1';
-    this.drag = 0;
-    let down = false, sx = 0, base = 0;
-    const start = (x) => { down = true; sx = x; base = this.drag; stage.style.cursor = 'grabbing'; };
-    const move = (x) => { if (!down) return; this.drag = base + (x - sx) * 0.42; };
-    const end = () => { down = false; stage.style.cursor = 'grab'; };
-    stage.addEventListener('pointerdown', (e) => { start(e.clientX); stage.setPointerCapture(e.pointerId); });
-    stage.addEventListener('pointermove', (e) => move(e.clientX));
-    stage.addEventListener('pointerup', end);
-    stage.addEventListener('pointercancel', end);
+  ensureVideoPlayback() {
+    document.querySelectorAll('[data-loop-video]').forEach((video) => {
+      video.muted = true;
+      video.defaultMuted = true;
+      video.loop = true;
+      video.playsInline = true;
+      const play = () => {
+        const attempt = video.play();
+        if (attempt && typeof attempt.catch === 'function') attempt.catch(() => {});
+      };
+      if (video.readyState >= 2) play();
+      else if (!video.dataset.playBound) {
+        video.dataset.playBound = '1';
+        video.addEventListener('canplay', play, { once: true });
+      }
+    });
   }
 
   tick = () => {
@@ -1603,10 +1582,9 @@ class Component extends DCLogic {
     const e = this.el;
     if (!e) return;
     const y = window.scrollY || 0;
-    const dragged = this.drag !== this._lastDrag;
     const moved = this.px !== this._lastPx || this.py !== this._lastPy;
-    if (y === this._lastY && !dragged && !moved) return;
-    this._lastY = y; this._lastDrag = this.drag; this._lastPx = this.px; this._lastPy = this.py;
+    if (y === this._lastY && !moved) return;
+    this._lastY = y; this._lastPx = this.px; this._lastPy = this.py;
 
     const motion = this.props.motion !== 'off';
     const soft = this.props.motion === 'subtle' ? .45 : 1;
@@ -1635,15 +1613,6 @@ class Component extends DCLogic {
       if (e.field) e.field.style.transform = 'translate3d(' + ((this.px || 0) * -30 * soft).toFixed(1) + 'px,' + (-y * 0.16 * soft + (this.py || 0) * -22 * soft).toFixed(1) + 'px,0)';
     }
 
-    if (e.phone && this.geo) {
-      let p = (y - this.geo.top) / this.geo.total;
-      p = Math.max(0, Math.min(1, p));
-      const ease = p < .5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2;
-      e.layers.forEach((el) => { el.style.transform = 'translateZ(0)'; });
-      const rot = -20 - (motion ? ease * 32 * soft : 0) + (this.drag || 0);
-      e.phone.style.transform = 'rotateX(' + (-7 - ease * 7) + 'deg) rotateY(' + rot + 'deg)';
-      if (e.bar) e.bar.style.height = (p * 100).toFixed(1) + '%';
-    }
   };
 
   flash(msg) { clearTimeout(this._t); this.setState({ toast: msg }); this._t = setTimeout(() => this.setState({ toast: '' }), 1900); }
