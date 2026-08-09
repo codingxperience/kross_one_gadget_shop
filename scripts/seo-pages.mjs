@@ -52,7 +52,7 @@ const collectionSlugForCategory = {
 };
 
 export const parseCatalog = (source) => {
-  const match = source.match(/\n\s*P = \[([\s\S]*?)\n\s*\];\n\n\s*FIN = \[/);
+  const match = source.match(/\n\s*P = \[([\s\S]*?)\n\s*\];\n\n\s*TYPE = \[/);
   if (!match) throw new Error('Could not find the storefront catalog while generating SEO pages.');
 
   const catalog = Function(`"use strict"; return [${match[1]}];`)();

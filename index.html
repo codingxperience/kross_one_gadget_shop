@@ -139,7 +139,8 @@
     [data-fold-media] { width:100%;height:100%;object-fit:contain;display:block;opacity:.9;-webkit-mask-image:radial-gradient(ellipse at center,#000 38%,rgba(0,0,0,.96) 62%,transparent 92%);mask-image:radial-gradient(ellipse at center,#000 38%,rgba(0,0,0,.96) 62%,transparent 92%);filter:saturate(1.08) contrast(1.04) drop-shadow(0 40px 70px rgba(0,0,0,.72)); }
     [data-fold-tone="dark"] { mix-blend-mode:screen; }
     [data-fold-tone="light"] { mix-blend-mode:multiply;filter:saturate(1.2) contrast(1.08) brightness(1.28) drop-shadow(0 40px 70px rgba(0,0,0,.72)); }
-    [data-device-panel] { transition:opacity .35s ease,filter .35s ease,box-shadow .35s ease; }
+    [data-showcase-frame] { isolation:isolate; }
+    [data-showcase-video] { width:100%;height:100%;object-fit:cover;display:block;background:#050506; }
     [data-brand-logo] { width:clamp(30px,3.3vw,42px);height:clamp(30px,3.3vw,42px);object-fit:cover;border-radius:50%;border:1px solid rgba(212,175,90,.42);box-shadow:0 0 0 3px rgba(212,175,90,.05),0 8px 22px rgba(0,0,0,.45);flex-shrink:0; }
     [data-menubtn]:focus-visible, [data-filterbtn]:focus-visible, [data-viewbtn]:focus-visible, [data-listbtn]:focus-visible { outline: 2px solid #e3bd6a; outline-offset: 3px; }
     [data-shop-grid][data-viewmode="list"] { grid-template-columns: 1fr !important; max-width: 1040px; }
@@ -179,7 +180,7 @@
       [data-footcols] > div:first-child { grid-column: 1 / -1; }
       [data-locksub] { display: none; }
       [data-brand-logo] { width:28px;height:28px; }
-      [data-brand-copy] > span:first-child { font-size:15px !important; }
+      [data-brand-title] { font-size:14px !important;letter-spacing:.06em !important; }
       [data-searchbtn] { display: none !important; }
       [data-listlabel] { display: none; }
       [data-listbtn] { padding: 0 !important; width: 38px; }
@@ -284,21 +285,9 @@
 
       <a data-brandlock href="#/" aria-label="Kross One Gadgets home" style="display:flex;align-items:center;gap:clamp(7px,1vw,11px);justify-self:center;padding:0 4px;min-width:0;overflow:hidden">
         <img data-brand-logo src="assets/kross-one-gadgets-logo-square.png" alt="" aria-hidden="true" width="42" height="42" decoding="async">
-        <span data-brand-copy style="display:flex;flex-direction:column;align-items:center;gap:2px;min-width:0">
-          <span style="display:flex;align-items:baseline;gap:.16em;font-family:'Archivo',sans-serif;font-variation-settings:'wdth' 116;font-weight:900;font-size:clamp(17px,2.1vw,25px);letter-spacing:.02em;line-height:1">
-            <span style="background:linear-gradient(178deg,#fff6d8 0%,#e8c877 30%,#c9922e 62%,#9c6d18 82%,#f0d590 100%);-webkit-background-clip:text;background-clip:text;color:transparent">KROSS</span>
-            <span style="background:linear-gradient(178deg,#ffffff 0%,#dfe4ea 32%,#a4acb6 66%,#79808a 84%,#eef1f5 100%);-webkit-background-clip:text;background-clip:text;color:transparent">ONE</span>
-            <span style="font-size:.46em;letter-spacing:.18em;color:#8d8474">GADGETS</span>
-          </span>
-          <span data-locksub style="display:flex;align-items:center;gap:6px;padding-left:.3em">
-            <span data-lockrule aria-hidden="true" style="display:block;width:14px;height:1px;background:linear-gradient(90deg,transparent,rgba(212,175,90,.8))"></span>
-            <span style="display:flex;align-items:center;gap:4px;font-size:clamp(6.2px,.78vw,7.6px);font-weight:800;letter-spacing:.24em;color:#a39a86;text-transform:uppercase;white-space:nowrap">
-              <span data-lockfull>Apple &amp; Samsung Store</span>
-              <span data-lockfull style="color:#c9922e">·</span>
-              Lugogo Mall
-            </span>
-            <span data-lockrule aria-hidden="true" style="display:block;width:14px;height:1px;background:linear-gradient(90deg,rgba(212,175,90,.8),transparent)"></span>
-          </span>
+        <span data-brand-copy style="display:flex;flex-direction:column;align-items:flex-start;gap:3px;min-width:0">
+          <span data-brand-title style="font-family:'Archivo',sans-serif;font-variation-settings:'wdth' 112;font-weight:900;font-size:clamp(16px,1.8vw,23px);letter-spacing:.055em;line-height:1;text-transform:uppercase;white-space:nowrap;background:linear-gradient(92deg,#f3d687 0%,#c9922e 40%,#f3efe5 68%,#9ca4ae 100%);-webkit-background-clip:text;background-clip:text;color:transparent">Kross One Gadgets</span>
+          <span data-locksub style="font-size:clamp(6.1px,.7vw,7.4px);font-weight:800;letter-spacing:.19em;color:#9f9787;text-transform:uppercase;white-space:nowrap">Apple &amp; Samsung Store · Lugogo Mall</span>
         </span>
       </a>
 
@@ -535,48 +524,26 @@
     <section id="inside" data-explode-section style="position:relative;z-index:10;background:#08080b">
       <div style="max-width:1440px;margin:0 auto;padding:clamp(56px,10vh,120px) clamp(16px,3.4vw,44px) clamp(20px,3vh,40px);text-align:center">
         <p data-reveal style="margin:0 0 14px;font-size:11px;font-weight:750;letter-spacing:.42em;color:#c9922e;text-transform:uppercase;opacity:0;transform:translateY(20px);transition:opacity .8s ease,transform .8s cubic-bezier(.2,.8,.2,1)">Interactive · Drag to rotate</p>
-        <h2 data-reveal style="margin:0;font-family:'Archivo',sans-serif;font-variation-settings:'wdth' 108;font-weight:850;font-size:clamp(30px,5.6vw,74px);line-height:1;letter-spacing:-.032em;opacity:0;transform:translateY(24px);transition:opacity .85s ease .06s,transform .85s cubic-bezier(.2,.8,.2,1) .06s">Explore the <span style="background:linear-gradient(174deg,#fffaea,#e0b866 42%,#c9922e 68%,#f5dfa4);-webkit-background-clip:text;background-clip:text;color:transparent">real devices.</span></h2>
-        <p data-reveal style="margin:16px auto 0;max-width:58ch;font-size:clamp(14px,1.5vw,17px);line-height:1.65;color:#98917f;opacity:0;transform:translateY(20px);transition:opacity .8s ease .12s,transform .8s cubic-bezier(.2,.8,.2,1) .12s">Manufacturer product media from Apple and Samsung. Scroll to separate the lineup, then drag to rotate and examine each device.</p>
+        <h2 data-reveal style="margin:0;font-family:'Archivo',sans-serif;font-variation-settings:'wdth' 108;font-weight:850;font-size:clamp(30px,5.6vw,74px);line-height:1;letter-spacing:-.032em;opacity:0;transform:translateY(24px);transition:opacity .85s ease .06s,transform .85s cubic-bezier(.2,.8,.2,1) .06s">See it <span style="background:linear-gradient(174deg,#fffaea,#e0b866 42%,#c9922e 68%,#f5dfa4);-webkit-background-clip:text;background-clip:text;color:transparent">in motion.</span></h2>
+        <p data-reveal style="margin:16px auto 0;max-width:58ch;font-size:clamp(14px,1.5vw,17px);line-height:1.65;color:#98917f;opacity:0;transform:translateY(20px);transition:opacity .8s ease .12s,transform .8s cubic-bezier(.2,.8,.2,1) .12s">The showcase plays continuously. Scroll through the scene, then drag left or right to rotate it in space.</p>
       </div>
 
-      <div data-explode-track style="position:relative;height:340vh">
+      <div data-explode-track style="position:relative;height:240vh">
         <div style="position:sticky;top:0;height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden">
           <div style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:min(760px,90vw);height:min(760px,90vw);border-radius:50%;background:radial-gradient(circle,rgba(212,175,90,.15),transparent 62%);pointer-events:none"></div>
 
           <div data-stage style="position:relative;width:100%;height:100%;display:flex;align-items:center;justify-content:center;perspective:1600px;cursor:grab;touch-action:pan-y">
-            <div data-phone aria-label="Interactive official device lineup" style="position:relative;width:clamp(260px,46vw,620px);aspect-ratio:1.42/1;transform-style:preserve-3d;transform:rotateX(-7deg) rotateY(-26deg);will-change:transform">
-              <div data-layer="0" data-model-index="0" data-lname="iPhone 17 Pro" data-device-panel style="position:absolute;inset:0;border-radius:clamp(20px,3vw,32px);overflow:hidden;background:#030303;border:1px solid rgba(212,175,90,.32);box-shadow:0 42px 100px rgba(0,0,0,.72),inset 0 1px rgba(255,255,255,.08);transform-style:preserve-3d">
-                <img src="assets/official-apple-iphone17-pro-lineup.jpg" alt="Official Apple iPhone 17 Pro lineup in Deep Blue, Cosmic Orange and Silver" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:contain;display:block">
-                <span style="position:absolute;left:14px;top:14px;padding:6px 10px;border-radius:999px;background:rgba(5,5,7,.72);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.16);font-size:8px;font-weight:850;letter-spacing:.17em;text-transform:uppercase;color:#f2efe7">Official Apple media</span>
-                <span style="position:absolute;left:16px;right:16px;bottom:14px;display:flex;align-items:end;justify-content:space-between;gap:12px"><strong style="font-family:'Archivo',sans-serif;font-size:clamp(16px,2.1vw,26px);letter-spacing:-.025em">iPhone 17 Pro</strong><small style="font-size:9px;font-weight:750;letter-spacing:.14em;text-transform:uppercase;color:#c9922e">A19 Pro</small></span>
-              </div>
-
-              <div data-layer="1" data-model-index="1" data-lname="Galaxy S26 Ultra" data-device-panel style="position:absolute;inset:0;border-radius:clamp(20px,3vw,32px);overflow:hidden;background:#151528;border:1px solid rgba(212,175,90,.32);box-shadow:0 42px 100px rgba(0,0,0,.72),inset 0 1px rgba(255,255,255,.08);transform-style:preserve-3d">
-                <img src="assets/official-samsung-galaxy-s26-ultra-share.jpg" alt="Official Samsung Galaxy S26 Ultra camera and S Pen visual" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;display:block">
-                <span style="position:absolute;left:14px;top:14px;padding:6px 10px;border-radius:999px;background:rgba(5,5,7,.72);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.16);font-size:8px;font-weight:850;letter-spacing:.17em;text-transform:uppercase;color:#f2efe7">Official Samsung media</span>
-                <span style="position:absolute;left:0;right:0;bottom:0;padding:44px 16px 14px;background:linear-gradient(transparent,rgba(5,5,7,.9));display:flex;align-items:end;justify-content:space-between;gap:12px"><strong style="font-family:'Archivo',sans-serif;font-size:clamp(16px,2.1vw,26px);letter-spacing:-.025em">Galaxy S26 Ultra</strong><small style="font-size:9px;font-weight:750;letter-spacing:.14em;text-transform:uppercase;color:#e5c77b">200MP</small></span>
-              </div>
-
-              <div data-layer="2" data-model-index="2" data-lname="Galaxy Z Fold8" data-device-panel style="position:absolute;inset:0;border-radius:clamp(20px,3vw,32px);overflow:hidden;background:#757394;border:1px solid rgba(212,175,90,.32);box-shadow:0 42px 100px rgba(0,0,0,.72),inset 0 1px rgba(255,255,255,.08);transform-style:preserve-3d">
-                <img src="assets/official-samsung-fold8-hero.jpg" alt="Official Samsung Galaxy Z Fold8 held in one hand" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;object-position:center;display:block">
-                <span style="position:absolute;left:14px;top:14px;padding:6px 10px;border-radius:999px;background:rgba(5,5,7,.72);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.16);font-size:8px;font-weight:850;letter-spacing:.17em;text-transform:uppercase;color:#f2efe7">Official Samsung media</span>
-                <span style="position:absolute;left:0;right:0;bottom:0;padding:44px 16px 14px;background:linear-gradient(transparent,rgba(5,5,7,.9));display:flex;align-items:end;justify-content:space-between;gap:12px"><strong style="font-family:'Archivo',sans-serif;font-size:clamp(16px,2.1vw,26px);letter-spacing:-.025em">Galaxy Z Fold8</strong><small style="font-size:9px;font-weight:750;letter-spacing:.14em;text-transform:uppercase;color:#e5c77b">8.0-inch</small></span>
+            <div data-phone aria-label="Interactive rotating Kross One video showcase" style="position:relative;width:clamp(220px,28vw,390px);aspect-ratio:9/16;transform-style:preserve-3d;transform:rotateX(-7deg) rotateY(-26deg);will-change:transform">
+              <div data-layer="0" data-showcase-frame style="position:absolute;inset:0;border-radius:clamp(22px,3vw,36px);overflow:hidden;background:#030303;border:1px solid rgba(212,175,90,.38);box-shadow:0 42px 100px rgba(0,0,0,.72),0 0 0 7px rgba(212,175,90,.035),inset 0 1px rgba(255,255,255,.1);transform-style:preserve-3d">
+                <video data-showcase-video src="assets/kross-one-interactive-showcase-loop.mp4" aria-label="Kross One interactive looping video showcase" autoplay muted loop playsinline preload="metadata" disablepictureinpicture></video>
+                <span style="position:absolute;left:14px;top:14px;padding:6px 10px;border-radius:999px;background:rgba(5,5,7,.68);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.16);font-size:8px;font-weight:850;letter-spacing:.17em;text-transform:uppercase;color:#f2efe7">Looping showcase</span>
+                <span style="position:absolute;left:0;right:0;bottom:0;padding:58px 16px 16px;background:linear-gradient(transparent,rgba(5,5,7,.9));display:flex;align-items:end;justify-content:space-between;gap:12px"><strong style="font-family:'Archivo',sans-serif;font-size:clamp(16px,2.1vw,25px);letter-spacing:-.025em">Kross One Gadgets</strong><small style="font-size:9px;font-weight:750;letter-spacing:.14em;text-transform:uppercase;color:#e5c77b">Drag to rotate</small></span>
               </div>
             </div>
-
-            <div data-hotspots style="position:absolute;inset:0;pointer-events:none"></div>
-          </div>
-
-          <div data-finishes style="position:absolute;left:50%;bottom:clamp(18px,4.5vh,52px);transform:translateX(-50%);display:flex;align-items:center;gap:9px;background:rgba(14,14,19,.82);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid rgba(212,175,90,.24);border-radius:999px;padding:8px 10px;z-index:6">
-            <span style="font-size:9.5px;font-weight:750;letter-spacing:.2em;color:#8d8474;text-transform:uppercase;padding-left:8px">Model</span>
-            <sc-for list="{{ finishes }}" as="f" hint-placeholder-count="3">
-              <button onClick="{{ f.pick }}" title="{{ f.name }}" aria-label="{{ f.name }}" style="{{ f.btnStyle }}"></button>
-            </sc-for>
-            <span data-finish-name style="font-size:11px;font-weight:650;color:#cdc4b0;padding:0 10px 0 4px;white-space:nowrap">{{ finishName }}</span>
           </div>
 
           <div data-explode-progress style="position:absolute;left:clamp(14px,3vw,44px);top:50%;transform:translateY(-50%);display:flex;flex-direction:column;align-items:center;gap:10px;z-index:6">
-            <span style="font-size:9px;font-weight:700;letter-spacing:.24em;color:#6f6a5f;writing-mode:vertical-rl;text-transform:uppercase">Lineup</span>
+            <span style="font-size:9px;font-weight:700;letter-spacing:.24em;color:#6f6a5f;writing-mode:vertical-rl;text-transform:uppercase">Motion</span>
             <span style="position:relative;width:2px;height:clamp(90px,16vh,150px);background:rgba(212,175,90,.16);border-radius:99px;overflow:hidden">
               <span data-explode-bar style="position:absolute;left:0;top:0;width:100%;height:0%;background:linear-gradient(180deg,#f0d38a,#c9922e)"></span>
             </span>
@@ -586,7 +553,7 @@
 
       <div style="max-width:1440px;margin:0 auto;padding:clamp(10px,2vh,26px) clamp(16px,3.4vw,44px) clamp(56px,10vh,110px);display:flex;justify-content:center">
         <a data-reveal href="{{ waInside }}" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:11px;background:rgba(255,255,255,.045);border:1px solid rgba(212,175,90,.35);border-radius:999px;padding:15px 28px;font-size:14.5px;font-weight:650;opacity:0;transform:translateY(20px);transition:opacity .8s ease,transform .8s cubic-bezier(.2,.8,.2,1),background .3s,border-color .3s" style-hover="background:rgba(212,175,90,.13);border-color:rgba(212,175,90,.7)">
-          Ask us about this model on WhatsApp
+          Ask us about what you see
           <span style="color:#d4af5a">→</span>
         </a>
       </div>
@@ -1106,7 +1073,7 @@
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;whatsappNumber&quot;: {&quot;editor&quot;: &quot;text&quot;, &quot;default&quot;: &quot;256752117111&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;Contact&quot;}, &quot;motion&quot;: {&quot;editor&quot;: &quot;enum&quot;, &quot;options&quot;: [&quot;full&quot;, &quot;subtle&quot;, &quot;off&quot;], &quot;default&quot;: &quot;full&quot;, &quot;tsType&quot;: &quot;'full' | 'subtle' | 'off'&quot;, &quot;section&quot;: &quot;Motion&quot;}}">
 class Component extends DCLogic {
-  state = { page: 'home', param: null, menuOpen: false, listOpen: false, filterOpen: false, searchOpen: false, query: '', list: [], cat: 'all', cond: 'all', viewMode: 'grid', finish: 0, gal: 0, toast: '' };
+  state = { page: 'home', param: null, menuOpen: false, listOpen: false, filterOpen: false, searchOpen: false, query: '', list: [], cat: 'all', cond: 'all', viewMode: 'grid', gal: 0, toast: '' };
 
   CATS = [['game-discs','Game Discs'],['bags','Laptop Bags'],['travel','Travel & Trolley Bags'],['mobiles','Mobiles'],['laptops','Laptops'],['tablets','iPads & Tablets'],['audio','Audio'],['watches','Smart Watches'],['gaming','Gaming'],['cameras','Cameras'],['accessories','Accessories'],['lifestyle','Fragrance & Grooming']];
 
@@ -1182,12 +1149,6 @@ class Component extends DCLogic {
     { id:'huawei-watch-ultimate-2', cat:'watches', name:'HUAWEI WATCH Ultimate 2', tag:'New', spotlight:true, img:'assets/official-huawei-watch-ultimate-2-black.png', gallery:['assets/official-huawei-watch-ultimate-2-black.png','assets/official-huawei-watch-ultimate-2-share.jpg'], blurb:'Huawei’s premium adventure watch with a zirconium-based liquid-metal case and specialist outdoor modes.', specs:[['Display','1.5-inch LTPO AMOLED'],['Brightness','Up to 3500 nits'],['Diving','Up to 150 metres'],['Case','Zirconium-based liquid metal']] },
     { id:'green-lion-strive-smart-watch', cat:'watches', name:'Green Lion Strive Smart Watch', tag:'New', img:'assets/official-green-lion-strive-smart-watch.png', gallery:['assets/official-green-lion-strive-smart-watch.png'], blurb:'A round Green Lion smartwatch with a 1.52-inch IPS display, Bluetooth calling and everyday health tools.', specs:[['Display','1.52-inch IPS'],['Bluetooth','Version 5.3'],['Water resistance','IP65'],['Battery','Up to 5 days']] },
     { id:'porodo-sovo-10000mah', cat:'accessories', name:'Porodo Sovo 10000mAh MagSafe Power Bank', tag:'New', spotlight:true, img:'assets/official-porodo-sovo-10000mah.png', gallery:['assets/official-porodo-sovo-10000mah.png'], blurb:'A 10,000mAh magnetic power bank with a kickstand, LED light, 20W USB-C output and up to 15W wireless charging.', specs:[['Capacity','10000mAh'],['USB-C output','Up to 20W'],['Wireless output','Up to 15W'],['Extras','Kickstand + LED light']] }
-  ];
-
-  FIN = [
-    { name:'iPhone 17 Pro', sw:'linear-gradient(140deg,#17305c,#e77633 55%,#d9d9d5)' },
-    { name:'Galaxy S26 Ultra', sw:'linear-gradient(140deg,#9fa2d7,#5b5d8e 55%,#20233f)' },
-    { name:'Galaxy Z Fold8', sw:'linear-gradient(140deg,#d5d0ec,#7d789d 55%,#343145)' }
   ];
 
   TYPE = ['iPhone 17 Pro Max 256GB', 'iPhone 17 Pro Cosmic Orange', 'iPhone 17 256GB', 'Samsung Galaxy S26 Ultra 1TB', 'Samsung Galaxy S26 Ultra Black 512GB', 'Samsung Galaxy S25 256GB', 'Galaxy Z Fold8 Ultra', 'Galaxy Z Fold8 512GB', 'Galaxy Z Flip8', 'MacBook Air 13-inch M5', 'MacBook Air 15-inch M5', 'MacBook Pro 14-inch M5 Pro', 'MacBook Pro 16-inch M5 Max', 'iPad Pro 11-inch M5', 'iPad Pro 13-inch M5', 'iPad Air 11-inch M4', 'iPad Air 13-inch M4', 'iPad mini A17 Pro', 'iPad 11-inch A16', 'RIDE 5 for PlayStation 5', 'EA SPORTS FC 26 game disc', 'Super Mario Party Jamboree', 'ThinkPad Professional 16-inch Topload', 'Lenovo T210 laptop bag', 'Pierre Cardin 72cm trolley case', 'HP OmniBook X Flip 14-fm0013dx', 'HP Smart Tank 580 printer', 'Apple Watch Ultra 3 49mm', 'Samsung Galaxy Watch8 44mm Silver', 'HUAWEI WATCH GT 6 Pro', 'HUAWEI WATCH Ultimate 2', 'Green Lion Strive Smart Watch', 'Braun Series 5 51-B1000s', 'Philips Trimmer 5000 MG5921/15', 'JBL PartyBox Stage 320', 'JBL Tune 770NC Headphones', 'Bose QuietComfort Ultra Headphones', 'Bose SoundLink Max Speaker', 'Ray-Ban Meta Smart Glasses', 'Powerology portable projector', 'Porodo Sovo 10000mAh MagSafe Power Bank', 'Creed Viking Cologne', 'Bleu de Chanel Eau de Parfum', 'Dior Sauvage Eau de Parfum', 'Valentino Donna Born in Roma'];
@@ -1583,8 +1544,6 @@ class Component extends DCLogic {
       c.addEventListener('mouseleave', () => { img.style.transform = 'none'; if (img.hasAttribute('data-cat-img')) img.style.filter = 'saturate(.82) brightness(.72)'; });
     });
     this.bindStage();
-    this.buildHotspots();
-    this.applyFinish();
     this.cache();
     this.paintTyper();
     if (motion) { this.startTyper(); this.startStrip(); this.startUtil(); } else { this.paintStrip(); }
@@ -1608,8 +1567,7 @@ class Component extends DCLogic {
       track: document.querySelector('[data-explode-track]'),
       phone: document.querySelector('[data-phone]'),
       layers: [...document.querySelectorAll('[data-layer]')],
-      bar: document.querySelector('[data-explode-bar]'),
-      hs: [...document.querySelectorAll('[data-hs]')]
+      bar: document.querySelector('[data-explode-bar]')
     };
     this.measure();
     if (!this._onRz) { this._onRz = () => { clearTimeout(this._rz); this._rz = setTimeout(() => { this.measure(); this._lastY = -1; }, 140); }; window.addEventListener('resize', this._onRz); }
@@ -1639,37 +1597,6 @@ class Component extends DCLogic {
     stage.addEventListener('pointerup', end);
     stage.addEventListener('pointercancel', end);
   }
-
-  buildHotspots() {
-    const host = document.querySelector('[data-hotspots]');
-    if (!host || host.dataset.built) return;
-    host.dataset.built = '1';
-    const names = ['iPhone 17 Pro', 'Galaxy S26 Ultra', 'Galaxy Z Fold8'];
-    const pos = [[8, 24], [77, 49], [10, 74]];
-    host.innerHTML = names.map((n, i) => {
-      const left = pos[i][0], top = pos[i][1], right = left > 50;
-      return '<div data-hs="' + i + '" style="position:absolute;left:' + left + '%;top:' + top + '%;max-width:min(210px,26vw);opacity:0;transform:translateY(10px);transition:opacity .5s ease,transform .5s cubic-bezier(.2,.8,.2,1);text-align:' + (right ? 'left' : 'right') + '">' +
-        '<div style="display:flex;align-items:center;gap:9px;flex-direction:' + (right ? 'row' : 'row-reverse') + '">' +
-        '<span style="width:7px;height:7px;border-radius:50%;background:#d4af5a;box-shadow:0 0 12px rgba(212,175,90,.9);flex-shrink:0"></span>' +
-        '<span style="height:1px;flex:1;background:linear-gradient(' + (right ? '90deg' : '270deg') + ',rgba(212,175,90,.7),rgba(212,175,90,0))"></span>' +
-        '</div>' +
-        '<div style="font-family:Archivo,sans-serif;font-size:clamp(11px,1.15vw,14px);font-weight:750;letter-spacing:-.01em;color:#f2efe7;margin-top:7px;line-height:1.3">' + n + '</div>' +
-        '<div style="font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:#8d8474;margin-top:3px;font-weight:650">Official product media</div>' +
-        '</div>';
-    }).join('');
-  }
-
-  applyFinish() {
-    document.querySelectorAll('[data-model-index]').forEach((el) => {
-      const active = Number(el.getAttribute('data-model-index')) === this.state.finish;
-      el.style.zIndex = active ? '5' : '1';
-      el.style.opacity = active ? '1' : '.62';
-      el.style.filter = active ? 'none' : 'saturate(.72) brightness(.72)';
-      el.style.boxShadow = active ? '0 42px 100px rgba(0,0,0,.72),0 0 0 1px rgba(212,175,90,.18)' : '0 34px 80px rgba(0,0,0,.62)';
-    });
-  }
-
-  OFFS = [-.9, 0, .9];
 
   tick = () => {
     this._raf = requestAnimationFrame(this.tick);
@@ -1712,16 +1639,10 @@ class Component extends DCLogic {
       let p = (y - this.geo.top) / this.geo.total;
       p = Math.max(0, Math.min(1, p));
       const ease = p < .5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2;
-      const spread = motion ? ease * 195 * soft : 0;
-      e.layers.forEach((el, i) => { el.style.transform = 'translateZ(' + ((this.OFFS[i] || 0) * spread) + 'px)'; });
+      e.layers.forEach((el) => { el.style.transform = 'translateZ(0)'; });
       const rot = -20 - (motion ? ease * 32 * soft : 0) + (this.drag || 0);
       e.phone.style.transform = 'rotateX(' + (-7 - ease * 7) + 'deg) rotateY(' + rot + 'deg)';
       if (e.bar) e.bar.style.height = (p * 100).toFixed(1) + '%';
-      e.hs.forEach((el, i) => {
-        const on = p > 0.24 + i * 0.17;
-        el.style.opacity = on ? '1' : '0';
-        el.style.transform = on ? 'none' : 'translateY(10px)';
-      });
     }
   };
 
@@ -1789,7 +1710,7 @@ class Component extends DCLogic {
       listEmpty: s.list.length === 0,
       listItems: listProducts.map((p) => ({ ...p, catLabel: this.catLabel(p.cat), remove: () => this.setState((st) => ({ list: st.list.filter((x) => x !== p.id) })) })),
       waGeneral: this.wa('Hello Kross One 👋 I would like to know more about your gadgets.'),
-      waInside: this.wa('Hello Kross One 👋 I was exploring the ' + this.FIN[s.finish].name + ' on your website. What is today’s price, availability and warranty?'),
+      waInside: this.wa('Hello Kross One 👋 I was exploring your interactive showcase. Please tell me more about the items featured and today’s availability.'),
       waList: this.wa(waListText),
       waFold: this.wa('Hello Kross One 👋 I want to pre-book from the Samsung Galaxy Z Fold 8 series. Please send me the configurations, colours and today\u2019s price.'),
 
@@ -1814,13 +1735,6 @@ class Component extends DCLogic {
         { icon: '⛨', label: 'Warranty & After-Sales' },
         { icon: '✦', label: 'Best Value Guaranteed' }
       ],
-
-      finishes: this.FIN.map((f, i) => ({
-        name: f.name,
-        pick: () => { this.setState({ finish: i }); requestAnimationFrame(() => this.applyFinish()); },
-        btnStyle: 'width:24px;height:24px;border-radius:50%;cursor:pointer;background:' + f.sw + ';border:2px solid ' + (s.finish === i ? '#d4af5a' : 'rgba(255,255,255,.18)') + ';box-shadow:' + (s.finish === i ? '0 0 0 3px rgba(212,175,90,.22)' : 'none') + ';transition:border-color .25s,box-shadow .25s'
-      })),
-      finishName: this.FIN[s.finish].name,
 
       categories: this.CATS.map(([id, name]) => ({
         name, href: '#/shop/' + id,

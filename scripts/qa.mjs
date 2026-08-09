@@ -21,6 +21,7 @@ const vercelConfig = await readFile(path.join(root, 'vercel.json'), 'utf8');
 const foldMotionBlue = await readFile(path.join(root, 'public', 'assets', 'fold-motion-flip-blue.jpeg'));
 const foldMotionBurgundy = await readFile(path.join(root, 'public', 'assets', 'fold-motion-fold-burgundy.jpeg'));
 const foldMotionVideo = await readFile(path.join(root, 'public', 'assets', 'fold-motion-galaxy-series.mp4'));
+const interactiveShowcase = await readFile(path.join(root, 'public', 'assets', 'kross-one-interactive-showcase-loop.mp4'));
 const socialCard = await readFile(path.join(root, 'public', 'assets', 'og-kross-one-gadgets-v3.png'));
 const builtHtml = await readFile(path.join(root, 'dist', 'index.html'), 'utf8');
 const builtAdminHtml = await readFile(path.join(root, 'dist', 'admin.html'), 'utf8');
@@ -49,7 +50,7 @@ const hashText = (source) => createHash('sha256').update(source.replace(/\r\n/g,
 const hashBytes = (source) => createHash('sha256').update(source).digest('hex');
 
 // Storefront: keep the approved v2 client revision and its runtime/assets lossless.
-if (hashText(html) !== 'a00c005ef76d70988502eb247cc0e0fc2f7c4bf7595b2d2015afdb5e7222da47') {
+if (hashText(html) !== 'b90073c9459878534a931d54dc54021ffc86d46a9c40143939827e09af00a5f3') {
   throw new Error('index.html differs from the approved responsive Kross One Gadgets v2 client revision.');
 }
 if (hashText(support) !== '8a955e8f2bf16b5a69dc1e14015c15db35632676c50a978d5ac94a6f8adc84db') {
@@ -63,6 +64,9 @@ if (hashBytes(foldMotionBurgundy) !== '0bf2cde2b70297150550bb39079266596aae50ebb
 }
 if (hashBytes(foldMotionVideo) !== '79d5459f3e91c7102dd56ba4c3510019dd19bfc499098d75c905b6ec8ef7df2f') {
   throw new Error('Galaxy Fold-series motion clip differs from the approved supplied asset.');
+}
+if (hashBytes(interactiveShowcase) !== '730864ec30647c2364657e958e23106fed024de1bbd47dbcbe6181c27ee769f8') {
+  throw new Error('Interactive looping showcase differs from the approved supplied video.');
 }
 
 // Storefront: distinctive v2 structure, routes, content, and enquiry flow.
@@ -85,6 +89,9 @@ requireText(html, 'data-mobile-orbit', 'phone/tablet circular product motion');
 requireText(html, 'data-util-window', 'small-screen utility message window');
 requireText(html, 'text-overflow:clip;white-space:normal !important', 'complete small-screen utility copy treatment');
 requireText(html, 'data-brand-logo src="assets/kross-one-gadgets-logo-square.png"', 'header brand logo');
+requireText(html, 'data-brand-title style=', 'single clean header wordmark');
+requireText(html, '>Kross One Gadgets</span>', 'unified header brand name');
+requireText(html, '>Apple &amp; Samsung Store · Lugogo Mall</span>', 'unified header store descriptor');
 requireText(html, 'data-menubtn', 'left navigation menu control');
 requireText(html, 'data-filterbtn', 'premium collection filter control');
 requireText(html, 'data-viewbtn', 'collection layout control');
@@ -170,13 +177,18 @@ const interactiveStart = html.indexOf('<section id="inside"');
 const interactiveEnd = html.indexOf('<section style="position:relative;z-index:10;background:#0b0b0f', interactiveStart);
 if (interactiveStart < 0 || interactiveEnd < 0) throw new Error('Interactive device section is missing.');
 const interactiveHtml = html.slice(interactiveStart, interactiveEnd);
-requireText(interactiveHtml, 'assets/official-apple-iphone17-pro-lineup.jpg', 'official Apple interactive device media');
-requireText(interactiveHtml, 'assets/official-samsung-galaxy-s26-ultra-share.jpg', 'official Galaxy S26 Ultra interactive device media');
-requireText(interactiveHtml, 'assets/official-samsung-fold8-hero.jpg', 'official Galaxy Z Fold8 interactive device media');
-requireText(interactiveHtml, 'Manufacturer product media from Apple and Samsung.', 'truthful interactive media disclosure');
+requireText(interactiveHtml, 'data-showcase-video', 'interactive looping showcase video');
+requireText(interactiveHtml, 'assets/kross-one-interactive-showcase-loop.mp4', 'approved interactive showcase clip');
+for (const attribute of ['autoplay', 'muted', 'loop', 'playsinline']) {
+  requireText(interactiveHtml, attribute, `interactive showcase ${attribute} behavior`);
+}
+if (interactiveHtml.includes('data-finishes') || interactiveHtml.includes('data-hotspots')) {
+  throw new Error('The single-video interactive showcase must not retain the obsolete model selector or product hotspots.');
+}
 if (interactiveHtml.includes('data-chassis') || interactiveHtml.includes('A19 Pro logic board')) {
   throw new Error('The interactive section must not use a fabricated internal-device illustration.');
 }
+requireText(assetSources, 'kross-one-interactive-showcase-loop.mp4', 'interactive showcase source ledger');
 
 const typerMatch = html.match(/TYPE = \[([\s\S]*?)\];/);
 if (!typerMatch) throw new Error('Animated search prompt inventory is missing.');
