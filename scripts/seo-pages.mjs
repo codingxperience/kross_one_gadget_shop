@@ -122,7 +122,7 @@ const faqSchema = (faqs) => ({
   }))
 });
 
-const navigation = () => collectionPages.slice(0, -1).map((page) => ({
+const navigation = () => collectionPages.map((page) => ({
   '@type': 'SiteNavigationElement',
   name: page.slug === 'shop' ? 'Shop' : page.title,
   url: collectionUrl(page.slug)
@@ -137,6 +137,7 @@ const head = ({ title, description, canonical, image, schema }) => `<!doctype ht
   <meta name="description" content="${markup(description)}">
   <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
   <link rel="canonical" href="${canonical}">
+  <link rel="icon" href="/favicon.ico" sizes="any">
   <link rel="icon" href="/assets/kross-one-gadgets-logo-square.png" type="image/png" sizes="512x512">
   <link rel="apple-touch-icon" href="/assets/kross-one-gadgets-logo-square.png">
   <meta name="theme-color" content="#08080b">
@@ -161,14 +162,15 @@ const head = ({ title, description, canonical, image, schema }) => `<!doctype ht
     .actions { display:flex; flex-wrap:wrap; gap:12px; margin:28px 0 50px; } .button { display:inline-flex; align-items:center; min-height:46px; padding:0 20px; border:1px solid var(--gold); border-radius:999px; color:#1a1304; background:linear-gradient(135deg,#f0d38a,#c9922e); font-weight:800; } .button.secondary { color:#eee6d3; background:transparent; border-color:var(--line); }
     .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:16px; } .card { overflow:hidden; min-width:0; border:1px solid var(--line); border-radius:18px; background:linear-gradient(145deg,rgba(255,255,255,.05),rgba(255,255,255,.015)); } .card img { display:block; width:100%; aspect-ratio:1/0.82; object-fit:cover; background:#111; } .card div { padding:17px; } .kicker { color:#988e78; font-size:10px; font-weight:800; letter-spacing:.16em; text-transform:uppercase; } .card h2 { margin:7px 0 8px; font-size:20px; letter-spacing:-.025em; } .card p { margin:0; color:#bdb4a4; font-size:14px; }
     .detail { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:clamp(24px,5vw,60px); align-items:start; } .detail img { width:100%; max-height:580px; border:1px solid var(--line); border-radius:22px; object-fit:contain; background:#111; } .specs { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; margin-top:24px; } .spec { padding:13px; border:1px solid var(--line); border-radius:13px; background:rgba(255,255,255,.025); } .spec b { display:block; margin-bottom:4px; color:#978b70; font-size:10px; letter-spacing:.13em; text-transform:uppercase; }
-    .visit { max-width:760px; padding:28px; border:1px solid var(--line); border-radius:22px; background:rgba(255,255,255,.035); } .visit h2 { margin-top:0; } .faq { margin-top:56px; padding-top:34px; border-top:1px solid var(--line); } .faq h2 { margin:0 0 22px; font-size:clamp(27px,4vw,42px); } .faq-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:14px; } .faq article { padding:18px; border:1px solid var(--line); border-radius:16px; background:rgba(255,255,255,.025); } .faq h3 { margin:0 0 9px; font-size:17px; } .faq p { margin:0; color:#bdb4a4; font-size:14px; } footer { padding:28px 0; border-top:1px solid var(--line); color:#9f9787; font-size:13px; } footer a { color:#e1be70; }
+    .visit { max-width:760px; padding:28px; border:1px solid var(--line); border-radius:22px; background:rgba(255,255,255,.035); } .visit h2 { margin-top:0; } .faq { margin-top:56px; padding-top:34px; border-top:1px solid var(--line); } .faq h2 { margin:0 0 22px; font-size:clamp(27px,4vw,42px); } .faq-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:14px; } .faq article { padding:18px; border:1px solid var(--line); border-radius:16px; background:rgba(255,255,255,.025); } .faq h3 { margin:0 0 9px; font-size:17px; } .faq p { margin:0; color:#bdb4a4; font-size:14px; } footer { padding:28px 0; border-top:1px solid var(--line); color:#9f9787; font-size:13px; } footer nav { justify-content:flex-start; margin-bottom:16px; } footer a { color:#e1be70; }
     @media (max-width:720px) { header { padding:16px 0; align-items:flex-start; flex-direction:column; } nav { justify-content:flex-start; } .detail { grid-template-columns:1fr; } .specs { grid-template-columns:1fr; } }
   </style>
 </head>`;
 
-const pageFooter = () => `<footer><div class="shell">Kross One Gadgets · Shop #18A, Lugogo Mall, Kampala · <a href="tel:+256752117111">0752 117 111</a> · <a href="mailto:kross1gadgets@gmail.com">kross1gadgets@gmail.com</a></div></footer>`;
+const pageFooter = () => `<footer><div class="shell"><nav aria-label="Explore Kross One Gadgets">${collectionPages.map((page) => `<a href="/collections/${page.slug}/">${markup(page.slug === 'shop' ? 'Shop all gadgets' : page.title)}</a>`).join('')}</nav>Kross One Gadgets · Shop #18A, Lugogo Mall, Kampala · <a href="tel:+256752117111">0752 117 111</a> · <a href="mailto:kross1gadgets@gmail.com">kross1gadgets@gmail.com</a></div></footer>`;
 
-const pageHeader = () => `<header class="shell"><a class="brand" href="/"><img src="/assets/kross-one-gadgets-logo-square.png" alt="Kross One Gadgets"><span>KROSS ONE GADGETS<small>Apple & Samsung Store · Lugogo Mall</small></span></a><nav>${collectionPages.slice(0, 8).map((page) => `<a href="${collectionUrl(page.slug).replace(siteUrl, '')}">${markup(page.slug === 'shop' ? 'Shop' : page.title)}</a>`).join('')}</nav></header>`;
+const primaryNavigationSlugs = ['shop', 'mobiles', 'laptops', 'ipads-tablets', 'audio', 'watches', 'visit'];
+const pageHeader = () => `<header class="shell"><a class="brand" href="/"><img src="/assets/kross-one-gadgets-logo-square.png" alt="Kross One Gadgets"><span>KROSS ONE GADGETS<small>Apple & Samsung Store · Lugogo Mall</small></span></a><nav aria-label="Primary">${primaryNavigationSlugs.map((slug) => collectionPages.find((page) => page.slug === slug)).filter(Boolean).map((page) => `<a href="${collectionUrl(page.slug).replace(siteUrl, '')}">${markup(page.slug === 'shop' ? 'Shop' : page.title)}</a>`).join('')}</nav></header>`;
 
 const productCard = (product) => `<article class="card"><a href="${productUrl(product.id).replace(siteUrl, '')}"><img src="${productImage(product).replace(siteUrl, '')}" alt="${markup(product.name)}" loading="lazy" decoding="async"><div><span class="kicker">${markup(categoryName(product.cat))}</span><h2>${markup(product.name)}</h2><p>${markup(product.blurb)}</p></div></a></article>`;
 

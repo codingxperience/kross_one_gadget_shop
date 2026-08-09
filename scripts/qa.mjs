@@ -14,6 +14,8 @@ const support = await readFile(path.join(root, 'public', 'support.js'), 'utf8');
 const adminData = await readFile(path.join(root, 'public', 'admin-data.js'), 'utf8');
 const assetSources = await readFile(path.join(root, 'ASSET_SOURCES.md'), 'utf8');
 const manifest = await readFile(path.join(root, 'public', 'site.webmanifest'), 'utf8');
+const routerLinks = await readFile(path.join(root, 'public', 'router-links.js'), 'utf8');
+const favicon = await readFile(path.join(root, 'public', 'favicon.ico'));
 const robots = await readFile(path.join(root, 'public', 'robots.txt'), 'utf8');
 const sitemap = await readFile(path.join(root, 'public', 'sitemap.xml'), 'utf8');
 const googleVerification = await readFile(path.join(root, 'public', 'googlee264a0cdaaba06d8.html'), 'utf8');
@@ -31,6 +33,8 @@ const builtRobots = await readFile(path.join(root, 'dist', 'robots.txt'), 'utf8'
 const builtLlms = await readFile(path.join(root, 'dist', 'llms.txt'), 'utf8');
 const builtGoogleVerification = await readFile(path.join(root, 'dist', 'googlee264a0cdaaba06d8.html'), 'utf8');
 const builtSitemap = await readFile(path.join(root, 'dist', 'sitemap.xml'), 'utf8');
+const builtRouterLinks = await readFile(path.join(root, 'dist', 'router-links.js'), 'utf8');
+const builtFavicon = await readFile(path.join(root, 'dist', 'favicon.ico'));
 const builtLaptopCollection = await readFile(path.join(root, 'dist', 'collections', 'laptops', 'index.html'), 'utf8');
 const builtIpadCollection = await readFile(path.join(root, 'dist', 'collections', 'ipads-tablets', 'index.html'), 'utf8');
 const builtProductPage = await readFile(path.join(root, 'dist', 'products', 'macbook-air-13-m5', 'index.html'), 'utf8');
@@ -50,7 +54,7 @@ const hashText = (source) => createHash('sha256').update(source.replace(/\r\n/g,
 const hashBytes = (source) => createHash('sha256').update(source).digest('hex');
 
 // Storefront: keep the approved v2 client revision and its runtime/assets lossless.
-if (hashText(html) !== 'd4cb73fae3916eac70695d73e7f43e04165521a0b3c2a37222b2ab9f67de6b4b') {
+if (hashText(html) !== '3385fd4a7ca412be42b4751fc4b7ea6272938b0ea614e33f9e06d5ec23c59b0f') {
   throw new Error('index.html differs from the approved responsive Kross One Gadgets v2 client revision.');
 }
 if (hashText(support) !== '8a955e8f2bf16b5a69dc1e14015c15db35632676c50a978d5ac94a6f8adc84db') {
@@ -111,7 +115,7 @@ requireText(html, '"@type": "SiteNavigationElement"', 'site navigation structure
 requireText(adminHtml, 'name="robots" content="noindex,nofollow,noarchive,nosnippet"', 'admin search exclusion');
 requireText(vercelConfig, 'Content-Security-Policy', 'Vercel content security policy');
 requireText(vercelConfig, '"type": "host"', 'retired Vercel host redirect condition');
-requireText(vercelConfig, '"value": "kross-one-gadget-shop.vercel.app"', 'retired Vercel host redirect source');
+requireText(vercelConfig, '"eq": "kross-one-gadget-shop.vercel.app"', 'retired Vercel host redirect source');
 requireText(vercelConfig, '"destination": "https://www.kross-one-gadgets.co.ug/:path*"', 'custom-domain redirect destination');
 requireText(vercelConfig, '"permanent": true', 'permanent custom-domain redirect');
 if (vercelConfig.includes("'unsafe-eval'")) throw new Error('The production Content Security Policy must not allow unsafe-eval.');
@@ -122,7 +126,16 @@ requireText(html, 'name="twitter:title" content="Kross One Gadgets | Apple &amp;
 requireText(html, 'assets/og-kross-one-gadgets-v3.png', 'approved Kross One social preview');
 if (socialCard.length < 20_000) throw new Error('The versioned social card is unexpectedly small.');
 requireText(manifest, '"name": "Kross One Gadgets"', 'installable storefront name');
+requireText(html, '<link rel="icon" href="/favicon.ico" sizes="any">', 'conventional root favicon discovery');
+requireText(html, '<script src="./router-links.js" defer></script>', 'progressively enhanced crawlable navigation');
+requireText(html, 'href="/collections/shop/" data-app-route="#/shop"', 'crawlable shop navigation with interactive route');
+requireText(html, 'href="/collections/visit/" data-app-route="#/visit"', 'crawlable visit navigation with interactive route');
+requireText(html, "href: '/products/' + encodeURIComponent(p.id) + '/'", 'crawlable product links');
+requireText(routerLinks, "document.addEventListener('click'", 'delegated interactive routing');
+requireText(routerLinks, "anchor.dataset.appRoute", 'interactive route metadata');
+requireText(vercelConfig, '"trailingSlash": true', 'single trailing-slash URL convention');
 requireText(html, `${sourceSiteUrl}/#website`, 'source custom-domain WebSite identity');
+requireText(html, `const root = '${sourceSiteUrl}/';`, 'runtime custom-domain canonical identity');
 requireText(html, '"alternateName": "Kross One Gadget Shop"', 'Google site-name alternative');
 requireText(html, '"@type": "GeoCoordinates"', 'store geocoordinates');
 requireText(html, 'assets/official-hp-omnibook-x-flip-14.png', 'official HP OmniBook X Flip catalog artwork');
@@ -244,14 +257,10 @@ for (const maker of ['HP', 'Braun', 'Philips', 'JBL', 'Bose', 'Samsung', 'Apple'
   requireText(assetSources, maker, 'official asset source ledger');
 }
 
-const pagesSafe = (label, source) => {
-  const rootRelativeUrls = [...source.matchAll(/(?:src|href)=["']\/(?!\/)/g)];
-  if (rootRelativeUrls.length) {
-    throw new Error(`${label}: root-relative URLs are not allowed because the site is deployed from a GitHub Pages project subpath.`);
-  }
-};
-pagesSafe('index.html', html);
-pagesSafe('admin.html', adminHtml);
+const crawlableAppLinks = [...html.matchAll(/<a\b[^>]*href="\/(?:collections|products)\/[^"#]*"[^>]*data-app-route="#[^"]+"/g)];
+if (crawlableAppLinks.length < 8) {
+  throw new Error(`The interactive storefront exposes too few crawlable collection/product links: ${crawlableAppLinks.length}.`);
+}
 
 const parseComponent = (label, source) => {
   const componentMatch = source.match(/<script type="text\/x-dc"[\s\S]*?>([\s\S]*?)<\/script>/);
@@ -310,6 +319,9 @@ for (const [label, sourceHtml, bundle] of [['storefront', html, builtAppLogic], 
   if (bundledLogic !== sourceLogic.trim()) throw new Error(`${label}: compiled component body differs from the authoritative inline logic.`);
 }
 if (builtGoogleVerification !== googleVerification) throw new Error('The Google Search Console verification file was not copied to the deployment root.');
+if (builtRouterLinks !== routerLinks) throw new Error('The crawlable-navigation enhancement was not copied to the deployment root.');
+if (hashBytes(builtFavicon) !== hashBytes(favicon)) throw new Error('The conventional favicon was not copied to the deployment root.');
+if (favicon.length < 1_000) throw new Error('The conventional favicon is unexpectedly small.');
 requireText(builtRobots, `Sitemap: ${siteUrl}/sitemap.xml`, 'built canonical robots sitemap directive');
 requireText(builtLlms, `Canonical website: ${siteUrl}/`, 'AI discovery canonical identity');
 requireText(builtHtml, `${siteUrl}/#website`, 'built custom-domain WebSite identity');
@@ -321,6 +333,9 @@ if (sitemapUrlCount !== 1 + collectionPages.length + seoCatalog.length) throw ne
 requireText(builtLaptopCollection, 'MacBook Air 13-inch', 'crawlable laptops collection content');
 requireText(builtIpadCollection, 'iPad Pro 13-inch', 'crawlable iPads collection content');
 requireText(builtLaptopCollection, '"@type":"FAQPage"', 'visible collection FAQ structured data');
+requireText(builtLaptopCollection, 'aria-label="Primary"', 'crawlable primary collection navigation');
+requireText(builtLaptopCollection, 'aria-label="Explore Kross One Gadgets"', 'crawlable sitewide collection footer');
+requireText(builtLaptopCollection, '<link rel="icon" href="/favicon.ico" sizes="any">', 'collection root favicon discovery');
 requireText(builtProductPage, '"@type":"Product"', 'product structured data');
 for (const [label, document] of [['home', builtHtml], ['laptops collection', builtLaptopCollection], ['iPads collection', builtIpadCollection], ['product', builtProductPage]]) validateJsonLd(label, document);
 

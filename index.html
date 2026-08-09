@@ -25,12 +25,13 @@
 <meta id="twitter-image" name="twitter:image" content="https://www.kross-one-gadgets.co.ug/assets/og-kross-one-gadgets-v3.png">
 <link id="canonical-url" rel="canonical" href="https://www.kross-one-gadgets.co.ug/">
 
-<link rel="icon" href="assets/kross-one-gadgets-logo-square.png" type="image/png" sizes="512x512">
-<link rel="shortcut icon" href="assets/kross-one-gadgets-logo-square.png">
-<link rel="apple-touch-icon" href="assets/kross-one-gadgets-logo-square.png">
-<meta name="msapplication-TileImage" content="assets/kross-one-gadgets-logo-square.png">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" href="/assets/kross-one-gadgets-logo-square.png" type="image/png" sizes="512x512">
+<link rel="apple-touch-icon" href="/assets/kross-one-gadgets-logo-square.png">
+<meta name="msapplication-TileImage" content="/assets/kross-one-gadgets-logo-square.png">
 
 <link rel="manifest" href="./site.webmanifest">
+<script src="./router-links.js" defer></script>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -277,12 +278,12 @@
           <span style="display:block;width:18px;height:1.5px;background:#e3bd6a;border-radius:2px"></span>
           <span style="display:block;width:12px;height:1.5px;background:#e3bd6a;border-radius:2px;transform:translateX(-3px)"></span>
         </button>
-        <a href="#/shop" data-navlink style="font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#b8b1a2;transition:color .25s" style-hover="color:#e3bd6a">Shop</a>
-        <a href="#/technology" data-navlink style="font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#b8b1a2;transition:color .25s" style-hover="color:#e3bd6a">Inside</a>
-        <a href="#/visit" data-navlink style="font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#b8b1a2;transition:color .25s" style-hover="color:#e3bd6a">Visit</a>
+        <a href="/collections/shop/" data-app-route="#/shop" data-navlink style="font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#b8b1a2;transition:color .25s" style-hover="color:#e3bd6a">Shop</a>
+        <a href="/#inside" data-app-route="#/technology" data-navlink style="font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#b8b1a2;transition:color .25s" style-hover="color:#e3bd6a">Inside</a>
+        <a href="/collections/visit/" data-app-route="#/visit" data-navlink style="font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#b8b1a2;transition:color .25s" style-hover="color:#e3bd6a">Visit</a>
       </nav>
 
-      <a data-brandlock href="#/" aria-label="Kross One Gadgets home" style="display:flex;align-items:center;gap:clamp(7px,1vw,11px);justify-self:center;padding:0 4px;min-width:0;overflow:hidden">
+      <a data-brandlock href="/" data-app-route="#/" aria-label="Kross One Gadgets home" style="display:flex;align-items:center;gap:clamp(7px,1vw,11px);justify-self:center;padding:0 4px;min-width:0;overflow:hidden">
         <img data-brand-logo src="assets/kross-one-gadgets-logo-square.png" alt="" aria-hidden="true" width="42" height="42" decoding="async">
         <span data-brand-copy style="display:flex;flex-direction:column;align-items:flex-start;gap:3px;min-width:0">
           <span data-brand-title style="font-family:'Archivo',sans-serif;font-variation-settings:'wdth' 112;font-weight:900;font-size:clamp(16px,1.8vw,23px);letter-spacing:.055em;line-height:1;text-transform:uppercase;white-space:nowrap;background:linear-gradient(92deg,#f3d687 0%,#c9922e 40%,#f3efe5 68%,#9ca4ae 100%);-webkit-background-clip:text;background-clip:text;color:transparent">Kross One Gadgets</span>
@@ -366,7 +367,7 @@
             <svg width="17" height="17" viewBox="0 0 24 24" fill="#130f04"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.347-.347.52-.52.174-.174.232-.298.347-.497.115-.198.058-.371-.025-.52-.082-.148-.67-1.612-.916-2.207-.24-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"></path></svg>
             Talk to us on WhatsApp
           </a>
-          <a href="#/shop" style="background:rgba(255,255,255,.045);border:1px solid rgba(212,175,90,.35);color:#f2efe7;border-radius:999px;padding:15px clamp(22px,3vw,32px);font-size:clamp(13px,1.25vw,15px);font-weight:650;letter-spacing:-.01em;transition:background .3s,border-color .3s,transform .3s" style-hover="background:rgba(212,175,90,.13);border-color:rgba(212,175,90,.7);transform:translateY(-3px)">Browse the collection</a>
+          <a href="/collections/shop/" data-app-route="#/shop" style="background:rgba(255,255,255,.045);border:1px solid rgba(212,175,90,.35);color:#f2efe7;border-radius:999px;padding:15px clamp(22px,3vw,32px);font-size:clamp(13px,1.25vw,15px);font-weight:650;letter-spacing:-.01em;transition:background .3s,border-color .3s,transform .3s" style-hover="background:rgba(212,175,90,.13);border-color:rgba(212,175,90,.7);transform:translateY(-3px)">Browse the collection</a>
         </div>
         <div data-authorised style="margin:clamp(20px,3.2vh,36px) auto 0;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:clamp(10px,2vw,24px);padding:0 16px;animation:k-fadein .9s cubic-bezier(.2,.8,.2,1) .95s both">
           <svg width="0" height="0" aria-hidden="true" style="position:absolute"><defs><linearGradient id="kSteelHero" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#ffffff"></stop><stop offset="38%" stop-color="#cfd6de"></stop><stop offset="72%" stop-color="#8d949e"></stop><stop offset="100%" stop-color="#eef1f5"></stop></linearGradient></defs></svg>
@@ -548,12 +549,12 @@
           <p data-reveal style="margin:0 0 12px;font-size:11px;font-weight:750;letter-spacing:.42em;color:#c9922e;text-transform:uppercase;opacity:0;transform:translateY(18px);transition:opacity .8s ease,transform .8s cubic-bezier(.2,.8,.2,1)">The collection</p>
           <h2 data-reveal style="margin:0;font-family:'Archivo',sans-serif;font-variation-settings:'wdth' 108;font-weight:850;font-size:clamp(26px,4.4vw,58px);line-height:1.02;letter-spacing:-.03em;opacity:0;transform:translateY(22px);transition:opacity .85s ease .06s,transform .85s cubic-bezier(.2,.8,.2,1) .06s">Everything that matters.</h2>
         </div>
-        <a data-reveal href="#/shop" style="font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#d4af5a;border-bottom:1px solid rgba(212,175,90,.4);padding-bottom:5px;opacity:0;transform:translateY(18px);transition:opacity .8s ease .1s,transform .8s cubic-bezier(.2,.8,.2,1) .1s">See all →</a>
+        <a data-reveal href="/collections/shop/" data-app-route="#/shop" style="font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#d4af5a;border-bottom:1px solid rgba(212,175,90,.4);padding-bottom:5px;opacity:0;transform:translateY(18px);transition:opacity .8s ease .1s,transform .8s cubic-bezier(.2,.8,.2,1) .1s">See all →</a>
       </div>
 
       <div style="max-width:1440px;margin:0 auto;padding:0 clamp(16px,3.4vw,44px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,236px),1fr));gap:clamp(10px,1.4vw,18px)">
         <sc-for list="{{ categories }}" as="c" hint-placeholder-count="6">
-          <a data-reveal href="{{ c.href }}" data-cat-card style="position:relative;display:block;aspect-ratio:4/5;border-radius:20px;overflow:hidden;border:1px solid rgba(212,175,90,.16);opacity:0;transform:translateY(28px);transition:opacity .85s ease,transform .85s cubic-bezier(.2,.8,.2,1),border-color .4s" style-hover="border-color:rgba(212,175,90,.6)">
+          <a data-reveal href="{{ c.href }}" data-app-route="{{ c.appRoute }}" data-cat-card style="position:relative;display:block;aspect-ratio:4/5;border-radius:20px;overflow:hidden;border:1px solid rgba(212,175,90,.16);opacity:0;transform:translateY(28px);transition:opacity .85s ease,transform .85s cubic-bezier(.2,.8,.2,1),border-color .4s" style-hover="border-color:rgba(212,175,90,.6)">
             <img src="{{ c.img }}" alt="{{ c.name }}" loading="lazy" decoding="async" data-cat-img style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 1.1s cubic-bezier(.2,.8,.2,1),filter .6s;filter:saturate(.82) brightness(.72)">
             <span style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,8,11,.05) 30%,rgba(8,8,11,.86) 100%)"></span>
             <span style="position:absolute;left:0;right:0;bottom:0;padding:20px;display:flex;flex-direction:column;gap:5px">
@@ -574,7 +575,7 @@
       <div style="max-width:1440px;margin:0 auto;padding:0 clamp(16px,3.4vw,44px);display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,250px),1fr));gap:clamp(10px,1.4vw,18px)">
         <sc-for list="{{ featured }}" as="p" hint-placeholder-count="8">
           <div data-reveal data-prod-card style="position:relative;display:flex;flex-direction:column;background:linear-gradient(170deg,#101015,#0b0b0f);border:1px solid rgba(212,175,90,.15);border-radius:18px;overflow:hidden;opacity:0;transform:translateY(28px);transition:opacity .85s ease,transform .85s cubic-bezier(.2,.8,.2,1),border-color .4s,box-shadow .4s" style-hover="border-color:rgba(212,175,90,.55);box-shadow:0 24px 60px rgba(0,0,0,.6)">
-            <a href="{{ p.href }}" style="position:relative;display:block;aspect-ratio:1/1;overflow:hidden;background:#0e0e13">
+              <a href="{{ p.href }}" data-app-route="{{ p.appRoute }}" style="position:relative;display:block;aspect-ratio:1/1;overflow:hidden;background:#0e0e13">
               <img src="{{ p.img }}" alt="{{ p.name }}" loading="lazy" decoding="async" data-prod-img style="width:100%;height:100%;object-fit:cover;display:block;transition:transform 1s cubic-bezier(.2,.8,.2,1);filter:saturate(.94)">
               <sc-if value="{{ p.tag }}" hint-placeholder-val="{{ false }}">
                 <span style="position:absolute;left:12px;top:12px;background:linear-gradient(150deg,#f0d38a,#c9922e);color:#130f04;font-size:9.5px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;padding:5px 10px;border-radius:999px">{{ p.tag }}</span>
@@ -582,7 +583,7 @@
             </a>
             <div style="display:flex;flex-direction:column;gap:4px;padding:15px 16px 16px">
               <span style="font-size:9.5px;font-weight:750;letter-spacing:.2em;text-transform:uppercase;color:#7d7565">{{ p.catLabel }}</span>
-              <a href="{{ p.href }}" style="font-size:15.5px;font-weight:700;letter-spacing:-.015em;line-height:1.3">{{ p.name }}</a>
+                <a href="{{ p.href }}" data-app-route="{{ p.appRoute }}" style="font-size:15.5px;font-weight:700;letter-spacing:-.015em;line-height:1.3">{{ p.name }}</a>
               <div style="display:flex;gap:7px;margin-top:11px">
                 <a href="{{ p.wa }}" target="_blank" rel="noopener" style="flex:1;display:flex;align-items:center;justify-content:center;gap:7px;background:linear-gradient(140deg,#25d366,#0f9d54);color:#04210f;border-radius:999px;padding:10px;font-size:12.5px;font-weight:750;transition:filter .25s" style-hover="filter:brightness(1.1)">
                   <svg width="13" height="13" viewBox="0 0 24 24" fill="#04210f"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.347-.347.52-.52.174-.174.232-.298.347-.497.115-.198.058-.371-.025-.52-.082-.148-.67-1.612-.916-2.207-.24-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"></path></svg>
@@ -632,7 +633,7 @@
             <div style="border:1px solid rgba(212,175,90,.2);background:rgba(255,255,255,.025);border-radius:14px;padding:14px"><strong style="display:block;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#f0dfae">Here in Kampala</strong><span style="display:block;margin-top:5px;color:#88857e;font-size:12px;line-height:1.45">Shop #18A, Lugogo Mall</span></div>
           </div>
           <div data-reveal style="display:flex;flex-wrap:wrap;gap:10px;margin-top:30px;opacity:0;transform:translateY(22px);transition:opacity .85s ease .24s,transform .85s cubic-bezier(.2,.8,.2,1) .24s">
-            <a href="#/visit" style="display:inline-flex;align-items:center;justify-content:center;min-height:46px;padding:0 20px;border-radius:999px;background:linear-gradient(135deg,#e5c46f,#ba7e20);color:#161006;text-decoration:none;font-size:12px;font-weight:850;letter-spacing:.04em">Visit Shop #18A</a>
+            <a href="/collections/visit/" data-app-route="#/visit" style="display:inline-flex;align-items:center;justify-content:center;min-height:46px;padding:0 20px;border-radius:999px;background:linear-gradient(135deg,#e5c46f,#ba7e20);color:#161006;text-decoration:none;font-size:12px;font-weight:850;letter-spacing:.04em">Visit Shop #18A</a>
             <a href="{{ waGeneral }}" target="_blank" rel="noreferrer" style="display:inline-flex;align-items:center;justify-content:center;min-height:46px;padding:0 20px;border:1px solid rgba(212,175,90,.36);border-radius:999px;color:#e9dfc4;text-decoration:none;font-size:12px;font-weight:800;letter-spacing:.04em">Chat on WhatsApp</a>
           </div>
         </div>
@@ -716,7 +717,7 @@
         </div>
         <div data-recent-grid style="display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(10px,1.4vw,18px)">
           <sc-for list="{{ recentCategories }}" as="c" hint-placeholder-count="3">
-            <a data-recent-card data-cat-card href="{{ c.href }}" style="position:relative;min-height:clamp(210px,25vw,330px);overflow:hidden;border-radius:20px;border:1px solid rgba(212,175,90,.2);background:#0e0e13;isolation:isolate;box-shadow:0 22px 55px rgba(0,0,0,.28);transition:border-color .35s,transform .35s" style-hover="border-color:rgba(212,175,90,.62);transform:translateY(-3px)">
+            <a data-recent-card data-cat-card href="{{ c.href }}" data-app-route="{{ c.appRoute }}" style="position:relative;min-height:clamp(210px,25vw,330px);overflow:hidden;border-radius:20px;border:1px solid rgba(212,175,90,.2);background:#0e0e13;isolation:isolate;box-shadow:0 22px 55px rgba(0,0,0,.28);transition:border-color .35s,transform .35s" style-hover="border-color:rgba(212,175,90,.62);transform:translateY(-3px)">
               <img data-cat-img src="{{ c.img }}" alt="{{ c.name }}" loading="eager" decoding="async" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:{{ c.imgPosition }};filter:saturate(.82) brightness(.72);transition:transform 1s cubic-bezier(.2,.8,.2,1),filter .5s">
               <span style="position:absolute;inset:0;background:linear-gradient(180deg,transparent 28%,rgba(5,5,7,.22) 48%,rgba(5,5,7,.95) 100%)"></span>
               <span style="position:absolute;left:17px;top:16px;border:1px solid rgba(255,255,255,.24);background:rgba(5,5,7,.46);backdrop-filter:blur(8px);border-radius:999px;padding:6px 10px;font-size:9px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:#e7dbc0">New lane</span>
@@ -751,7 +752,7 @@
     <div data-shop-grid data-viewmode="{{ viewMode }}" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,240px),1fr));gap:clamp(10px,1.4vw,18px)">
       <sc-for list="{{ shopList }}" as="p" hint-placeholder-count="12">
         <div data-prod-card style="position:relative;display:flex;flex-direction:column;background:linear-gradient(170deg,#101015,#0b0b0f);border:1px solid rgba(212,175,90,.15);border-radius:18px;overflow:hidden;transition:border-color .4s,box-shadow .4s" style-hover="border-color:rgba(212,175,90,.55);box-shadow:0 24px 60px rgba(0,0,0,.6)">
-          <a href="{{ p.href }}" style="position:relative;display:block;aspect-ratio:1/1;overflow:hidden;background:#0e0e13">
+              <a href="{{ p.href }}" data-app-route="{{ p.appRoute }}" style="position:relative;display:block;aspect-ratio:1/1;overflow:hidden;background:#0e0e13">
             <img src="{{ p.img }}" alt="{{ p.name }}" loading="lazy" decoding="async" data-prod-img style="width:100%;height:100%;object-fit:cover;object-position:{{ p.imgPosition }};display:block;transition:transform 1s cubic-bezier(.2,.8,.2,1)">
             <sc-if value="{{ p.tag }}" hint-placeholder-val="{{ false }}">
               <span style="position:absolute;left:12px;top:12px;background:linear-gradient(150deg,#f0d38a,#c9922e);color:#130f04;font-size:9.5px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;padding:5px 10px;border-radius:999px">{{ p.tag }}</span>
@@ -759,7 +760,7 @@
           </a>
           <div style="display:flex;flex-direction:column;gap:4px;padding:15px 16px 16px">
             <span style="font-size:9.5px;font-weight:750;letter-spacing:.2em;text-transform:uppercase;color:#7d7565">{{ p.catLabel }}</span>
-            <a href="{{ p.href }}" style="font-size:15.5px;font-weight:700;letter-spacing:-.015em;line-height:1.3">{{ p.name }}</a>
+                <a href="{{ p.href }}" data-app-route="{{ p.appRoute }}" style="font-size:15.5px;font-weight:700;letter-spacing:-.015em;line-height:1.3">{{ p.name }}</a>
             <div style="display:flex;gap:7px;margin-top:11px">
               <a href="{{ p.wa }}" target="_blank" rel="noopener" style="flex:1;display:flex;align-items:center;justify-content:center;gap:7px;background:linear-gradient(140deg,#25d366,#0f9d54);color:#04210f;border-radius:999px;padding:10px;font-size:12.5px;font-weight:750;transition:filter .25s" style-hover="filter:brightness(1.1)">Ask price</a>
               <button onClick="{{ p.add }}" aria-label="Add to enquiry list" style="width:40px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.05);border:1px solid rgba(212,175,90,.28);border-radius:999px;cursor:pointer;transition:background .25s,border-color .25s" style-hover="background:rgba(212,175,90,.16);border-color:rgba(212,175,90,.6)">
@@ -775,7 +776,7 @@
 
   <sc-if value="{{ isProduct }}" hint-placeholder-val="{{ false }}">
   <main data-screen-label="Product" style="position:relative;z-index:10;max-width:1440px;margin:0 auto;padding:clamp(20px,3.6vh,40px) clamp(16px,3.4vw,44px) clamp(56px,10vh,110px)">
-    <a href="#/shop" style="display:inline-flex;align-items:center;gap:8px;font-size:12.5px;font-weight:650;letter-spacing:.06em;color:#8d8474;margin-bottom:clamp(18px,3vh,32px)">← Back to collection</a>
+    <a href="/collections/shop/" data-app-route="#/shop" style="display:inline-flex;align-items:center;gap:8px;font-size:12.5px;font-weight:650;letter-spacing:.06em;color:#8d8474;margin-bottom:clamp(18px,3vh,32px)">← Back to collection</a>
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:clamp(22px,3.6vw,58px);align-items:start">
       <div>
         <div style="position:relative;aspect-ratio:1/1;border-radius:24px;overflow:hidden;border:1px solid rgba(212,175,90,.2);background:#0e0e13;box-shadow:0 40px 100px rgba(0,0,0,.66)">
@@ -831,7 +832,7 @@
       <h2 style="margin:0 0 22px;font-family:'Archivo',sans-serif;font-variation-settings:'wdth' 106;font-weight:800;font-size:clamp(20px,2.6vw,32px);letter-spacing:-.025em">Also on the shelf</h2>
       <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,220px),1fr));gap:clamp(10px,1.4vw,18px)">
         <sc-for list="{{ related }}" as="p" hint-placeholder-count="4">
-          <a href="{{ p.href }}" data-prod-card style="display:flex;flex-direction:column;background:linear-gradient(170deg,#101015,#0b0b0f);border:1px solid rgba(212,175,90,.15);border-radius:18px;overflow:hidden;transition:border-color .4s" style-hover="border-color:rgba(212,175,90,.55)">
+            <a href="{{ p.href }}" data-app-route="{{ p.appRoute }}" data-prod-card style="display:flex;flex-direction:column;background:linear-gradient(170deg,#101015,#0b0b0f);border:1px solid rgba(212,175,90,.15);border-radius:18px;overflow:hidden;transition:border-color .4s" style-hover="border-color:rgba(212,175,90,.55)">
             <span style="display:block;aspect-ratio:1/1;overflow:hidden;background:#0e0e13"><img src="{{ p.img }}" alt="{{ p.name }}" loading="lazy" decoding="async" data-prod-img style="width:100%;height:100%;object-fit:cover;display:block;transition:transform 1s cubic-bezier(.2,.8,.2,1)"></span>
             <span style="padding:14px 15px 16px;display:flex;flex-direction:column;gap:3px">
               <span style="font-size:9.5px;font-weight:750;letter-spacing:.2em;text-transform:uppercase;color:#7d7565">{{ p.catLabel }}</span>
@@ -908,7 +909,7 @@
           <span style="display:block;font-size:10.5px;font-weight:750;letter-spacing:.26em;text-transform:uppercase;color:#c9922e;margin-bottom:14px">{{ col.title }}</span>
           <div style="display:flex;flex-direction:column;gap:10px">
             <sc-for list="{{ col.items }}" as="it" hint-placeholder-count="4">
-              <a href="{{ it.href }}" style="font-size:13.5px;color:#a39a86;transition:color .25s" style-hover="color:#e3bd6a">{{ it.label }}</a>
+              <a href="{{ it.href }}" data-app-route="{{ it.appRoute }}" style="font-size:13.5px;color:#a39a86;transition:color .25s" style-hover="color:#e3bd6a">{{ it.label }}</a>
             </sc-for>
           </div>
         </div>
@@ -924,8 +925,8 @@
       </div>
       <span aria-hidden="true" style="flex-shrink:0;display:flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;border:1px solid rgba(212,175,90,.42);font-family:'Archivo',sans-serif;font-variation-settings:'wdth' 112;font-size:11.5px;font-weight:900;letter-spacing:.01em;color:#d4af5a">K1</span>
       <div data-footlinks style="flex:1 1 220px;display:flex;flex-wrap:wrap;justify-content:flex-end;gap:clamp(11px,1.7vw,26px)">
-        <a href="#/visit" style="font-size:12.5px;font-weight:650;letter-spacing:.02em;color:#8d8474;transition:color .25s" style-hover="color:#e3bd6a">Visit</a>
-        <a href="#/technology" style="font-size:12.5px;font-weight:650;letter-spacing:.02em;color:#8d8474;transition:color .25s" style-hover="color:#e3bd6a">See inside</a>
+        <a href="/collections/visit/" data-app-route="#/visit" style="font-size:12.5px;font-weight:650;letter-spacing:.02em;color:#8d8474;transition:color .25s" style-hover="color:#e3bd6a">Visit</a>
+        <a href="/#inside" data-app-route="#/technology" style="font-size:12.5px;font-weight:650;letter-spacing:.02em;color:#8d8474;transition:color .25s" style-hover="color:#e3bd6a">See inside</a>
         <a href="tel:+256752117111" style="font-size:12.5px;font-weight:650;letter-spacing:.02em;color:#8d8474;transition:color .25s" style-hover="color:#e3bd6a">0752 117 111</a>
       </div>
     </div>
@@ -944,7 +945,7 @@
         <button onClick="{{ closeMenu }}" aria-label="Close navigation" style="width:38px;height:38px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.035);border:1px solid rgba(212,175,90,.24);border-radius:12px;color:#cdc4b0;font-size:18px;cursor:pointer">×</button>
       </div>
       <sc-for list="{{ menuLinks }}" as="m" hint-placeholder-count="8">
-        <a href="{{ m.href }}" onClick="{{ closeMenu }}" style="display:grid;grid-template-columns:28px 1fr auto;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid rgba(212,175,90,.09);font-family:'Archivo',sans-serif;font-size:17px;font-weight:760;letter-spacing:-.016em;transition:color .25s,padding-left .25s" style-hover="color:#e3bd6a;padding-left:5px">
+        <a href="{{ m.href }}" data-app-route="{{ m.appRoute }}" onClick="{{ closeMenu }}" style="display:grid;grid-template-columns:28px 1fr auto;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid rgba(212,175,90,.09);font-family:'Archivo',sans-serif;font-size:17px;font-weight:760;letter-spacing:-.016em;transition:color .25s,padding-left .25s" style-hover="color:#e3bd6a;padding-left:5px">
           <span style="font-family:'Instrument Sans',sans-serif;font-size:9px;font-weight:800;letter-spacing:.12em;color:#696255">{{ m.no }}</span>{{ m.label }}<span style="width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:1px solid rgba(212,175,90,.16);color:#827967;font-size:12px">→</span>
         </a>
       </sc-for>
@@ -996,7 +997,7 @@
           <div style="text-align:center;padding:clamp(40px,10vh,80px) 10px">
             <p style="margin:0 0 8px;font-size:16px;font-weight:700;color:#cdc4b0">Nothing on your list yet.</p>
             <p style="margin:0 0 22px;font-size:14px;line-height:1.6;color:#7d7565">Add anything you're curious about — then send the whole list to us in one WhatsApp message.</p>
-            <a href="#/shop" onClick="{{ closeList }}" style="display:inline-block;background:linear-gradient(150deg,#f0d38a,#c9922e);color:#130f04;border-radius:999px;padding:13px 26px;font-size:14px;font-weight:750">Browse the collection</a>
+            <a href="/collections/shop/" data-app-route="#/shop" onClick="{{ closeList }}" style="display:inline-block;background:linear-gradient(150deg,#f0d38a,#c9922e);color:#130f04;border-radius:999px;padding:13px 26px;font-size:14px;font-weight:750">Browse the collection</a>
           </div>
         </sc-if>
         <sc-for list="{{ listItems }}" as="li" hint-placeholder-count="0">
@@ -1031,7 +1032,7 @@
       <sc-if value="{{ hasResults }}" hint-placeholder-val="{{ false }}">
         <div style="margin-top:10px;background:#101015;border:1px solid rgba(212,175,90,.2);border-radius:18px;padding:8px;max-height:52vh;overflow-y:auto">
           <sc-for list="{{ results }}" as="r" hint-placeholder-count="0">
-            <a href="{{ r.href }}" onClick="{{ closeSearch }}" style="display:flex;align-items:center;gap:13px;padding:9px 10px;border-radius:12px;transition:background .2s" style-hover="background:rgba(212,175,90,.1)">
+            <a href="{{ r.href }}" data-app-route="{{ r.appRoute }}" onClick="{{ closeSearch }}" style="display:flex;align-items:center;gap:13px;padding:9px 10px;border-radius:12px;transition:background .2s" style-hover="background:rgba(212,175,90,.1)">
               <img src="{{ r.img }}" alt="" loading="lazy" decoding="async" style="width:46px;height:46px;border-radius:10px;object-fit:cover;flex-shrink:0;background:#0e0e13">
               <span style="display:flex;flex-direction:column;gap:2px;min-width:0">
                 <span style="font-size:14.5px;font-weight:650;letter-spacing:-.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ r.name }}</span>
@@ -1404,7 +1405,7 @@ class Component extends DCLogic {
   wa(text) { return 'https://wa.me/' + this.wnum + '?text=' + encodeURIComponent(text); }
 
   syncDocumentMeta() {
-    const root = /^https?:$/.test(location.protocol) ? location.origin + '/' : 'https://www.kross-one-gadgets.co.ug/';
+    const root = 'https://www.kross-one-gadgets.co.ug/';
     const title = 'Kross One Gadgets | Apple & Samsung Store | Lugogo Mall';
     document.title = title;
     const canonical = document.getElementById('canonical-url');
@@ -1619,10 +1620,21 @@ class Component extends DCLogic {
 
   catLabel(c) { const f = this.CATS.find((x) => x[0] === c); return f ? f[1] : c; }
 
+  collectionSlug(c) {
+    const slugs = {
+      mobiles: 'mobiles', laptops: 'laptops', tablets: 'ipads-tablets', audio: 'audio', watches: 'watches',
+      gaming: 'gaming', 'game-discs': 'gaming', bags: 'bags-travel', travel: 'bags-travel', lifestyle: 'fragrance-grooming'
+    };
+    return slugs[c] || 'shop';
+  }
+
+  collectionHref(c) { return '/collections/' + this.collectionSlug(c) + '/'; }
+
   deco(p) {
     return {
       ...p,
-      href: '#/p/' + p.id,
+      href: '/products/' + encodeURIComponent(p.id) + '/',
+      appRoute: '#/p/' + p.id,
       catLabel: this.catLabel(p.cat),
       tag: p.tag || '',
       imgPosition: p.pos || 'center',
@@ -1706,7 +1718,7 @@ class Component extends DCLogic {
       ],
 
       categories: this.CATS.map(([id, name]) => ({
-        name, href: '#/shop/' + id,
+        name, href: this.collectionHref(id), appRoute: '#/shop/' + id,
         count: this.P.filter((p) => p.cat === id).length,
         img: (categoryCovers[id] || this.P.find((p) => p.cat === id) || {}).img,
         imgPosition: (categoryCovers[id] || this.P.find((p) => p.cat === id) || {}).pos || 'center'
@@ -1717,7 +1729,7 @@ class Component extends DCLogic {
         const pair = this.CATS.find((c) => c[0] === id);
         const first = this.P.find((p) => p.cat === id) || {};
         const count = this.P.filter((p) => p.cat === id).length;
-        return { name: pair ? pair[1] : id, href: '#/shop/' + id, img: first.img || '', imgPosition: first.pos || 'center', countLabel: count + (count === 1 ? ' item' : ' items') + ' online' };
+        return { name: pair ? pair[1] : id, href: this.collectionHref(id), appRoute: '#/shop/' + id, img: first.img || '', imgPosition: first.pos || 'center', countLabel: count + (count === 1 ? ' item' : ' items') + ' online' };
       }),
 
       featured: featuredIds.map(byId).filter(Boolean).map((p) => this.deco(p)),
@@ -1778,16 +1790,24 @@ class Component extends DCLogic {
       ],
 
       menuLinks: [
-        { label: 'Home', href: '#/' }, { label: 'Game Discs', href: '#/shop/game-discs' }, { label: 'Laptop Bags', href: '#/shop/bags' },
-        { label: 'Travel & Trolley Bags', href: '#/shop/travel' }, { label: 'Mobiles', href: '#/shop/mobiles' }, { label: 'Laptops', href: '#/shop/laptops' }, { label: 'iPads & Tablets', href: '#/shop/tablets' },
-        { label: 'Audio', href: '#/shop/audio' }, { label: 'Smart Watches', href: '#/shop/watches' }, { label: 'Fragrance & Grooming', href: '#/shop/lifestyle' },
-        { label: 'See Inside', href: '#/technology' }, { label: 'Visit the Shop', href: '#/visit' }
+        { label: 'Home', href: '/', appRoute: '#/' },
+        { label: 'Game Discs', href: this.collectionHref('game-discs'), appRoute: '#/shop/game-discs' },
+        { label: 'Laptop Bags', href: this.collectionHref('bags'), appRoute: '#/shop/bags' },
+        { label: 'Travel & Trolley Bags', href: this.collectionHref('travel'), appRoute: '#/shop/travel' },
+        { label: 'Mobiles', href: this.collectionHref('mobiles'), appRoute: '#/shop/mobiles' },
+        { label: 'Laptops', href: this.collectionHref('laptops'), appRoute: '#/shop/laptops' },
+        { label: 'iPads & Tablets', href: this.collectionHref('tablets'), appRoute: '#/shop/tablets' },
+        { label: 'Audio', href: this.collectionHref('audio'), appRoute: '#/shop/audio' },
+        { label: 'Smart Watches', href: this.collectionHref('watches'), appRoute: '#/shop/watches' },
+        { label: 'Fragrance & Grooming', href: this.collectionHref('lifestyle'), appRoute: '#/shop/lifestyle' },
+        { label: 'See Inside', href: '/#inside', appRoute: '#/technology' },
+        { label: 'Visit the Shop', href: '/collections/visit/', appRoute: '#/visit' }
       ].map((m, i) => ({ ...m, no: String(i + 1).padStart(2, '0') })),
 
       footerCols: [
-        { title: 'Shop', items: this.CATS.slice(0, 5).map(([id, label]) => ({ label, href: '#/shop/' + id })) },
-        { title: 'Kross One', items: [{ label: 'See inside', href: '#/technology' }, { label: 'Visit the shop', href: '#/visit' }, { label: 'Our promise', href: '#/' }, { label: 'WhatsApp us', href: this.wa('Hello Kross One 👋') }] },
-        { title: 'Find us', items: [{ label: 'Shop #18A, Lugogo Mall', href: '#/visit' }, { label: '0752 117 111', href: 'tel:+256752117111' }, { label: '0750 000 981', href: 'tel:+256750000981' }, { label: 'kross1gadgets@gmail.com', href: 'mailto:kross1gadgets@gmail.com' }] }
+        { title: 'Shop', items: this.CATS.slice(0, 5).map(([id, label]) => ({ label, href: this.collectionHref(id), appRoute: '#/shop/' + id })) },
+        { title: 'Kross One', items: [{ label: 'See inside', href: '/#inside', appRoute: '#/technology' }, { label: 'Visit the shop', href: '/collections/visit/', appRoute: '#/visit' }, { label: 'Our promise', href: '/', appRoute: '#/' }, { label: 'WhatsApp us', href: this.wa('Hello Kross One 👋'), appRoute: '' }] },
+        { title: 'Find us', items: [{ label: 'Shop #18A, Lugogo Mall', href: '/collections/visit/', appRoute: '#/visit' }, { label: '0752 117 111', href: 'tel:+256752117111', appRoute: '' }, { label: '0750 000 981', href: 'tel:+256750000981', appRoute: '' }, { label: 'kross1gadgets@gmail.com', href: 'mailto:kross1gadgets@gmail.com', appRoute: '' }] }
       ]
     };
   }
