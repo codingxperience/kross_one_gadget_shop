@@ -129,13 +129,18 @@
     @keyframes k-dash { to { stroke-dashoffset: -32; } }
     @keyframes k-blink { 0%,100% { opacity: 1; } 50% { opacity: .25; } }
     @keyframes k-drop { 0% { transform: translateY(0) rotate(0deg); opacity: 0; } 18% { opacity: 1; } 82% { opacity: 1; } 100% { transform: translateY(46px) rotate(180deg); opacity: 0; } }
-    @keyframes k-orbA { 0% { transform: translate(-50%,-50%) translate3d(-52%,0,0) scale(.78); z-index: 1; } 25% { transform: translate(-50%,-50%) translate3d(0,-13%,0) scale(.96); z-index: 1; } 50% { transform: translate(-50%,-50%) translate3d(52%,0,0) scale(1.18); z-index: 3; } 75% { transform: translate(-50%,-50%) translate3d(0,13%,0) scale(.96); z-index: 3; } 100% { transform: translate(-50%,-50%) translate3d(-52%,0,0) scale(.78); z-index: 1; } }
-    @keyframes k-orbB { 0% { transform: translate(-50%,-50%) translate3d(52%,0,0) scale(1.18); z-index: 3; } 25% { transform: translate(-50%,-50%) translate3d(0,13%,0) scale(.96); z-index: 3; } 50% { transform: translate(-50%,-50%) translate3d(-52%,0,0) scale(.78); z-index: 1; } 75% { transform: translate(-50%,-50%) translate3d(0,-13%,0) scale(.96); z-index: 1; } 100% { transform: translate(-50%,-50%) translate3d(52%,0,0) scale(1.18); z-index: 3; } }
-    @keyframes k-orbC { 0% { transform:translate(-50%,-50%) translate3d(0,14%,0) scale(.9);z-index:2 } 25% { transform:translate(-50%,-50%) translate3d(-43%,-7%,0) scale(.78);z-index:1 } 50% { transform:translate(-50%,-50%) translate3d(0,-18%,0) scale(.96);z-index:2 } 75% { transform:translate(-50%,-50%) translate3d(43%,-7%,0) scale(1.13);z-index:3 } 100% { transform:translate(-50%,-50%) translate3d(0,14%,0) scale(.9);z-index:2 } }
+    @keyframes k-orbA { 0%,100% { transform:translate(-50%,-50%) translate3d(-64%,12%,0) scale(.8);z-index:1 } 33.333% { transform:translate(-50%,-50%) translate3d(0,-24%,0) scale(.98);z-index:2 } 66.666% { transform:translate(-50%,-50%) translate3d(64%,12%,0) scale(1.13);z-index:3 } }
+    @keyframes k-orbB { 0%,100% { transform:translate(-50%,-50%) translate3d(0,-24%,0) scale(.98);z-index:2 } 33.333% { transform:translate(-50%,-50%) translate3d(64%,12%,0) scale(1.13);z-index:3 } 66.666% { transform:translate(-50%,-50%) translate3d(-64%,12%,0) scale(.8);z-index:1 } }
+    @keyframes k-orbC { 0%,100% { transform:translate(-50%,-50%) translate3d(64%,12%,0) scale(1.13);z-index:3 } 33.333% { transform:translate(-50%,-50%) translate3d(-64%,12%,0) scale(.8);z-index:1 } 66.666% { transform:translate(-50%,-50%) translate3d(0,-24%,0) scale(.98);z-index:2 } }
     @keyframes k-tilt { 0%,100% { transform: rotate(-3.5deg); } 50% { transform: rotate(3.5deg); } }
     @keyframes k-panel-left { from { opacity: .55; transform: translateX(-26px); } to { opacity: 1; transform: none; } }
     @keyframes k-panel-right { from { opacity: .55; transform: translateX(26px); } to { opacity: 1; transform: none; } }
     [data-mobile-orbit] { display: none; }
+    [data-fold-media] { width:100%;height:100%;object-fit:contain;display:block;opacity:.9;-webkit-mask-image:radial-gradient(ellipse at center,#000 38%,rgba(0,0,0,.96) 62%,transparent 92%);mask-image:radial-gradient(ellipse at center,#000 38%,rgba(0,0,0,.96) 62%,transparent 92%);filter:saturate(1.08) contrast(1.04) drop-shadow(0 40px 70px rgba(0,0,0,.72)); }
+    [data-fold-tone="dark"] { mix-blend-mode:screen; }
+    [data-fold-tone="light"] { mix-blend-mode:multiply;filter:saturate(1.2) contrast(1.08) brightness(1.28) drop-shadow(0 40px 70px rgba(0,0,0,.72)); }
+    [data-device-panel] { transition:opacity .35s ease,filter .35s ease,box-shadow .35s ease; }
+    [data-brand-logo] { width:clamp(30px,3.3vw,42px);height:clamp(30px,3.3vw,42px);object-fit:cover;border-radius:50%;border:1px solid rgba(212,175,90,.42);box-shadow:0 0 0 3px rgba(212,175,90,.05),0 8px 22px rgba(0,0,0,.45);flex-shrink:0; }
     [data-menubtn]:focus-visible, [data-filterbtn]:focus-visible, [data-viewbtn]:focus-visible, [data-listbtn]:focus-visible { outline: 2px solid #e3bd6a; outline-offset: 3px; }
     [data-shop-grid][data-viewmode="list"] { grid-template-columns: 1fr !important; max-width: 1040px; }
     [data-shop-grid][data-viewmode="list"] [data-prod-card] { display: grid !important; grid-template-columns: minmax(180px,260px) 1fr; }
@@ -169,11 +174,12 @@
       [data-util-window] { flex: 1 1 auto !important; width: 100%; min-width: 0; }
       [data-util-track], [data-util-row] { width: 100%; }
       [data-util-row] { justify-content: center; }
-      [data-util-message] { display: block !important; max-width: calc(100vw - 22px); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align: center; }
+      [data-util-message] { display:flex !important;align-items:center;justify-content:center;max-width:calc(100vw - 20px);min-height:30px;overflow:visible;text-overflow:clip;white-space:normal !important;text-wrap:balance;text-align:center;line-height:1.14;font-size:clamp(7.5px,2.55vw,9.5px) !important;letter-spacing:clamp(.055em,.2vw,.12em) !important;padding:2px 7px !important;box-sizing:border-box; }
       [data-footlinks] { flex: 1 1 100% !important; justify-content: center !important; }
       [data-footcols] > div:first-child { grid-column: 1 / -1; }
       [data-locksub] { display: none; }
-      [data-brandlock] span[style*="letter-spacing:.02em"] { font-size: 16px !important; }
+      [data-brand-logo] { width:28px;height:28px; }
+      [data-brand-copy] > span:first-child { font-size:15px !important; }
       [data-searchbtn] { display: none !important; }
       [data-listlabel] { display: none; }
       [data-listbtn] { padding: 0 !important; width: 38px; }
@@ -205,7 +211,7 @@
       [data-authorised] { margin-top: 18px !important; }
     }
     @media (max-width: 480px) {
-      [data-util] [data-util-track] span span, [data-util-sizer] { font-size: 9.5px !important; letter-spacing: .12em !important; }
+      [data-util-sizer] { font-size:8.5px !important;letter-spacing:.08em !important; }
       [data-hero-tag] { letter-spacing: .18em; }
       [data-authorised] { gap: 10px !important; }
       [data-shop-grid][data-viewmode="list"] [data-prod-card] { grid-template-columns: 112px 1fr; }
@@ -244,16 +250,16 @@
     <div data-util-center style="flex:1;min-width:0;display:flex;align-items:center;justify-content:center;gap:clamp(6px,1vw,12px);padding:0 clamp(7px,1.1vw,12px);overflow:hidden">
       <span data-util-campaign style="flex:0 0 auto;display:inline-block;transform-origin:left center;will-change:transform;font-family:'Archivo',sans-serif;font-variation-settings:'wdth' 108;font-size:11px;font-weight:850;letter-spacing:.15em;text-transform:uppercase;white-space:nowrap;background:linear-gradient(178deg,#fff6d8,#e8c877 34%,#c9922e 74%,#f0d590);-webkit-background-clip:text;background-clip:text;color:transparent">Galaxy Z Fold 8 Series</span>
       <span data-util-sep aria-hidden="true" style="flex-shrink:0;color:#c9922e;font-size:9px">✦</span>
-      <span data-util-window style="position:relative;flex:0 0 auto;height:38px;overflow:hidden">
-        <span data-util-sizer aria-hidden="true" style="display:block;visibility:hidden;height:0;font-size:10.5px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;white-space:nowrap">Authorised Apple &amp; Samsung</span>
+      <span data-util-window style="position:relative;flex:1 1 300px;max-width:340px;min-width:0;height:38px;overflow:hidden">
+        <span data-util-sizer aria-hidden="true" style="display:block;visibility:hidden;height:0;font-size:10.5px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;white-space:nowrap">Official warranty + Samsung Care+</span>
         <span data-util-track style="position:absolute;left:0;top:0;display:flex;flex-direction:column;transition:transform .62s cubic-bezier(.22,.9,.25,1);will-change:transform">
-          <span data-util-row style="flex-shrink:0;height:38px;display:flex;align-items:center;white-space:nowrap;overflow:hidden"><span data-util-message style="font-size:10.5px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:#8d8474">Pre-booking started</span></span>
-          <span data-util-row style="flex-shrink:0;height:38px;display:flex;align-items:center;white-space:nowrap;overflow:hidden"><span data-util-message style="display:flex;align-items:center;background:rgba(212,175,90,.16);border:1px solid rgba(212,175,90,.42);border-radius:999px;padding:4px 12px;font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#f0d590">Be the first to own</span></span>
-          <span data-util-row style="flex-shrink:0;height:38px;display:flex;align-items:center;white-space:nowrap;overflow:hidden"><span data-util-message style="font-size:10.5px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:#8d8474">Authorised Apple &amp; Samsung</span></span>
-          <span data-util-row style="flex-shrink:0;height:38px;display:flex;align-items:center;white-space:nowrap;overflow:hidden"><span data-util-message style="font-size:10.5px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:#8d8474">Official warranty + Samsung Care+</span></span>
-          <span data-util-row style="flex-shrink:0;height:38px;display:flex;align-items:center;white-space:nowrap;overflow:hidden"><span data-util-message style="display:flex;align-items:center;background:rgba(212,175,90,.16);border:1px solid rgba(212,175,90,.42);border-radius:999px;padding:4px 12px;font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#f0d590">Limited stock — don’t miss out</span></span>
-          <span data-util-row style="flex-shrink:0;height:38px;display:flex;align-items:center;white-space:nowrap;overflow:hidden"><span data-util-message style="font-size:10.5px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:#8d8474">Shop #18A · Lugogo Mall · Kampala</span></span>
-          <span data-util-row style="flex-shrink:0;height:38px;display:flex;align-items:center;white-space:nowrap;overflow:hidden"><span data-util-message style="font-size:10.5px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:#8d8474">Pre-booking started</span></span>
+          <span data-util-row style="flex-shrink:0;width:100%;height:38px;display:flex;align-items:center;justify-content:center;white-space:nowrap;overflow:hidden"><span data-util-message style="font-size:10.5px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:#8d8474">Pre-booking started</span></span>
+          <span data-util-row style="flex-shrink:0;width:100%;height:38px;display:flex;align-items:center;justify-content:center;white-space:nowrap;overflow:hidden"><span data-util-message style="display:flex;align-items:center;background:rgba(212,175,90,.16);border:1px solid rgba(212,175,90,.42);border-radius:999px;padding:4px 12px;font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#f0d590">Be the first to own</span></span>
+          <span data-util-row style="flex-shrink:0;width:100%;height:38px;display:flex;align-items:center;justify-content:center;white-space:nowrap;overflow:hidden"><span data-util-message style="font-size:10.5px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:#8d8474">Authorised Apple &amp; Samsung</span></span>
+          <span data-util-row style="flex-shrink:0;width:100%;height:38px;display:flex;align-items:center;justify-content:center;white-space:nowrap;overflow:hidden"><span data-util-message style="font-size:10.5px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:#8d8474">Official warranty + Samsung Care+</span></span>
+          <span data-util-row style="flex-shrink:0;width:100%;height:38px;display:flex;align-items:center;justify-content:center;white-space:nowrap;overflow:hidden"><span data-util-message style="display:flex;align-items:center;background:rgba(212,175,90,.16);border:1px solid rgba(212,175,90,.42);border-radius:999px;padding:4px 12px;font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#f0d590">Limited stock — don’t miss out</span></span>
+          <span data-util-row style="flex-shrink:0;width:100%;height:38px;display:flex;align-items:center;justify-content:center;white-space:nowrap;overflow:hidden"><span data-util-message style="font-size:10.5px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:#8d8474">Shop #18A · Lugogo Mall · Kampala</span></span>
+          <span data-util-row style="flex-shrink:0;width:100%;height:38px;display:flex;align-items:center;justify-content:center;white-space:nowrap;overflow:hidden"><span data-util-message style="font-size:10.5px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:#8d8474">Pre-booking started</span></span>
         </span>
       </span>
     </div>
@@ -276,20 +282,23 @@
         <a href="#/visit" data-navlink style="font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#b8b1a2;transition:color .25s" style-hover="color:#e3bd6a">Visit</a>
       </nav>
 
-      <a data-brandlock href="#/" aria-label="Kross One home" style="display:flex;flex-direction:column;align-items:center;gap:2px;justify-self:center;padding:0 4px;min-width:0;overflow:hidden">
-        <span style="display:flex;align-items:baseline;gap:.16em;font-family:'Archivo',sans-serif;font-variation-settings:'wdth' 116;font-weight:900;font-size:clamp(17px,2.1vw,25px);letter-spacing:.02em;line-height:1">
-          <span style="background:linear-gradient(178deg,#fff6d8 0%,#e8c877 30%,#c9922e 62%,#9c6d18 82%,#f0d590 100%);-webkit-background-clip:text;background-clip:text;color:transparent">KROSS</span>
-          <span style="background:linear-gradient(178deg,#ffffff 0%,#dfe4ea 32%,#a4acb6 66%,#79808a 84%,#eef1f5 100%);-webkit-background-clip:text;background-clip:text;color:transparent">ONE</span>
-          <span style="font-size:.46em;letter-spacing:.18em;color:#8d8474">GADGETS</span>
-        </span>
-        <span data-locksub style="display:flex;align-items:center;gap:6px;padding-left:.3em">
-          <span data-lockrule aria-hidden="true" style="display:block;width:14px;height:1px;background:linear-gradient(90deg,transparent,rgba(212,175,90,.8))"></span>
-          <span style="display:flex;align-items:center;gap:4px;font-size:clamp(6.2px,.78vw,7.6px);font-weight:800;letter-spacing:.24em;color:#a39a86;text-transform:uppercase;white-space:nowrap">
-            <span data-lockfull>Apple &amp; Samsung Store</span>
-            <span data-lockfull style="color:#c9922e">·</span>
-            Lugogo Mall
+      <a data-brandlock href="#/" aria-label="Kross One Gadgets home" style="display:flex;align-items:center;gap:clamp(7px,1vw,11px);justify-self:center;padding:0 4px;min-width:0;overflow:hidden">
+        <img data-brand-logo src="assets/kross-one-gadgets-logo-square.png" alt="" aria-hidden="true" width="42" height="42" decoding="async">
+        <span data-brand-copy style="display:flex;flex-direction:column;align-items:center;gap:2px;min-width:0">
+          <span style="display:flex;align-items:baseline;gap:.16em;font-family:'Archivo',sans-serif;font-variation-settings:'wdth' 116;font-weight:900;font-size:clamp(17px,2.1vw,25px);letter-spacing:.02em;line-height:1">
+            <span style="background:linear-gradient(178deg,#fff6d8 0%,#e8c877 30%,#c9922e 62%,#9c6d18 82%,#f0d590 100%);-webkit-background-clip:text;background-clip:text;color:transparent">KROSS</span>
+            <span style="background:linear-gradient(178deg,#ffffff 0%,#dfe4ea 32%,#a4acb6 66%,#79808a 84%,#eef1f5 100%);-webkit-background-clip:text;background-clip:text;color:transparent">ONE</span>
+            <span style="font-size:.46em;letter-spacing:.18em;color:#8d8474">GADGETS</span>
           </span>
-          <span data-lockrule aria-hidden="true" style="display:block;width:14px;height:1px;background:linear-gradient(90deg,rgba(212,175,90,.8),transparent)"></span>
+          <span data-locksub style="display:flex;align-items:center;gap:6px;padding-left:.3em">
+            <span data-lockrule aria-hidden="true" style="display:block;width:14px;height:1px;background:linear-gradient(90deg,transparent,rgba(212,175,90,.8))"></span>
+            <span style="display:flex;align-items:center;gap:4px;font-size:clamp(6.2px,.78vw,7.6px);font-weight:800;letter-spacing:.24em;color:#a39a86;text-transform:uppercase;white-space:nowrap">
+              <span data-lockfull>Apple &amp; Samsung Store</span>
+              <span data-lockfull style="color:#c9922e">·</span>
+              Lugogo Mall
+            </span>
+            <span data-lockrule aria-hidden="true" style="display:block;width:14px;height:1px;background:linear-gradient(90deg,rgba(212,175,90,.8),transparent)"></span>
+          </span>
         </span>
       </a>
 
@@ -443,15 +452,15 @@
         <div aria-hidden="true" data-fold-word style="position:absolute;left:50%;top:0;height:100%;display:flex;align-items:center;justify-content:center;pointer-events:none;transform:translateX(-50%);will-change:transform">
           <span style="display:block;font-family:'Archivo',sans-serif;font-variation-settings:'wdth' 118;font-weight:900;font-size:clamp(30px,5vw,76px);line-height:.84;letter-spacing:-.05em;white-space:nowrap;writing-mode:vertical-rl;text-orientation:mixed;color:#26262f">GALAXY</span>
         </div>
-        <div data-fold-stage style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:min(720px,90vw);height:100%;transform-origin:50% 50%;will-change:transform">
-          <div data-orb style="position:absolute;left:50%;top:50%;width:min(296px,39vw);height:78%;animation:k-orbA 15s cubic-bezier(.45,0,.55,1) infinite;will-change:transform">
-            <img src="assets/fold-motion-flip-blue.jpeg" alt="Blue Samsung Galaxy foldable phones" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:contain;display:block;opacity:.84;mix-blend-mode:screen;-webkit-mask-image:radial-gradient(ellipse at center,#000 44%,rgba(0,0,0,.9) 64%,transparent 93%);mask-image:radial-gradient(ellipse at center,#000 44%,rgba(0,0,0,.9) 64%,transparent 93%);filter:drop-shadow(0 40px 70px rgba(0,0,0,.75));animation:k-tilt 9s ease-in-out infinite">
+        <div data-fold-stage aria-label="Three distinctive Samsung Galaxy foldable devices in motion" style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:min(820px,94vw);height:100%;transform-origin:50% 50%;will-change:transform">
+          <div data-orb data-fold-device="flip-blue" style="position:absolute;left:50%;top:50%;width:min(288px,34vw);height:72%;animation:k-orbA 18s cubic-bezier(.45,0,.55,1) infinite;will-change:transform">
+            <img data-fold-media data-fold-tone="dark" src="assets/fold-motion-flip-blue.jpeg" alt="Blue Samsung Galaxy Z Flip foldable phones" loading="lazy" decoding="async" style="animation:k-tilt 9s ease-in-out infinite">
           </div>
-          <div data-orb style="position:absolute;left:50%;top:50%;width:min(336px,45vw);height:78%;animation:k-orbB 15s cubic-bezier(.45,0,.55,1) infinite;will-change:transform">
-            <img src="assets/fold-motion-fold-burgundy.jpeg" alt="Burgundy Samsung Galaxy foldable phone" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:contain;display:block;opacity:.82;mix-blend-mode:multiply;-webkit-mask-image:radial-gradient(ellipse at center,#000 44%,rgba(0,0,0,.9) 64%,transparent 93%);mask-image:radial-gradient(ellipse at center,#000 44%,rgba(0,0,0,.9) 64%,transparent 93%);filter:drop-shadow(0 40px 70px rgba(0,0,0,.75));animation:k-tilt 11s ease-in-out infinite reverse">
+          <div data-orb data-fold-device="fold-burgundy" style="position:absolute;left:50%;top:50%;width:min(250px,31vw);height:72%;animation:k-orbB 18s cubic-bezier(.45,0,.55,1) infinite;will-change:transform">
+            <img data-fold-media data-fold-tone="light" src="assets/fold-motion-fold-burgundy.jpeg" alt="Burgundy Samsung Galaxy Z Fold phone" loading="lazy" decoding="async" style="animation:k-tilt 11s ease-in-out infinite reverse">
           </div>
-          <div data-orb style="position:absolute;left:50%;top:50%;width:min(290px,38vw);height:74%;animation:k-orbC 15s cubic-bezier(.45,0,.55,1) infinite;will-change:transform">
-            <video src="assets/fold-motion-galaxy-series.mp4" aria-label="Samsung Galaxy foldable motion" autoplay muted loop playsinline preload="metadata" poster="assets/fold-motion-fold-burgundy.jpeg" style="width:100%;height:100%;object-fit:contain;display:block;opacity:.8;mix-blend-mode:screen;-webkit-mask-image:radial-gradient(ellipse at center,#000 44%,rgba(0,0,0,.88) 64%,transparent 93%);mask-image:radial-gradient(ellipse at center,#000 44%,rgba(0,0,0,.88) 64%,transparent 93%);filter:drop-shadow(0 40px 70px rgba(0,0,0,.75));animation:k-tilt 10s ease-in-out infinite"></video>
+          <div data-orb data-fold-device="galaxy-motion" style="position:absolute;left:50%;top:50%;width:min(310px,36vw);height:70%;animation:k-orbC 18s cubic-bezier(.45,0,.55,1) infinite;will-change:transform">
+            <video data-fold-media data-fold-tone="dark" src="assets/fold-motion-galaxy-series.mp4" aria-label="Samsung Galaxy foldable device motion" autoplay muted loop playsinline preload="metadata" poster="assets/fold-motion-flip-blue.jpeg" style="animation:k-tilt 10s ease-in-out infinite"></video>
           </div>
         </div>
       </div>
@@ -526,8 +535,8 @@
     <section id="inside" data-explode-section style="position:relative;z-index:10;background:#08080b">
       <div style="max-width:1440px;margin:0 auto;padding:clamp(56px,10vh,120px) clamp(16px,3.4vw,44px) clamp(20px,3vh,40px);text-align:center">
         <p data-reveal style="margin:0 0 14px;font-size:11px;font-weight:750;letter-spacing:.42em;color:#c9922e;text-transform:uppercase;opacity:0;transform:translateY(20px);transition:opacity .8s ease,transform .8s cubic-bezier(.2,.8,.2,1)">Interactive · Drag to rotate</p>
-        <h2 data-reveal style="margin:0;font-family:'Archivo',sans-serif;font-variation-settings:'wdth' 108;font-weight:850;font-size:clamp(30px,5.6vw,74px);line-height:1;letter-spacing:-.032em;opacity:0;transform:translateY(24px);transition:opacity .85s ease .06s,transform .85s cubic-bezier(.2,.8,.2,1) .06s">See <span style="background:linear-gradient(174deg,#fffaea,#e0b866 42%,#c9922e 68%,#f5dfa4);-webkit-background-clip:text;background-clip:text;color:transparent">inside</span> the gadget.</h2>
-        <p data-reveal style="margin:16px auto 0;max-width:52ch;font-size:clamp(14px,1.5vw,17px);line-height:1.65;color:#98917f;opacity:0;transform:translateY(20px);transition:opacity .8s ease .12s,transform .8s cubic-bezier(.2,.8,.2,1) .12s">Scroll to take it apart. Drag to spin it. Every layer we sell is a layer we can explain — because we only stock the original.</p>
+        <h2 data-reveal style="margin:0;font-family:'Archivo',sans-serif;font-variation-settings:'wdth' 108;font-weight:850;font-size:clamp(30px,5.6vw,74px);line-height:1;letter-spacing:-.032em;opacity:0;transform:translateY(24px);transition:opacity .85s ease .06s,transform .85s cubic-bezier(.2,.8,.2,1) .06s">Explore the <span style="background:linear-gradient(174deg,#fffaea,#e0b866 42%,#c9922e 68%,#f5dfa4);-webkit-background-clip:text;background-clip:text;color:transparent">real devices.</span></h2>
+        <p data-reveal style="margin:16px auto 0;max-width:58ch;font-size:clamp(14px,1.5vw,17px);line-height:1.65;color:#98917f;opacity:0;transform:translateY(20px);transition:opacity .8s ease .12s,transform .8s cubic-bezier(.2,.8,.2,1) .12s">Manufacturer product media from Apple and Samsung. Scroll to separate the lineup, then drag to rotate and examine each device.</p>
       </div>
 
       <div data-explode-track style="position:relative;height:340vh">
@@ -535,49 +544,31 @@
           <div style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:min(760px,90vw);height:min(760px,90vw);border-radius:50%;background:radial-gradient(circle,rgba(212,175,90,.15),transparent 62%);pointer-events:none"></div>
 
           <div data-stage style="position:relative;width:100%;height:100%;display:flex;align-items:center;justify-content:center;perspective:1600px;cursor:grab;touch-action:pan-y">
-            <div data-phone style="position:relative;width:clamp(150px,19vw,262px);aspect-ratio:9/19;transform-style:preserve-3d;transform:rotateX(-7deg) rotateY(-26deg);will-change:transform">
-
-              <div data-layer="0" data-lname="Titanium chassis" style="position:absolute;inset:0;border-radius:13% / 6.2%;transform-style:preserve-3d">
-                <div data-chassis style="position:absolute;inset:0;border-radius:13% / 6.2%;background:linear-gradient(128deg,#fdf0cd 0%,#dcb96f 14%,#a9812c 32%,#e8cd8c 50%,#7d5d1c 70%,#d8b264 86%,#6d5117 100%);box-shadow:0 60px 110px rgba(0,0,0,.8),inset 0 0 0 1px rgba(255,255,255,.32)"></div>
-                <div style="position:absolute;inset:5% 6%;border-radius:11% / 5.4%;background:linear-gradient(150deg,rgba(0,0,0,.42),rgba(0,0,0,.14))"></div>
+            <div data-phone aria-label="Interactive official device lineup" style="position:relative;width:clamp(260px,46vw,620px);aspect-ratio:1.42/1;transform-style:preserve-3d;transform:rotateX(-7deg) rotateY(-26deg);will-change:transform">
+              <div data-layer="0" data-model-index="0" data-lname="iPhone 17 Pro" data-device-panel style="position:absolute;inset:0;border-radius:clamp(20px,3vw,32px);overflow:hidden;background:#030303;border:1px solid rgba(212,175,90,.32);box-shadow:0 42px 100px rgba(0,0,0,.72),inset 0 1px rgba(255,255,255,.08);transform-style:preserve-3d">
+                <img src="assets/official-apple-iphone17-pro-lineup.jpg" alt="Official Apple iPhone 17 Pro lineup in Deep Blue, Cosmic Orange and Silver" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:contain;display:block">
+                <span style="position:absolute;left:14px;top:14px;padding:6px 10px;border-radius:999px;background:rgba(5,5,7,.72);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.16);font-size:8px;font-weight:850;letter-spacing:.17em;text-transform:uppercase;color:#f2efe7">Official Apple media</span>
+                <span style="position:absolute;left:16px;right:16px;bottom:14px;display:flex;align-items:end;justify-content:space-between;gap:12px"><strong style="font-family:'Archivo',sans-serif;font-size:clamp(16px,2.1vw,26px);letter-spacing:-.025em">iPhone 17 Pro</strong><small style="font-size:9px;font-weight:750;letter-spacing:.14em;text-transform:uppercase;color:#c9922e">A19 Pro</small></span>
               </div>
 
-              <div data-layer="1" data-lname="All-day battery" style="position:absolute;inset:14% 12% 12%;border-radius:8px;background:linear-gradient(150deg,#1d2b23,#0c1611 55%,#16221b);box-shadow:0 24px 56px rgba(0,0,0,.6),inset 0 0 0 1px rgba(120,200,150,.16)">
-                <div style="position:absolute;left:9%;top:8%;right:9%;height:2px;background:rgba(120,200,150,.3)"></div>
-                <div style="position:absolute;left:9%;bottom:9%;font-size:7px;letter-spacing:.24em;color:rgba(140,220,170,.6);font-weight:700">4685 mAh</div>
+              <div data-layer="1" data-model-index="1" data-lname="Galaxy S26 Ultra" data-device-panel style="position:absolute;inset:0;border-radius:clamp(20px,3vw,32px);overflow:hidden;background:#151528;border:1px solid rgba(212,175,90,.32);box-shadow:0 42px 100px rgba(0,0,0,.72),inset 0 1px rgba(255,255,255,.08);transform-style:preserve-3d">
+                <img src="assets/official-samsung-galaxy-s26-ultra-share.jpg" alt="Official Samsung Galaxy S26 Ultra camera and S Pen visual" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;display:block">
+                <span style="position:absolute;left:14px;top:14px;padding:6px 10px;border-radius:999px;background:rgba(5,5,7,.72);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.16);font-size:8px;font-weight:850;letter-spacing:.17em;text-transform:uppercase;color:#f2efe7">Official Samsung media</span>
+                <span style="position:absolute;left:0;right:0;bottom:0;padding:44px 16px 14px;background:linear-gradient(transparent,rgba(5,5,7,.9));display:flex;align-items:end;justify-content:space-between;gap:12px"><strong style="font-family:'Archivo',sans-serif;font-size:clamp(16px,2.1vw,26px);letter-spacing:-.025em">Galaxy S26 Ultra</strong><small style="font-size:9px;font-weight:750;letter-spacing:.14em;text-transform:uppercase;color:#e5c77b">200MP</small></span>
               </div>
 
-              <div data-layer="2" data-lname="A19 Pro logic board" style="position:absolute;inset:10% 14% 16%;border-radius:6px;background:repeating-linear-gradient(52deg,#0d1a14 0 6px,#122019 6px 7px),linear-gradient(160deg,#132119,#0a130e);box-shadow:0 22px 52px rgba(0,0,0,.6),inset 0 0 0 1px rgba(212,175,90,.24)">
-                <div style="position:absolute;left:16%;top:12%;width:44%;aspect-ratio:1/1;border-radius:3px;background:linear-gradient(140deg,#3b3323,#171208);box-shadow:inset 0 0 0 1px rgba(212,175,90,.42)"></div>
-                <div style="position:absolute;right:14%;top:34%;width:24%;aspect-ratio:1/1.4;border-radius:2px;background:linear-gradient(140deg,#2e2a1c,#12100a);box-shadow:inset 0 0 0 1px rgba(212,175,90,.3)"></div>
-                <div style="position:absolute;left:20%;bottom:14%;width:56%;height:9%;border-radius:2px;background:linear-gradient(90deg,#2a2617,#151208);box-shadow:inset 0 0 0 1px rgba(212,175,90,.26)"></div>
+              <div data-layer="2" data-model-index="2" data-lname="Galaxy Z Fold8" data-device-panel style="position:absolute;inset:0;border-radius:clamp(20px,3vw,32px);overflow:hidden;background:#757394;border:1px solid rgba(212,175,90,.32);box-shadow:0 42px 100px rgba(0,0,0,.72),inset 0 1px rgba(255,255,255,.08);transform-style:preserve-3d">
+                <img src="assets/official-samsung-fold8-hero.jpg" alt="Official Samsung Galaxy Z Fold8 held in one hand" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;object-position:center;display:block">
+                <span style="position:absolute;left:14px;top:14px;padding:6px 10px;border-radius:999px;background:rgba(5,5,7,.72);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.16);font-size:8px;font-weight:850;letter-spacing:.17em;text-transform:uppercase;color:#f2efe7">Official Samsung media</span>
+                <span style="position:absolute;left:0;right:0;bottom:0;padding:44px 16px 14px;background:linear-gradient(transparent,rgba(5,5,7,.9));display:flex;align-items:end;justify-content:space-between;gap:12px"><strong style="font-family:'Archivo',sans-serif;font-size:clamp(16px,2.1vw,26px);letter-spacing:-.025em">Galaxy Z Fold8</strong><small style="font-size:9px;font-weight:750;letter-spacing:.14em;text-transform:uppercase;color:#e5c77b">8.0-inch</small></span>
               </div>
-
-              <div data-layer="3" data-lname="48MP Fusion camera" style="position:absolute;left:8%;top:5%;width:44%;aspect-ratio:1/1;border-radius:26%;background:linear-gradient(140deg,#3d3423,#191509 60%,#2c2618);box-shadow:0 20px 46px rgba(0,0,0,.66),inset 0 0 0 1px rgba(212,175,90,.4);display:grid;grid-template-columns:1fr 1fr;place-items:center;padding:9%;gap:6%">
-                <span style="width:100%;aspect-ratio:1/1;border-radius:50%;background:radial-gradient(circle at 34% 30%,#7f9ab8,#0a0d12 62%);box-shadow:inset 0 0 0 1.5px rgba(212,175,90,.6)"></span>
-                <span style="width:100%;aspect-ratio:1/1;border-radius:50%;background:radial-gradient(circle at 34% 30%,#7f9ab8,#0a0d12 62%);box-shadow:inset 0 0 0 1.5px rgba(212,175,90,.6)"></span>
-                <span style="width:100%;aspect-ratio:1/1;border-radius:50%;background:radial-gradient(circle at 34% 30%,#7f9ab8,#0a0d12 62%);box-shadow:inset 0 0 0 1.5px rgba(212,175,90,.6)"></span>
-                <span style="width:56%;aspect-ratio:1/1;border-radius:50%;background:radial-gradient(circle,#f5e6b8,#8a6a1e);box-shadow:0 0 12px rgba(245,230,184,.5)"></span>
-              </div>
-
-              <div data-layer="4" data-lname="ProMotion 120Hz display" style="position:absolute;inset:2.6% 3.2%;border-radius:11% / 5.4%;overflow:hidden;background:linear-gradient(168deg,#0a0f1c,#060810 48%,#0c1322);box-shadow:0 26px 60px rgba(0,0,0,.62),inset 0 0 0 1px rgba(150,180,230,.16)">
-                <div style="position:absolute;inset:0;background:linear-gradient(122deg,rgba(120,160,255,.16) 0%,transparent 32%,transparent 66%,rgba(212,175,90,.12) 100%)"></div>
-                <div style="position:absolute;left:50%;top:3.2%;transform:translateX(-50%);width:32%;height:3.4%;border-radius:999px;background:#000"></div>
-                <div style="position:absolute;left:12%;right:12%;bottom:16%;display:flex;flex-direction:column;gap:7px">
-                  <span style="height:5px;border-radius:99px;background:rgba(255,255,255,.16)"></span>
-                  <span style="height:5px;width:70%;border-radius:99px;background:rgba(255,255,255,.1)"></span>
-                </div>
-              </div>
-
-              <div data-layer="5" data-lname="Ceramic Shield glass" style="position:absolute;inset:1.4% 1.8%;border-radius:12% / 5.8%;background:linear-gradient(128deg,rgba(255,255,255,.24) 0%,rgba(255,255,255,.05) 26%,rgba(255,255,255,0) 48%,rgba(255,255,255,.09) 72%,rgba(255,255,255,.3) 100%);box-shadow:inset 0 0 0 1px rgba(255,255,255,.32);pointer-events:none"></div>
-
             </div>
 
             <div data-hotspots style="position:absolute;inset:0;pointer-events:none"></div>
           </div>
 
           <div data-finishes style="position:absolute;left:50%;bottom:clamp(18px,4.5vh,52px);transform:translateX(-50%);display:flex;align-items:center;gap:9px;background:rgba(14,14,19,.82);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid rgba(212,175,90,.24);border-radius:999px;padding:8px 10px;z-index:6">
-            <span style="font-size:9.5px;font-weight:750;letter-spacing:.2em;color:#8d8474;text-transform:uppercase;padding-left:8px">Finish</span>
+            <span style="font-size:9.5px;font-weight:750;letter-spacing:.2em;color:#8d8474;text-transform:uppercase;padding-left:8px">Model</span>
             <sc-for list="{{ finishes }}" as="f" hint-placeholder-count="3">
               <button onClick="{{ f.pick }}" title="{{ f.name }}" aria-label="{{ f.name }}" style="{{ f.btnStyle }}"></button>
             </sc-for>
@@ -585,7 +576,7 @@
           </div>
 
           <div data-explode-progress style="position:absolute;left:clamp(14px,3vw,44px);top:50%;transform:translateY(-50%);display:flex;flex-direction:column;align-items:center;gap:10px;z-index:6">
-            <span style="font-size:9px;font-weight:700;letter-spacing:.24em;color:#6f6a5f;writing-mode:vertical-rl;text-transform:uppercase">Exploded</span>
+            <span style="font-size:9px;font-weight:700;letter-spacing:.24em;color:#6f6a5f;writing-mode:vertical-rl;text-transform:uppercase">Lineup</span>
             <span style="position:relative;width:2px;height:clamp(90px,16vh,150px);background:rgba(212,175,90,.16);border-radius:99px;overflow:hidden">
               <span data-explode-bar style="position:absolute;left:0;top:0;width:100%;height:0%;background:linear-gradient(180deg,#f0d38a,#c9922e)"></span>
             </span>
@@ -1194,9 +1185,9 @@ class Component extends DCLogic {
   ];
 
   FIN = [
-    { name:'Titanium Gold', css:'linear-gradient(128deg,#fdf0cd 0%,#dcb96f 14%,#a9812c 32%,#e8cd8c 50%,#7d5d1c 70%,#d8b264 86%,#6d5117 100%)', sw:'linear-gradient(140deg,#fdf0cd,#c9922e 55%,#7d5d1c)' },
-    { name:'Deep Black', css:'linear-gradient(128deg,#5a5f68 0%,#20242b 16%,#0d1014 36%,#3a4048 52%,#0b0d10 72%,#2c3138 88%,#090b0e 100%)', sw:'linear-gradient(140deg,#5a5f68,#20242b 55%,#0a0c0f)' },
-    { name:'Platinum', css:'linear-gradient(128deg,#ffffff 0%,#dfe4ea 14%,#a4acb6 32%,#f2f5f8 50%,#79808a 70%,#cfd6de 86%,#6d747e 100%)', sw:'linear-gradient(140deg,#ffffff,#b9c1ca 55%,#79808a)' }
+    { name:'iPhone 17 Pro', sw:'linear-gradient(140deg,#17305c,#e77633 55%,#d9d9d5)' },
+    { name:'Galaxy S26 Ultra', sw:'linear-gradient(140deg,#9fa2d7,#5b5d8e 55%,#20233f)' },
+    { name:'Galaxy Z Fold8', sw:'linear-gradient(140deg,#d5d0ec,#7d789d 55%,#343145)' }
   ];
 
   TYPE = ['iPhone 17 Pro Max 256GB', 'iPhone 17 Pro Cosmic Orange', 'iPhone 17 256GB', 'Samsung Galaxy S26 Ultra 1TB', 'Samsung Galaxy S26 Ultra Black 512GB', 'Samsung Galaxy S25 256GB', 'Galaxy Z Fold8 Ultra', 'Galaxy Z Fold8 512GB', 'Galaxy Z Flip8', 'MacBook Air 13-inch M5', 'MacBook Air 15-inch M5', 'MacBook Pro 14-inch M5 Pro', 'MacBook Pro 16-inch M5 Max', 'iPad Pro 11-inch M5', 'iPad Pro 13-inch M5', 'iPad Air 11-inch M4', 'iPad Air 13-inch M4', 'iPad mini A17 Pro', 'iPad 11-inch A16', 'RIDE 5 for PlayStation 5', 'EA SPORTS FC 26 game disc', 'Super Mario Party Jamboree', 'ThinkPad Professional 16-inch Topload', 'Lenovo T210 laptop bag', 'Pierre Cardin 72cm trolley case', 'HP OmniBook X Flip 14-fm0013dx', 'HP Smart Tank 580 printer', 'Apple Watch Ultra 3 49mm', 'Samsung Galaxy Watch8 44mm Silver', 'HUAWEI WATCH GT 6 Pro', 'HUAWEI WATCH Ultimate 2', 'Green Lion Strive Smart Watch', 'Braun Series 5 51-B1000s', 'Philips Trimmer 5000 MG5921/15', 'JBL PartyBox Stage 320', 'JBL Tune 770NC Headphones', 'Bose QuietComfort Ultra Headphones', 'Bose SoundLink Max Speaker', 'Ray-Ban Meta Smart Glasses', 'Powerology portable projector', 'Porodo Sovo 10000mAh MagSafe Power Bank', 'Creed Viking Cologne', 'Bleu de Chanel Eau de Parfum', 'Dior Sauvage Eau de Parfum', 'Valentino Donna Born in Roma'];
@@ -1653,8 +1644,8 @@ class Component extends DCLogic {
     const host = document.querySelector('[data-hotspots]');
     if (!host || host.dataset.built) return;
     host.dataset.built = '1';
-    const names = ['Ceramic Shield glass', 'ProMotion 120Hz display', '48MP Fusion camera', 'A19 Pro logic board', 'All-day battery', 'Titanium chassis'];
-    const pos = [[8, 16], [76, 24], [10, 40], [78, 54], [12, 68], [74, 80]];
+    const names = ['iPhone 17 Pro', 'Galaxy S26 Ultra', 'Galaxy Z Fold8'];
+    const pos = [[8, 24], [77, 49], [10, 74]];
     host.innerHTML = names.map((n, i) => {
       const left = pos[i][0], top = pos[i][1], right = left > 50;
       return '<div data-hs="' + i + '" style="position:absolute;left:' + left + '%;top:' + top + '%;max-width:min(210px,26vw);opacity:0;transform:translateY(10px);transition:opacity .5s ease,transform .5s cubic-bezier(.2,.8,.2,1);text-align:' + (right ? 'left' : 'right') + '">' +
@@ -1663,17 +1654,22 @@ class Component extends DCLogic {
         '<span style="height:1px;flex:1;background:linear-gradient(' + (right ? '90deg' : '270deg') + ',rgba(212,175,90,.7),rgba(212,175,90,0))"></span>' +
         '</div>' +
         '<div style="font-family:Archivo,sans-serif;font-size:clamp(11px,1.15vw,14px);font-weight:750;letter-spacing:-.01em;color:#f2efe7;margin-top:7px;line-height:1.3">' + n + '</div>' +
-        '<div style="font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:#8d8474;margin-top:3px;font-weight:650">Layer 0' + (i + 1) + '</div>' +
+        '<div style="font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:#8d8474;margin-top:3px;font-weight:650">Official product media</div>' +
         '</div>';
     }).join('');
   }
 
   applyFinish() {
-    const el = document.querySelector('[data-chassis]');
-    if (el) el.style.background = this.FIN[this.state.finish].css;
+    document.querySelectorAll('[data-model-index]').forEach((el) => {
+      const active = Number(el.getAttribute('data-model-index')) === this.state.finish;
+      el.style.zIndex = active ? '5' : '1';
+      el.style.opacity = active ? '1' : '.62';
+      el.style.filter = active ? 'none' : 'saturate(.72) brightness(.72)';
+      el.style.boxShadow = active ? '0 42px 100px rgba(0,0,0,.72),0 0 0 1px rgba(212,175,90,.18)' : '0 34px 80px rgba(0,0,0,.62)';
+    });
   }
 
-  OFFS = [-1.05, -0.42, 0.05, 0.62, 1.05, 1.5];
+  OFFS = [-.9, 0, .9];
 
   tick = () => {
     this._raf = requestAnimationFrame(this.tick);
@@ -1722,7 +1718,7 @@ class Component extends DCLogic {
       e.phone.style.transform = 'rotateX(' + (-7 - ease * 7) + 'deg) rotateY(' + rot + 'deg)';
       if (e.bar) e.bar.style.height = (p * 100).toFixed(1) + '%';
       e.hs.forEach((el, i) => {
-        const on = p > 0.2 + i * 0.11;
+        const on = p > 0.24 + i * 0.17;
         el.style.opacity = on ? '1' : '0';
         el.style.transform = on ? 'none' : 'translateY(10px)';
       });
@@ -1793,7 +1789,7 @@ class Component extends DCLogic {
       listEmpty: s.list.length === 0,
       listItems: listProducts.map((p) => ({ ...p, catLabel: this.catLabel(p.cat), remove: () => this.setState((st) => ({ list: st.list.filter((x) => x !== p.id) })) })),
       waGeneral: this.wa('Hello Kross One 👋 I would like to know more about your gadgets.'),
-      waInside: this.wa('Hello Kross One 👋 I was looking at the iPhone 17 Pro on your website. What is the price and which finishes do you have?'),
+      waInside: this.wa('Hello Kross One 👋 I was exploring the ' + this.FIN[s.finish].name + ' on your website. What is today’s price, availability and warranty?'),
       waList: this.wa(waListText),
       waFold: this.wa('Hello Kross One 👋 I want to pre-book from the Samsung Galaxy Z Fold 8 series. Please send me the configurations, colours and today\u2019s price.'),
 

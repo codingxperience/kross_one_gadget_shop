@@ -49,7 +49,7 @@ const hashText = (source) => createHash('sha256').update(source.replace(/\r\n/g,
 const hashBytes = (source) => createHash('sha256').update(source).digest('hex');
 
 // Storefront: keep the approved v2 client revision and its runtime/assets lossless.
-if (hashText(html) !== 'ac0df9430ab4d22ae400b2d6e612d2f59cee9f41b96c58b1a9c1b63b6556b11f') {
+if (hashText(html) !== '4e528e1bcae9896fefa77e111c8541a8fe80e5dcd1f2ad458954d6397b8f5258') {
   throw new Error('index.html differs from the approved responsive Kross One Gadgets v2 client revision.');
 }
 if (hashText(support) !== '8a955e8f2bf16b5a69dc1e14015c15db35632676c50a978d5ac94a6f8adc84db') {
@@ -83,6 +83,8 @@ requireText(assetSources, 'kross-one-gadgets-poster.jpg', 'Kross One poster sour
 requireText(html, '@media (max-width: 1100px)', 'phone/tablet circular motion breakpoint');
 requireText(html, 'data-mobile-orbit', 'phone/tablet circular product motion');
 requireText(html, 'data-util-window', 'small-screen utility message window');
+requireText(html, 'text-overflow:clip;white-space:normal !important', 'complete small-screen utility copy treatment');
+requireText(html, 'data-brand-logo src="assets/kross-one-gadgets-logo-square.png"', 'header brand logo');
 requireText(html, 'data-menubtn', 'left navigation menu control');
 requireText(html, 'data-filterbtn', 'premium collection filter control');
 requireText(html, 'data-viewbtn', 'collection layout control');
@@ -147,6 +149,25 @@ requireText(foldStageHtml, 'assets/fold-motion-flip-blue.jpeg', 'approved blue G
 requireText(foldStageHtml, 'assets/fold-motion-fold-burgundy.jpeg', 'approved burgundy Galaxy visual in the Fold-stage motion');
 requireText(foldStageHtml, 'assets/fold-motion-galaxy-series.mp4', 'approved Galaxy clip in the Fold-stage motion');
 if (foldStageHtml.includes('official-samsung-')) throw new Error('The Fold-stage motion must retain the approved supplied Galaxy visuals, not the product-card media.');
+const foldDeviceIds = [...foldStageHtml.matchAll(/data-fold-device="([^"]+)"/g)].map((match) => match[1]);
+if (foldDeviceIds.length !== 3 || new Set(foldDeviceIds).size !== 3) {
+  throw new Error('The Fold-series motion must expose three distinctive device tracks at every breakpoint.');
+}
+if ((foldStageHtml.match(/data-fold-media/g) || []).length !== 3) {
+  throw new Error('Every Fold-series motion device must receive the transparent media treatment.');
+}
+
+const interactiveStart = html.indexOf('<section id="inside"');
+const interactiveEnd = html.indexOf('<section style="position:relative;z-index:10;background:#0b0b0f', interactiveStart);
+if (interactiveStart < 0 || interactiveEnd < 0) throw new Error('Interactive device section is missing.');
+const interactiveHtml = html.slice(interactiveStart, interactiveEnd);
+requireText(interactiveHtml, 'assets/official-apple-iphone17-pro-lineup.jpg', 'official Apple interactive device media');
+requireText(interactiveHtml, 'assets/official-samsung-galaxy-s26-ultra-share.jpg', 'official Galaxy S26 Ultra interactive device media');
+requireText(interactiveHtml, 'assets/official-samsung-fold8-hero.jpg', 'official Galaxy Z Fold8 interactive device media');
+requireText(interactiveHtml, 'Manufacturer product media from Apple and Samsung.', 'truthful interactive media disclosure');
+if (interactiveHtml.includes('data-chassis') || interactiveHtml.includes('A19 Pro logic board')) {
+  throw new Error('The interactive section must not use a fabricated internal-device illustration.');
+}
 
 const typerMatch = html.match(/TYPE = \[([\s\S]*?)\];/);
 if (!typerMatch) throw new Error('Animated search prompt inventory is missing.');
