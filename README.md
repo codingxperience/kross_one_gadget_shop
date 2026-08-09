@@ -2,8 +2,8 @@
 
 Production-ready static prototype based directly on the supplied Claude Design v2 handoff (`Kross One Gadget Shop v2`). The storefront brand is now Kross One Gadgets, with the handoff remaining the visual and interaction source of truth. This revision applies the client-approved responsive motion, premium collection controls, broader inventory search, and authenticated catalog imagery while preserving the staff admin console as a second page.
 
-Live site: [codingxperience.github.io/kross_one_gadget_shop](https://codingxperience.github.io/kross_one_gadget_shop/)
-Admin console: [codingxperience.github.io/kross_one_gadget_shop/admin.html](https://codingxperience.github.io/kross_one_gadget_shop/admin.html)
+Live site: [www.kross-one-gadgets.co.ug](https://www.kross-one-gadgets.co.ug/)
+Admin console: [www.kross-one-gadgets.co.ug/admin.html](https://www.kross-one-gadgets.co.ug/admin.html)
 
 ## Local project
 
@@ -24,13 +24,15 @@ npm run qa
 npm run preview
 ```
 
-The build copies the approved storefront revision, the admin console, and the public assets to `dist/` without transforming the design-export HTML. This keeps the production output visually faithful and avoids altering the custom design runtime.
+The build keeps the approved design-export HTML as the authoring source, precompiles the storefront and admin component classes for a strict production Content Security Policy, and writes the complete deployment to `dist/`. It also generates crawlable collection pages, product pages, `sitemap.xml`, `robots.txt`, and the configured canonical domain.
 
-## GitHub Pages deployment
+The canonical origin is controlled by `PUBLIC_SITE_URL`. See [`docs/SEO_OPERATIONS.md`](docs/SEO_OPERATIONS.md) before changing domains or submitting a new sitemap.
 
-`.github/workflows/deploy-pages.yml` builds, validates, uploads, and deploys `dist/` whenever `main` is updated. The workflow follows GitHub's official Pages artifact deployment model and can also be started manually from the repository's Actions tab.
+## Production deployment
 
-The storefront uses hash routes and relative asset URLs, so pages such as `#/shop`, `#/technology`, and `#/visit` work beneath the project path `/kross_one_gadget_shop/` without a server-side route fallback. The admin console is served at `admin.html` beneath the same path.
+Vercel runs `npm run build` and serves `dist/` using `vercel.json`. The response policy includes CSP, HSTS, clickjacking protection, MIME-sniffing protection, a restrictive permissions policy, cache rules and search exclusion for the admin prototype.
+
+The interactive storefront retains its hash routes. Search engines and no-JavaScript clients also receive direct collection and product URLs generated from the same catalogue source.
 
 ## Authoritative handoff
 
@@ -46,8 +48,12 @@ Project mapping:
 - `public/admin-data.js` — supplied shared catalog (85 products) used by the admin console, unchanged.
 - `public/assets/` — curated original handoff artwork plus sourced product imagery for laptops, watches, audio, grooming, fragrances, game discs, laptop bags, and travel cases. Owner-supplied media is not packaged or displayed.
 - `ASSET_SOURCES.md` — traceable manufacturer product pages and direct image origins for every newly added official product asset.
-- `scripts/build.mjs` — lossless static production build for both pages.
-- `scripts/qa.mjs` — approved v2 revision fingerprint, responsive-orbit, expanded prompt, official-media, runtime, asset, route, enquiry-flow, admin-gate, and output-integrity checks.
+- `scripts/build.mjs` — production build, CSP-safe component precompilation and search-page generation.
+- `scripts/precompile-dc.mjs` — converts the embedded design component classes into external production factories without runtime string evaluation.
+- `scripts/seo-pages.mjs` — generates collection pages, product pages, internal links, structured data, sitemap and robots directives from the authoritative catalogue.
+- `scripts/site-config.mjs` — validates and applies the single canonical origin.
+- `scripts/qa.mjs` — approved v2 revision fingerprint, responsive-orbit, expanded prompt, official-media, runtime, asset, route, enquiry-flow, admin-gate, security and search-output checks.
+- `docs/SEO_OPERATIONS.md` — deployment, domain migration, Search Console, local authority and AI discovery runbook.
 
 ## Storefront behaviour carried by the handoff source
 
@@ -69,6 +75,8 @@ Project mapping:
 | `#/technology` | Inside the technology section |
 | `#/visit` | Shop location and contact details |
 
+The production build also publishes direct crawlable routes such as `/collections/mobiles/`, `/collections/laptops/`, `/collections/ipads-tablets/`, and `/products/:product-id/`.
+
 ## Admin console (`admin.html`)
 
 Staff console from the handoff. Demo credentials are shown on the sign-in card (`admin@krossone.ug` / `admin2026`), followed by a two-factor code presented in an SMS preview. Sessions auto-lock after 30 minutes, five failed attempts trigger a lockout, and every action is written to an append-only audit log.
@@ -79,11 +87,11 @@ The console remains a separate browser-local prototype and seeds realistic demo 
 
 ## Verification performed
 
-- `npm run build` succeeds and creates byte-identical `dist/index.html` and `dist/admin.html` output.
-- `npm run qa` verifies the approved v2 client revision, expanded search prompts, phone/tablet orbit, official catalog media, owner-media exclusion, runtime/foldable artwork, both design components, local references, routes, enquiry flow, and byte-identical production output.
+- `npm run build` succeeds, precompiles both design components and generates the crawlable search architecture.
+- `npm run qa` verifies the approved v2 client revision, expanded search prompts, phone/tablet orbit, official catalog media, owner-media exclusion, runtime/foldable artwork, both precompiled design components, CSP policy, canonical domain, local references, routes, enquiry flow, sitemap and structured search output.
 
 ## Prototype boundaries
 
 The v2 storefront is an enquiry-led static prototype: catalog content is embedded in the handoff, prices and availability are requested through WhatsApp, and the enquiry list is browser-session state. The separate admin console still uses browser-local prototype data, and its credentials are demo values shown on the sign-in card. Before production launch, connect the catalogue, inventory, pricing, enquiries, customer communications, and admin access to verified backend services.
 
-The supplied runtime loads React, ReactDOM, Babel, typography, and Leaflet resources from external CDNs. A production hardening pass should self-host critical runtime dependencies and confirm licensing/availability without changing the approved design.
+The supplied runtime loads React, ReactDOM, typography, and Leaflet resources from external CDNs. The deployed root component no longer relies on runtime string evaluation. A later hardening pass can self-host the remaining critical CDN dependencies after confirming licensing and validating the approved visual output.

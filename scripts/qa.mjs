@@ -3,8 +3,11 @@ import { createHash } from 'node:crypto';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { collectionPages, parseCatalog, siteUrl } from './seo-pages.mjs';
+import { extractComponentLogic } from './precompile-dc.mjs';
+import { rewriteSiteOrigin } from './site-config.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+const sourceSiteUrl = 'https://www.kross-one-gadgets.co.ug';
 const html = await readFile(path.join(root, 'index.html'), 'utf8');
 const adminHtml = await readFile(path.join(root, 'admin.html'), 'utf8');
 const support = await readFile(path.join(root, 'public', 'support.js'), 'utf8');
@@ -21,6 +24,10 @@ const foldMotionVideo = await readFile(path.join(root, 'public', 'assets', 'fold
 const socialCard = await readFile(path.join(root, 'public', 'assets', 'og-kross-one-gadgets-v3.png'));
 const builtHtml = await readFile(path.join(root, 'dist', 'index.html'), 'utf8');
 const builtAdminHtml = await readFile(path.join(root, 'dist', 'admin.html'), 'utf8');
+const builtAppLogic = await readFile(path.join(root, 'dist', 'app-logic.js'), 'utf8');
+const builtAdminLogic = await readFile(path.join(root, 'dist', 'admin-logic.js'), 'utf8');
+const builtRobots = await readFile(path.join(root, 'dist', 'robots.txt'), 'utf8');
+const builtLlms = await readFile(path.join(root, 'dist', 'llms.txt'), 'utf8');
 const builtGoogleVerification = await readFile(path.join(root, 'dist', 'googlee264a0cdaaba06d8.html'), 'utf8');
 const builtSitemap = await readFile(path.join(root, 'dist', 'sitemap.xml'), 'utf8');
 const builtLaptopCollection = await readFile(path.join(root, 'dist', 'collections', 'laptops', 'index.html'), 'utf8');
@@ -32,15 +39,21 @@ const requireText = (source, needle, label) => {
   if (!source.includes(needle)) throw new Error(`Missing ${label}: ${needle}`);
 };
 
+const validateJsonLd = (label, source) => {
+  const blocks = [...source.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)];
+  if (!blocks.length) throw new Error(`${label}: no JSON-LD block was found.`);
+  for (const [, json] of blocks) JSON.parse(json);
+};
+
 const hashText = (source) => createHash('sha256').update(source.replace(/\r\n/g, '\n')).digest('hex');
 const hashBytes = (source) => createHash('sha256').update(source).digest('hex');
 
 // Storefront: keep the approved v2 client revision and its runtime/assets lossless.
-if (hashText(html) !== '3d0e5e6a41fa5c3c6c9fbf62e7bdd3890e858e49e9f23895e053b2cd859cc0b6') {
+if (hashText(html) !== 'ac0df9430ab4d22ae400b2d6e612d2f59cee9f41b96c58b1a9c1b63b6556b11f') {
   throw new Error('index.html differs from the approved responsive Kross One Gadgets v2 client revision.');
 }
-if (hashText(support) !== 'ae4f0ac8449655e17cca1e3b179effcb6817a3b0d8dc47f112a9c39c25c39fd7') {
-  throw new Error('public/support.js differs from the runtime supplied with the v2 handoff.');
+if (hashText(support) !== '8a955e8f2bf16b5a69dc1e14015c15db35632676c50a978d5ac94a6f8adc84db') {
+  throw new Error('public/support.js differs from the CSP-compatible reviewed runtime.');
 }
 if (hashBytes(foldMotionBlue) !== 'f3a4969d23d2999007bdb3fe7ff659e7da1d5deaca7a525e72b0e305ce6cd97d') {
   throw new Error('Blue Galaxy Fold-series motion visual differs from the approved supplied asset.');
@@ -80,19 +93,25 @@ requireText(html, '<title>Kross One Gadgets | Apple &amp; Samsung Store | Lugogo
 requireText(html, 'property="og:title" content="Kross One Gadgets | Apple &amp; Samsung Store | Lugogo Mall"', 'approved Open Graph title');
 requireText(html, '"@type": "ElectronicsStore"', 'Google Local Business structured data');
 requireText(html, 'name="robots" content="index,follow', 'Google crawl directive');
-requireText(robots, 'Sitemap: https://kross-one-gadget-shop.vercel.app/sitemap.xml', 'Google sitemap directive');
-requireText(sitemap, '<loc>https://kross-one-gadget-shop.vercel.app/</loc>', 'canonical sitemap URL');
+requireText(robots, `Sitemap: ${sourceSiteUrl}/sitemap.xml`, 'source Google sitemap directive');
+requireText(sitemap, `<loc>${sourceSiteUrl}/</loc>`, 'source canonical sitemap URL');
 requireText(googleVerification, 'google-site-verification: googlee264a0cdaaba06d8.html', 'Google Search Console verification token');
 requireText(html, 'assets/kross-one-gadgets-logo-square.png', 'square Kross One logo icon');
 requireText(html, '"@type": "WebSite"', 'website structured data');
 requireText(html, '"@type": "SiteNavigationElement"', 'site navigation structured data');
 requireText(adminHtml, 'name="robots" content="noindex,nofollow,noarchive,nosnippet"', 'admin search exclusion');
 requireText(vercelConfig, 'Content-Security-Policy', 'Vercel content security policy');
+if (vercelConfig.includes("'unsafe-eval'")) throw new Error('The production Content Security Policy must not allow unsafe-eval.');
 requireText(vercelConfig, 'X-Robots-Tag', 'Vercel admin search exclusion header');
+requireText(support, '__dcPrecompiledLogicFactories', 'precompiled design-logic runtime path');
+requireText(support, '__dcRequirePrecompiledLogic', 'strict precompiled design-logic guard');
 requireText(html, 'name="twitter:title" content="Kross One Gadgets | Apple &amp; Samsung Store | Lugogo Mall"', 'approved Twitter title');
 requireText(html, 'assets/og-kross-one-gadgets-v3.png', 'approved Kross One social preview');
 if (socialCard.length < 20_000) throw new Error('The versioned social card is unexpectedly small.');
 requireText(manifest, '"name": "Kross One Gadgets"', 'installable storefront name');
+requireText(html, `${sourceSiteUrl}/#website`, 'source custom-domain WebSite identity');
+requireText(html, '"alternateName": "Kross One Gadget Shop"', 'Google site-name alternative');
+requireText(html, '"@type": "GeoCoordinates"', 'store geocoordinates');
 requireText(html, 'assets/official-hp-omnibook-x-flip-14.png', 'official HP OmniBook X Flip catalog artwork');
 requireText(html, 'data-word-gadgets', 'Kross One Gadgets homepage wordmark');
 requireText(html, 'assets/official-apple-macbook-air-m5-hero.png', 'official Apple MacBook Air M5 artwork');
@@ -196,6 +215,18 @@ parseComponent('admin.html', adminHtml);
 new Function(support);
 new Function(adminData);
 
+const evaluateFactoryBundle = (label, bundle, name) => {
+  const fakeWindow = {};
+  new Function('window', bundle)(fakeWindow);
+  const factory = fakeWindow.__dcPrecompiledLogicFactories?.[name];
+  if (typeof factory !== 'function') throw new Error(`${label}: precompiled factory ${name} is missing.`);
+  const Component = factory(class {}, {});
+  if (typeof Component !== 'function') throw new Error(`${label}: precompiled factory did not return a component class.`);
+  if (!fakeWindow.__dcRequirePrecompiledLogic) throw new Error(`${label}: strict precompiled runtime flag is missing.`);
+};
+evaluateFactoryBundle('storefront', builtAppLogic, 'Root');
+evaluateFactoryBundle('admin', builtAdminLogic, 'admin');
+
 // Admin console: staff gate, two-factor step, shared catalog, prototype honesty.
 requireText(adminHtml, '<script src="admin-data.js"></script>', 'admin shared-catalog script');
 requireText(adminHtml, 'Sign in to the console', 'admin sign-in gate');
@@ -216,14 +247,34 @@ for (const ref of new Set([...assetRefs, ...adminAssetRefs])) {
 }
 if (missingAssets.length) throw new Error(`Missing local assets: ${missingAssets.join(', ')}`);
 
-if (builtHtml !== html) throw new Error('dist/index.html differs from the authoritative storefront source.');
-if (builtAdminHtml !== adminHtml) throw new Error('dist/admin.html differs from the authoritative admin console source.');
+const runtimeTag = '<script src="./support.js"></script>';
+const expectedBuiltHtml = rewriteSiteOrigin(html).replace(runtimeTag, `<script src="./app-logic.js"></script>\n${runtimeTag}`);
+const expectedBuiltAdminHtml = adminHtml.replace(runtimeTag, `<script src="./admin-logic.js"></script>\n${runtimeTag}`);
+if (builtHtml !== expectedBuiltHtml) throw new Error('dist/index.html is not the exact approved storefront plus its precompiled logic bundle.');
+if (builtAdminHtml !== expectedBuiltAdminHtml) throw new Error('dist/admin.html is not the exact admin source plus its precompiled logic bundle.');
+if (builtHtml.indexOf('app-logic.js') > builtHtml.indexOf('support.js')) throw new Error('Storefront precompiled logic must load before support.js.');
+if (builtAdminHtml.indexOf('admin-logic.js') > builtAdminHtml.indexOf('support.js')) throw new Error('Admin precompiled logic must load before support.js.');
+for (const [label, sourceHtml, bundle] of [['storefront', html, builtAppLogic], ['admin', adminHtml, builtAdminLogic]]) {
+  const sourceLogic = extractComponentLogic(label === 'storefront' ? rewriteSiteOrigin(sourceHtml) : sourceHtml, label);
+  const bundledLogicMatch = bundle.match(/const createComponent = \(DCLogic, React\) => \{\n([\s\S]*?)\n    return Component;\n  \};/);
+  if (!bundledLogicMatch) throw new Error(`${label}: compiled component body is missing.`);
+  const bundledLogic = bundledLogicMatch[1].split('\n').map((line) => line.replace(/^    /, '')).join('\n').trim();
+  if (bundledLogic !== sourceLogic.trim()) throw new Error(`${label}: compiled component body differs from the authoritative inline logic.`);
+}
 if (builtGoogleVerification !== googleVerification) throw new Error('The Google Search Console verification file was not copied to the deployment root.');
+requireText(builtRobots, `Sitemap: ${siteUrl}/sitemap.xml`, 'built canonical robots sitemap directive');
+requireText(builtLlms, `Canonical website: ${siteUrl}/`, 'AI discovery canonical identity');
+requireText(builtHtml, `${siteUrl}/#website`, 'built custom-domain WebSite identity');
 requireText(builtSitemap, `${siteUrl}/collections/laptops/`, 'generated laptops collection sitemap URL');
 requireText(builtSitemap, `${siteUrl}/products/macbook-air-13-m5/`, 'generated product sitemap URL');
+if (builtSitemap.includes('kross-one-gadget-shop.vercel.app')) throw new Error('The generated sitemap still contains the retired Vercel origin.');
+const sitemapUrlCount = [...builtSitemap.matchAll(/<loc>/g)].length;
+if (sitemapUrlCount !== 1 + collectionPages.length + seoCatalog.length) throw new Error(`Generated sitemap URL count is incorrect: ${sitemapUrlCount}.`);
 requireText(builtLaptopCollection, 'MacBook Air 13-inch', 'crawlable laptops collection content');
 requireText(builtIpadCollection, 'iPad Pro 13-inch', 'crawlable iPads collection content');
+requireText(builtLaptopCollection, '"@type":"FAQPage"', 'visible collection FAQ structured data');
 requireText(builtProductPage, '"@type":"Product"', 'product structured data');
+for (const [label, document] of [['home', builtHtml], ['laptops collection', builtLaptopCollection], ['iPads collection', builtIpadCollection], ['product', builtProductPage]]) validateJsonLd(label, document);
 
 const assetFiles = await readdir(path.join(root, 'public', 'assets'));
-console.log(`QA passed: approved responsive v2 client revision, expanded search prompts, phone/tablet orbit, official catalog media with owner-media exclusion, component syntax for storefront + admin, ${assetRefs.length} storefront and ${adminAssetRefs.length} admin local references, ${assetFiles.length} packaged assets, GitHub Pages-safe URLs, routes/enquiry flow, admin gate/2FA, and exact dist output.`);
+console.log(`QA passed: approved responsive v2 client revision, strict-CSP precompiled storefront + admin logic, custom-domain canonical signals, crawlable collections/products/FAQ data, AI discovery index, expanded search prompts, phone/tablet orbit, official catalog media with owner-media exclusion, ${assetRefs.length} storefront and ${adminAssetRefs.length} admin local references, ${assetFiles.length} packaged assets, routes/enquiry flow, admin gate/2FA, and exact reviewed dist output.`);
