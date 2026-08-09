@@ -31,6 +31,8 @@ PUBLIC_SITE_URL=https://www.kross-one-gadget.co.ug
 
 Do not switch canonical URLs before the new hostname resolves. After it is live, configure permanent redirects from all old hosts—`www` and apex—to the one canonical singular host. Keep the old domain connected for at least twelve months so existing links and Google signals can move through the redirects.
 
+The Vercel project hostname is retained only as a redirect source. `vercel.json` sends every request for `kross-one-gadget-shop.vercel.app` to the matching path on the custom domain with a permanent redirect. Do not remove that rule while Google or external links still reference the retired hostname.
+
 As checked on 2026-08-09, `kross-one-gadget.co.ug` and `www.kross-one-gadget.co.ug` did not resolve in public DNS. That external prerequisite must be completed before the code setting is changed.
 
 ## Deployment verification
