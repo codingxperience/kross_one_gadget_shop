@@ -769,7 +769,15 @@
       return {};
     }
   };
-  function evalDcLogic(src) {
+  function evalDcLogic(src, name) {
+    const factories = window.__dcPrecompiledLogicFactories;
+    const factory = factories && factories[name];
+    if (typeof factory === "function") {
+      return factory(StreamableLogic, getReact());
+    }
+    if (window.__dcRequirePrecompiledLogic) {
+      throw new Error('dc-runtime: precompiled logic is missing for "' + name + '"');
+    }
     //! nosemgrep: eval-and-function-constructor
     const fn = new Function(
       "DCLogic",
@@ -1559,7 +1567,7 @@
       const r = registry.get(name);
       const seq = r.jsSeq = (r.jsSeq || 0) + 1;
       try {
-        const Cls = evalDcLogic(src);
+        const Cls = evalDcLogic(src, name);
         if (r.jsSeq !== seq) return;
         if (typeof Cls !== "function") {
           r.logicError = name + ".dc.html: <script data-dc-script> must define `class Component extends DCLogic`";

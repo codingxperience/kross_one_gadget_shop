@@ -24,7 +24,7 @@ Restore the intended two-device motion in the **Samsung Fold 8 Series** section 
   - `Apple & Samsung Store | Lugogo Mall`;
   - `Luxury | Electronics | Lifestyle`.
 - The poster supplied by the owner is a visual reference only and is not published. The final preview artwork is an original vector-derived brand card, not a crop or copy of the supplied photograph.
-- Static metadata, client-side metadata updates, canonical URL, and social image URLs continue to use the production Vercel origin.
+- Static metadata, client-side metadata updates, canonical URL, and social image URLs use the configured production canonical origin.
 
 ### New owner-identified stock
 

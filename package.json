@@ -2,7 +2,7 @@
   "name": "kross-one-gadget-shop",
   "private": true,
   "version": "1.0.0",
-  "homepage": "https://codingxperience.github.io/kross_one_gadget_shop/",
+  "homepage": "https://www.kross-one-gadgets.co.ug/",
   "type": "module",
   "scripts": {
     "dev": "vite",

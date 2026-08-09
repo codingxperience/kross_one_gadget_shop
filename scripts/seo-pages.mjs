@@ -1,7 +1,8 @@
 import { mkdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
+import { siteUrl } from './site-config.mjs';
 
-export const siteUrl = 'https://kross-one-gadget-shop.vercel.app';
+export { siteUrl };
 
 const categoryLabels = {
   'game-discs': 'Game Discs',
@@ -80,11 +81,46 @@ const localBusiness = {
     addressLocality: 'Kampala',
     addressCountry: 'UG'
   },
+  geo: { '@type': 'GeoCoordinates', latitude: 0.32665, longitude: 32.60683 },
   openingHoursSpecification: [
     { '@type': 'OpeningHoursSpecification', dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'], opens: '09:00', closes: '20:00' },
     { '@type': 'OpeningHoursSpecification', dayOfWeek: 'Sunday', opens: '10:00', closes: '18:00' }
   ]
 };
+
+const website = {
+  '@type': 'WebSite',
+  '@id': `${siteUrl}/#website`,
+  url: `${siteUrl}/`,
+  name: 'Kross One Gadgets',
+  alternateName: 'Kross One Gadget Shop',
+  inLanguage: 'en',
+  publisher: { '@id': `${siteUrl}/#organization` }
+};
+
+const collectionFaqs = (title) => [
+  {
+    question: `How do I get today’s price for ${title.toLowerCase()}?`,
+    answer: 'Open the product or collection and send the prepared WhatsApp enquiry. Kross One Gadgets confirms the current price before you visit or arrange delivery.'
+  },
+  {
+    question: 'Will Kross One Gadgets confirm the exact condition?',
+    answer: 'Yes. Ask for the exact model and Kross One Gadgets will confirm whether the available item is brand new or certified pre-owned before purchase.'
+  },
+  {
+    question: 'How is warranty information provided?',
+    answer: 'Warranty terms are confirmed for the exact item in stock. The store does not publish a generic warranty where model, condition or supplier terms may differ.'
+  }
+];
+
+const faqSchema = (faqs) => ({
+  '@type': 'FAQPage',
+  mainEntity: faqs.map(({ question, answer }) => ({
+    '@type': 'Question',
+    name: question,
+    acceptedAnswer: { '@type': 'Answer', text: answer }
+  }))
+});
 
 const navigation = () => collectionPages.slice(0, -1).map((page) => ({
   '@type': 'SiteNavigationElement',
@@ -125,7 +161,7 @@ const head = ({ title, description, canonical, image, schema }) => `<!doctype ht
     .actions { display:flex; flex-wrap:wrap; gap:12px; margin:28px 0 50px; } .button { display:inline-flex; align-items:center; min-height:46px; padding:0 20px; border:1px solid var(--gold); border-radius:999px; color:#1a1304; background:linear-gradient(135deg,#f0d38a,#c9922e); font-weight:800; } .button.secondary { color:#eee6d3; background:transparent; border-color:var(--line); }
     .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:16px; } .card { overflow:hidden; min-width:0; border:1px solid var(--line); border-radius:18px; background:linear-gradient(145deg,rgba(255,255,255,.05),rgba(255,255,255,.015)); } .card img { display:block; width:100%; aspect-ratio:1/0.82; object-fit:cover; background:#111; } .card div { padding:17px; } .kicker { color:#988e78; font-size:10px; font-weight:800; letter-spacing:.16em; text-transform:uppercase; } .card h2 { margin:7px 0 8px; font-size:20px; letter-spacing:-.025em; } .card p { margin:0; color:#bdb4a4; font-size:14px; }
     .detail { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:clamp(24px,5vw,60px); align-items:start; } .detail img { width:100%; max-height:580px; border:1px solid var(--line); border-radius:22px; object-fit:contain; background:#111; } .specs { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; margin-top:24px; } .spec { padding:13px; border:1px solid var(--line); border-radius:13px; background:rgba(255,255,255,.025); } .spec b { display:block; margin-bottom:4px; color:#978b70; font-size:10px; letter-spacing:.13em; text-transform:uppercase; }
-    .visit { max-width:760px; padding:28px; border:1px solid var(--line); border-radius:22px; background:rgba(255,255,255,.035); } .visit h2 { margin-top:0; } footer { padding:28px 0; border-top:1px solid var(--line); color:#9f9787; font-size:13px; } footer a { color:#e1be70; }
+    .visit { max-width:760px; padding:28px; border:1px solid var(--line); border-radius:22px; background:rgba(255,255,255,.035); } .visit h2 { margin-top:0; } .faq { margin-top:56px; padding-top:34px; border-top:1px solid var(--line); } .faq h2 { margin:0 0 22px; font-size:clamp(27px,4vw,42px); } .faq-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:14px; } .faq article { padding:18px; border:1px solid var(--line); border-radius:16px; background:rgba(255,255,255,.025); } .faq h3 { margin:0 0 9px; font-size:17px; } .faq p { margin:0; color:#bdb4a4; font-size:14px; } footer { padding:28px 0; border-top:1px solid var(--line); color:#9f9787; font-size:13px; } footer a { color:#e1be70; }
     @media (max-width:720px) { header { padding:16px 0; align-items:flex-start; flex-direction:column; } nav { justify-content:flex-start; } .detail { grid-template-columns:1fr; } .specs { grid-template-columns:1fr; } }
   </style>
 </head>`;
@@ -136,29 +172,35 @@ const pageHeader = () => `<header class="shell"><a class="brand" href="/"><img s
 
 const productCard = (product) => `<article class="card"><a href="${productUrl(product.id).replace(siteUrl, '')}"><img src="${productImage(product).replace(siteUrl, '')}" alt="${markup(product.name)}" loading="lazy" decoding="async"><div><span class="kicker">${markup(categoryName(product.cat))}</span><h2>${markup(product.name)}</h2><p>${markup(product.blurb)}</p></div></a></article>`;
 
+const renderFaq = (faqs) => `<section class="faq" aria-labelledby="questions-title"><p class="eyebrow">Clear answers before you buy</p><h2 id="questions-title">What customers ask us.</h2><div class="faq-grid">${faqs.map(({ question, answer }) => `<article><h3>${markup(question)}</h3><p>${markup(answer)}</p></article>`).join('')}</div></section>`;
+
 const renderCollection = (page, catalog) => {
   if (page.slug === 'visit') {
     const canonical = collectionUrl(page.slug);
+    const faqs = collectionFaqs(page.title);
     const schema = {
       '@context': 'https://schema.org',
-      '@graph': [localBusiness, { '@type': 'WebPage', '@id': canonical, url: canonical, name: page.title, description: page.description, about: { '@id': `${siteUrl}/#organization` } }, ...navigation()]
+      '@graph': [localBusiness, website, { '@type': 'WebPage', '@id': canonical, url: canonical, name: page.title, description: page.description, about: { '@id': `${siteUrl}/#organization` } }, faqSchema(faqs), ...navigation()]
     };
-    return `${head({ title: page.title, description: page.description, canonical, image: `${siteUrl}/assets/og-kross-one-gadgets-v3.png`, schema })}<body>${pageHeader()}<main class="shell"><p class="eyebrow">Visit the shop</p><h1>Kross One Gadgets, Lugogo Mall.</h1><p class="intro">Tell us the model. We reply with today’s price, the condition and the warranty — nothing hidden.</p><section class="visit"><h2>Shop #18A, Lugogo Mall</h2><p>Lugogo Bypass, Kampala</p><p><b>Monday–Saturday:</b> 9:00–20:00<br><b>Sunday:</b> 10:00–18:00</p><div class="actions"><a class="button" href="https://wa.me/256752117111?text=Hello%20Kross%20One%20Gadgets%2C%20I%20would%20like%20today%27s%20price.">Talk on WhatsApp</a><a class="button secondary" href="/#/visit">Open the interactive visit page</a></div></section></main>${pageFooter()}</body></html>`;
+    return `${head({ title: page.title, description: page.description, canonical, image: `${siteUrl}/assets/og-kross-one-gadgets-v3.png`, schema })}<body>${pageHeader()}<main class="shell"><p class="eyebrow">Visit the shop</p><h1>Kross One Gadgets, Lugogo Mall.</h1><p class="intro">Tell us the model. We reply with today’s price, the condition and the warranty — nothing hidden.</p><section class="visit"><h2>Shop #18A, Lugogo Mall</h2><p>Lugogo Bypass, Kampala</p><p><b>Monday–Saturday:</b> 9:00–20:00<br><b>Sunday:</b> 10:00–18:00</p><div class="actions"><a class="button" href="https://wa.me/256752117111?text=Hello%20Kross%20One%20Gadgets%2C%20I%20would%20like%20today%27s%20price.">Talk on WhatsApp</a><a class="button secondary" href="/#/visit">Open the interactive visit page</a></div></section>${renderFaq(faqs)}</main>${pageFooter()}</body></html>`;
   }
 
   const products = page.categories ? catalog.filter((product) => page.categories.includes(product.cat)) : catalog;
   const canonical = collectionUrl(page.slug);
+  const faqs = collectionFaqs(page.title);
   const schema = {
     '@context': 'https://schema.org',
     '@graph': [
       localBusiness,
+      website,
       { '@type': 'CollectionPage', '@id': canonical, url: canonical, name: page.title, description: page.description, isPartOf: { '@id': `${siteUrl}/#website` }, mainEntity: { '@type': 'ItemList', numberOfItems: products.length, itemListElement: products.map((product, position) => ({ '@type': 'ListItem', position: position + 1, url: productUrl(product.id), name: product.name })) } },
+      faqSchema(faqs),
       ...navigation()
     ]
   };
   const image = products.length ? productImage(products[0]) : `${siteUrl}/assets/og-kross-one-gadgets-v3.png`;
   const liveRoute = page.slug === 'shop' ? '/#/shop' : page.slug === 'ipads-tablets' ? '/#/shop/tablets' : page.slug === 'bags-travel' ? '/#/shop/bags' : page.slug === 'fragrance-grooming' ? '/#/shop/lifestyle' : `/#/shop/${page.categories[0]}`;
-  return `${head({ title: page.title, description: page.description, canonical, image, schema })}<body>${pageHeader()}<main class="shell"><p class="eyebrow">Kross One Gadgets · Lugogo Mall</p><h1>${markup(page.title)}.</h1><p class="intro">${markup(page.description)} Ask Kross One Gadgets for today’s price, condition and warranty before you visit.</p><div class="actions"><a class="button" href="${liveRoute}">Browse the interactive collection</a><a class="button secondary" href="/collections/visit/">Visit the shop</a></div><section class="grid" aria-label="${markup(page.title)} catalogue">${products.map(productCard).join('')}</section></main>${pageFooter()}</body></html>`;
+  return `${head({ title: page.title, description: page.description, canonical, image, schema })}<body>${pageHeader()}<main class="shell"><p class="eyebrow">Kross One Gadgets · Lugogo Mall</p><h1>${markup(page.title)}.</h1><p class="intro">${markup(page.description)} Ask Kross One Gadgets for today’s price, condition and warranty before you visit.</p><div class="actions"><a class="button" href="${liveRoute}">Browse the interactive collection</a><a class="button secondary" href="/collections/visit/">Visit the shop</a></div><section class="grid" aria-label="${markup(page.title)} catalogue">${products.map(productCard).join('')}</section>${renderFaq(faqs)}</main>${pageFooter()}</body></html>`;
 };
 
 const renderProduct = (product) => {
@@ -168,6 +210,7 @@ const renderProduct = (product) => {
     '@context': 'https://schema.org',
     '@graph': [
       localBusiness,
+      website,
       {
         '@type': 'Product',
         '@id': canonical,
@@ -217,6 +260,7 @@ export const buildSeoPages = async ({ sourceHtml, output }) => {
     ...catalog.map((product) => ({ url: productUrl(product.id), priority: '0.7', changefreq: 'weekly' }))
   ];
   await writeFile(path.join(output, 'sitemap.xml'), sitemap(urls), 'utf8');
+  await writeFile(path.join(output, 'robots.txt'), `User-agent: *\nAllow: /\n\nSitemap: ${siteUrl}/sitemap.xml\n`, 'utf8');
 
   return { catalogCount: catalog.length, collectionCount: collectionPages.length, sitemapCount: urls.length };
 };
