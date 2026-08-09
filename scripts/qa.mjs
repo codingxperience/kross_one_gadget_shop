@@ -49,7 +49,7 @@ const hashText = (source) => createHash('sha256').update(source.replace(/\r\n/g,
 const hashBytes = (source) => createHash('sha256').update(source).digest('hex');
 
 // Storefront: keep the approved v2 client revision and its runtime/assets lossless.
-if (hashText(html) !== '4e528e1bcae9896fefa77e111c8541a8fe80e5dcd1f2ad458954d6397b8f5258') {
+if (hashText(html) !== 'a00c005ef76d70988502eb247cc0e0fc2f7c4bf7595b2d2015afdb5e7222da47') {
   throw new Error('index.html differs from the approved responsive Kross One Gadgets v2 client revision.');
 }
 if (hashText(support) !== '8a955e8f2bf16b5a69dc1e14015c15db35632676c50a978d5ac94a6f8adc84db') {
@@ -103,6 +103,10 @@ requireText(html, '"@type": "WebSite"', 'website structured data');
 requireText(html, '"@type": "SiteNavigationElement"', 'site navigation structured data');
 requireText(adminHtml, 'name="robots" content="noindex,nofollow,noarchive,nosnippet"', 'admin search exclusion');
 requireText(vercelConfig, 'Content-Security-Policy', 'Vercel content security policy');
+requireText(vercelConfig, '"type": "host"', 'retired Vercel host redirect condition');
+requireText(vercelConfig, '"value": "kross-one-gadget-shop.vercel.app"', 'retired Vercel host redirect source');
+requireText(vercelConfig, '"destination": "https://www.kross-one-gadgets.co.ug/:path*"', 'custom-domain redirect destination');
+requireText(vercelConfig, '"permanent": true', 'permanent custom-domain redirect');
 if (vercelConfig.includes("'unsafe-eval'")) throw new Error('The production Content Security Policy must not allow unsafe-eval.');
 requireText(vercelConfig, 'X-Robots-Tag', 'Vercel admin search exclusion header');
 requireText(support, '__dcPrecompiledLogicFactories', 'precompiled design-logic runtime path');
@@ -148,6 +152,11 @@ const foldStageHtml = html.slice(stageStart, stageEnd);
 requireText(foldStageHtml, 'assets/fold-motion-flip-blue.jpeg', 'approved blue Galaxy visual in the Fold-stage motion');
 requireText(foldStageHtml, 'assets/fold-motion-fold-burgundy.jpeg', 'approved burgundy Galaxy visual in the Fold-stage motion');
 requireText(foldStageHtml, 'assets/fold-motion-galaxy-series.mp4', 'approved Galaxy clip in the Fold-stage motion');
+requireText(foldStageHtml, 'data-fold-device="cosmos-1414989321"', 'distinct owner-supplied Galaxy motion track');
+requireText(foldStageHtml, 'preload="auto"', 'owner-supplied Galaxy motion preloading');
+if (foldStageHtml.includes('poster="assets/fold-motion-flip-blue.jpeg"')) {
+  throw new Error('The owner-supplied Galaxy motion must not fall back to the duplicate blue Fold poster.');
+}
 if (foldStageHtml.includes('official-samsung-')) throw new Error('The Fold-stage motion must retain the approved supplied Galaxy visuals, not the product-card media.');
 const foldDeviceIds = [...foldStageHtml.matchAll(/data-fold-device="([^"]+)"/g)].map((match) => match[1]);
 if (foldDeviceIds.length !== 3 || new Set(foldDeviceIds).size !== 3) {
