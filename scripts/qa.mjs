@@ -37,6 +37,8 @@ const builtRouterLinks = await readFile(path.join(root, 'dist', 'router-links.js
 const builtFavicon = await readFile(path.join(root, 'dist', 'favicon.ico'));
 const builtLaptopCollection = await readFile(path.join(root, 'dist', 'collections', 'laptops', 'index.html'), 'utf8');
 const builtIpadCollection = await readFile(path.join(root, 'dist', 'collections', 'ipads-tablets', 'index.html'), 'utf8');
+const builtAppleCollection = await readFile(path.join(root, 'dist', 'collections', 'apple-products-kampala', 'index.html'), 'utf8');
+const builtIphoneCollection = await readFile(path.join(root, 'dist', 'collections', 'iphones-kampala', 'index.html'), 'utf8');
 const builtProductPage = await readFile(path.join(root, 'dist', 'products', 'macbook-air-13-m5', 'index.html'), 'utf8');
 const seoCatalog = parseCatalog(html);
 
@@ -54,7 +56,7 @@ const hashText = (source) => createHash('sha256').update(source.replace(/\r\n/g,
 const hashBytes = (source) => createHash('sha256').update(source).digest('hex');
 
 // Storefront: keep the approved v2 client revision and its runtime/assets lossless.
-if (hashText(html) !== '87899802463640ae55978254a120a358f66716f7b86ea427331ae266f5a5bacd') {
+if (hashText(html) !== 'd51b387a7c04bb5baefb3438b4ff8eac80f7362c66fb1a17530f7149ce7a1223') {
   throw new Error('index.html differs from the approved responsive Kross One Gadgets v2 client revision.');
 }
 if (hashText(support) !== '8a955e8f2bf16b5a69dc1e14015c15db35632676c50a978d5ac94a6f8adc84db') {
@@ -112,6 +114,7 @@ requireText(googleVerification, 'google-site-verification: googlee264a0cdaaba06d
 requireText(html, 'assets/kross-one-gadgets-logo-square.png', 'square Kross One logo icon');
 requireText(html, '"@type": "WebSite"', 'website structured data');
 requireText(html, '"@type": "SiteNavigationElement"', 'site navigation structured data');
+requireText(html, '"@type": "OfferCatalog"', 'local inventory catalogue structured data');
 requireText(adminHtml, 'name="robots" content="noindex,nofollow,noarchive,nosnippet"', 'admin search exclusion');
 requireText(vercelConfig, 'Content-Security-Policy', 'Vercel content security policy');
 requireText(vercelConfig, '"type": "host"', 'retired Vercel host redirect condition');
@@ -130,6 +133,8 @@ requireText(html, '<link rel="icon" href="/favicon.ico" sizes="any">', 'conventi
 requireText(html, '<script src="./router-links.js" defer></script>', 'progressively enhanced crawlable navigation');
 requireText(html, 'href="/collections/shop/" data-app-route="#/shop"', 'crawlable shop navigation with interactive route');
 requireText(html, 'href="/collections/visit/" data-app-route="#/visit"', 'crawlable visit navigation with interactive route');
+requireText(html, 'href="/collections/apple-products-kampala/"', 'crawlable Apple products navigation');
+requireText(html, "href: '/collections/iphones-kampala/'", 'crawlable iPhones in Kampala navigation');
 requireText(html, "href: '/products/' + encodeURIComponent(p.id) + '/'", 'crawlable product links');
 requireText(routerLinks, "document.addEventListener('click'", 'delegated interactive routing');
 requireText(routerLinks, "anchor.dataset.appRoute", 'interactive route metadata');
@@ -326,18 +331,29 @@ requireText(builtRobots, `Sitemap: ${siteUrl}/sitemap.xml`, 'built canonical rob
 requireText(builtLlms, `Canonical website: ${siteUrl}/`, 'AI discovery canonical identity');
 requireText(builtHtml, `${siteUrl}/#website`, 'built custom-domain WebSite identity');
 requireText(builtSitemap, `${siteUrl}/collections/laptops/`, 'generated laptops collection sitemap URL');
+requireText(builtSitemap, `${siteUrl}/collections/apple-products-kampala/`, 'generated Apple products collection sitemap URL');
+requireText(builtSitemap, `${siteUrl}/collections/iphones-kampala/`, 'generated iPhones collection sitemap URL');
 requireText(builtSitemap, `${siteUrl}/products/macbook-air-13-m5/`, 'generated product sitemap URL');
 if (builtSitemap.includes('kross-one-gadget-shop.vercel.app')) throw new Error('The generated sitemap still contains the retired Vercel origin.');
 const sitemapUrlCount = [...builtSitemap.matchAll(/<loc>/g)].length;
 if (sitemapUrlCount !== 1 + collectionPages.length + seoCatalog.length) throw new Error(`Generated sitemap URL count is incorrect: ${sitemapUrlCount}.`);
 requireText(builtLaptopCollection, 'MacBook Air 13-inch', 'crawlable laptops collection content');
 requireText(builtIpadCollection, 'iPad Pro 13-inch', 'crawlable iPads collection content');
+requireText(builtAppleCollection, 'Shop Apple Products in Kampala', 'local Apple collection heading');
+requireText(builtAppleCollection, 'iPhone 17 Pro Max', 'local Apple collection iPhone inventory');
+requireText(builtAppleCollection, 'MacBook Air 13-inch', 'local Apple collection MacBook inventory');
+requireText(builtAppleCollection, 'iPad Pro 13-inch', 'local Apple collection iPad inventory');
+requireText(builtAppleCollection, 'independent electronics retailer', 'truthful local Apple retailer disclosure');
+requireText(builtIphoneCollection, 'iPhones in Kampala', 'local iPhone collection heading');
+requireText(builtIphoneCollection, 'iPhone 17 Pro Max', 'local iPhone collection inventory');
+requireText(builtIphoneCollection, 'Shop #18A at Lugogo Mall', 'local iPhone collection store detail');
+if (builtIphoneCollection.includes('MacBook Air 13-inch')) throw new Error('The iPhones in Kampala collection must not contain unrelated MacBooks.');
 requireText(builtLaptopCollection, '"@type":"FAQPage"', 'visible collection FAQ structured data');
 requireText(builtLaptopCollection, 'aria-label="Primary"', 'crawlable primary collection navigation');
 requireText(builtLaptopCollection, 'aria-label="Explore Kross One Gadgets"', 'crawlable sitewide collection footer');
 requireText(builtLaptopCollection, '<link rel="icon" href="/favicon.ico" sizes="any">', 'collection root favicon discovery');
 requireText(builtProductPage, '"@type":"Product"', 'product structured data');
-for (const [label, document] of [['home', builtHtml], ['laptops collection', builtLaptopCollection], ['iPads collection', builtIpadCollection], ['product', builtProductPage]]) validateJsonLd(label, document);
+for (const [label, document] of [['home', builtHtml], ['laptops collection', builtLaptopCollection], ['iPads collection', builtIpadCollection], ['Apple products collection', builtAppleCollection], ['iPhones collection', builtIphoneCollection], ['product', builtProductPage]]) validateJsonLd(label, document);
 
 const assetFiles = await readdir(path.join(root, 'public', 'assets'));
 console.log(`QA passed: approved responsive v2 client revision, strict-CSP precompiled storefront + admin logic, custom-domain canonical signals, crawlable collections/products/FAQ data, AI discovery index, expanded search prompts, phone/tablet orbit, official catalog media with owner-media exclusion, ${assetRefs.length} storefront and ${adminAssetRefs.length} admin local references, ${assetFiles.length} packaged assets, routes/enquiry flow, admin gate/2FA, and exact reviewed dist output.`);
