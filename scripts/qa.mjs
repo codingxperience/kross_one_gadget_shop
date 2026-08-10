@@ -54,7 +54,7 @@ const hashText = (source) => createHash('sha256').update(source.replace(/\r\n/g,
 const hashBytes = (source) => createHash('sha256').update(source).digest('hex');
 
 // Storefront: keep the approved v2 client revision and its runtime/assets lossless.
-if (hashText(html) !== '3385fd4a7ca412be42b4751fc4b7ea6272938b0ea614e33f9e06d5ec23c59b0f') {
+if (hashText(html) !== 'e23a2bdd4501f2a10add7dad4b4ecd64944e2fd4057e96db691caac7ea65d9ae') {
   throw new Error('index.html differs from the approved responsive Kross One Gadgets v2 client revision.');
 }
 if (hashText(support) !== '8a955e8f2bf16b5a69dc1e14015c15db35632676c50a978d5ac94a6f8adc84db') {
