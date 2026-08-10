@@ -64,7 +64,18 @@
         { "@type": "OpeningHoursSpecification", "dayOfWeek": "Sunday", "opens": "10:00", "closes": "18:00" }
       ],
       "areaServed": { "@type": "City", "name": "Kampala" },
-      "contactPoint": { "@type": "ContactPoint", "telephone": "+256752117111", "contactType": "sales", "availableLanguage": "English" }
+      "contactPoint": { "@type": "ContactPoint", "telephone": "+256752117111", "contactType": "sales", "availableLanguage": "English" },
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Kross One Gadgets catalogue",
+        "itemListElement": [
+          { "@type": "OfferCatalog", "name": "Apple products in Kampala", "url": "https://www.kross-one-gadgets.co.ug/collections/apple-products-kampala/" },
+          { "@type": "OfferCatalog", "name": "iPhones in Kampala", "url": "https://www.kross-one-gadgets.co.ug/collections/iphones-kampala/" },
+          { "@type": "OfferCatalog", "name": "Samsung phones", "url": "https://www.kross-one-gadgets.co.ug/collections/mobiles/" },
+          { "@type": "OfferCatalog", "name": "Laptops", "url": "https://www.kross-one-gadgets.co.ug/collections/laptops/" },
+          { "@type": "OfferCatalog", "name": "iPads and tablets", "url": "https://www.kross-one-gadgets.co.ug/collections/ipads-tablets/" }
+        ]
+      }
     },
     {
       "@type": "WebSite",
@@ -76,6 +87,8 @@
       "publisher": { "@id": "https://www.kross-one-gadgets.co.ug/#organization" }
     },
     { "@type": "SiteNavigationElement", "name": "Shop", "url": "https://www.kross-one-gadgets.co.ug/collections/shop/" },
+    { "@type": "SiteNavigationElement", "name": "Apple Products in Kampala", "url": "https://www.kross-one-gadgets.co.ug/collections/apple-products-kampala/" },
+    { "@type": "SiteNavigationElement", "name": "iPhones in Kampala", "url": "https://www.kross-one-gadgets.co.ug/collections/iphones-kampala/" },
     { "@type": "SiteNavigationElement", "name": "Apple & Samsung Phones", "url": "https://www.kross-one-gadgets.co.ug/collections/mobiles/" },
     { "@type": "SiteNavigationElement", "name": "Laptops", "url": "https://www.kross-one-gadgets.co.ug/collections/laptops/" },
     { "@type": "SiteNavigationElement", "name": "iPads & Tablets", "url": "https://www.kross-one-gadgets.co.ug/collections/ipads-tablets/" },
@@ -279,6 +292,7 @@
           <span style="display:block;width:12px;height:1.5px;background:#e3bd6a;border-radius:2px;transform:translateX(-3px)"></span>
         </button>
         <a href="/collections/shop/" data-app-route="#/shop" data-navlink style="font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#b8b1a2;transition:color .25s" style-hover="color:#e3bd6a">Shop</a>
+        <a href="/collections/apple-products-kampala/" data-navlink style="font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#b8b1a2;transition:color .25s" style-hover="color:#e3bd6a">Apple</a>
         <a href="/#inside" data-app-route="#/technology" data-navlink style="font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#b8b1a2;transition:color .25s" style-hover="color:#e3bd6a">Inside</a>
         <a href="/collections/visit/" data-app-route="#/visit" data-navlink style="font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#b8b1a2;transition:color .25s" style-hover="color:#e3bd6a">Visit</a>
       </nav>
@@ -1793,6 +1807,8 @@ class Component extends DCLogic {
 
       menuLinks: [
         { label: 'Home', href: '/', appRoute: '#/' },
+        { label: 'Apple Products in Kampala', href: '/collections/apple-products-kampala/', appRoute: '' },
+        { label: 'iPhones in Kampala', href: '/collections/iphones-kampala/', appRoute: '' },
         { label: 'Game Discs', href: this.collectionHref('game-discs'), appRoute: '#/shop/game-discs' },
         { label: 'Laptop Bags', href: this.collectionHref('bags'), appRoute: '#/shop/bags' },
         { label: 'Travel & Trolley Bags', href: this.collectionHref('travel'), appRoute: '#/shop/travel' },
@@ -1807,7 +1823,11 @@ class Component extends DCLogic {
       ].map((m, i) => ({ ...m, no: String(i + 1).padStart(2, '0') })),
 
       footerCols: [
-        { title: 'Shop', items: this.CATS.slice(0, 5).map(([id, label]) => ({ label, href: this.collectionHref(id), appRoute: '#/shop/' + id })) },
+        { title: 'Shop', items: [
+          { label: 'Apple Products', href: '/collections/apple-products-kampala/', appRoute: '' },
+          { label: 'iPhones in Kampala', href: '/collections/iphones-kampala/', appRoute: '' },
+          ...this.CATS.slice(0, 3).map(([id, label]) => ({ label, href: this.collectionHref(id), appRoute: '#/shop/' + id }))
+        ] },
         { title: 'Kross One', items: [{ label: 'See inside', href: '/#inside', appRoute: '#/technology' }, { label: 'Visit the shop', href: '/collections/visit/', appRoute: '#/visit' }, { label: 'Our promise', href: '/', appRoute: '#/' }, { label: 'WhatsApp us', href: this.wa('Hello Kross One 👋'), appRoute: '' }] },
         { title: 'Find us', items: [{ label: 'Shop #18A, Lugogo Mall', href: '/collections/visit/', appRoute: '#/visit' }, { label: '0752 117 111', href: 'tel:+256752117111', appRoute: '' }, { label: '0750 000 981', href: 'tel:+256750000981', appRoute: '' }, { label: 'kross1gadgets@gmail.com', href: 'mailto:kross1gadgets@gmail.com', appRoute: '' }] }
       ]

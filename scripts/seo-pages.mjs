@@ -22,6 +22,50 @@ const categoryLabels = {
 export const collectionPages = [
   { slug: 'shop', title: 'Shop Premium Gadgets in Kampala', description: 'Browse Apple, Samsung, laptops, iPads, audio, watches, gaming, bags and lifestyle essentials at Kross One Gadgets, Lugogo Mall.', categories: null },
   { slug: 'mobiles', title: 'Apple & Samsung Phones', description: 'Explore current Apple iPhone, Samsung Galaxy Ultra and Galaxy Fold-series devices at Kross One Gadgets in Lugogo Mall.', categories: ['mobiles'] },
+  {
+    slug: 'apple-products-kampala',
+    title: 'Shop Apple Products in Kampala',
+    description: 'Browse iPhone, iPad, MacBook, Apple Watch and AirPods at Kross One Gadgets, Shop #18A, Lugogo Mall, Kampala. Ask for current availability, price, condition and warranty.',
+    productFilter: 'apple',
+    liveRoute: '/#/shop',
+    localIntent: true,
+    faqs: [
+      {
+        question: 'Where can I shop for Apple products in Kampala?',
+        answer: 'Visit Kross One Gadgets at Shop #18A, Lugogo Mall, Lugogo Bypass, Kampala. The catalogue includes iPhone, iPad, MacBook, Apple Watch and AirPods models; contact the store to confirm what is available today.'
+      },
+      {
+        question: 'Can I collect an Apple device from Lugogo Mall?',
+        answer: 'Yes. Once the team confirms the exact model, price and condition, you can arrange collection from Shop #18A at Lugogo Mall or ask whether delivery is available.'
+      },
+      {
+        question: 'Is Kross One Gadgets an official Apple Store?',
+        answer: 'Kross One Gadgets is an independent electronics retailer. Before purchase, the team confirms the exact item condition, applicable warranty and supplier terms for the device in stock.'
+      }
+    ]
+  },
+  {
+    slug: 'iphones-kampala',
+    title: 'iPhones in Kampala',
+    description: 'Browse current iPhone models at Kross One Gadgets, Shop #18A, Lugogo Mall, Kampala. Ask for today\'s available storage, colour, price, condition and warranty.',
+    productFilter: 'iphone',
+    liveRoute: '/#/shop/mobiles',
+    localIntent: true,
+    faqs: [
+      {
+        question: 'Which iPhone models are available in Kampala?',
+        answer: 'The online catalogue shows the iPhone models handled by Kross One Gadgets. Stock changes, so contact the store to confirm the exact model, storage, colour and condition available today.'
+      },
+      {
+        question: 'Where can I view or collect an iPhone in Kampala?',
+        answer: 'Kross One Gadgets is at Shop #18A, Lugogo Mall, Lugogo Bypass, Kampala. Confirm the model with the team before travelling to the shop or arranging delivery.'
+      },
+      {
+        question: 'How do I confirm an iPhone price and warranty?',
+        answer: 'Send the model and preferred storage or colour by WhatsApp. The store will confirm the current price, whether the item is brand new or certified pre-owned, and the warranty terms for that exact device.'
+      }
+    ]
+  },
   { slug: 'laptops', title: 'Laptops', description: 'Browse MacBook Air, MacBook Pro and HP laptop options at Kross One Gadgets in Kampala.', categories: ['laptops'] },
   { slug: 'ipads-tablets', title: 'iPads & Tablets', description: 'Browse current iPad Pro, iPad Air, iPad mini and iPad models at Kross One Gadgets in Lugogo Mall.', categories: ['tablets'] },
   { slug: 'audio', title: 'Headphones & Speakers', description: 'Explore Bose, JBL, Apple and premium portable-audio options at Kross One Gadgets in Kampala.', categories: ['audio'] },
@@ -51,6 +95,14 @@ const collectionSlugForCategory = {
   gaming: 'gaming', 'game-discs': 'gaming', bags: 'bags-travel', travel: 'bags-travel', lifestyle: 'fragrance-grooming'
 };
 
+const appleProductPattern = /(?:iphone|ipad|macbook|apple watch|airpods|beats)/i;
+
+const productsForCollection = (page, catalog) => {
+  if (page.productFilter === 'apple') return catalog.filter((product) => appleProductPattern.test(product.name));
+  if (page.productFilter === 'iphone') return catalog.filter((product) => /iphone/i.test(product.name));
+  return page.categories ? catalog.filter((product) => page.categories.includes(product.cat)) : catalog;
+};
+
 export const parseCatalog = (source) => {
   const match = source.match(/\n\s*P = \[([\s\S]*?)\n\s*\];\n\n\s*TYPE = \[/);
   if (!match) throw new Error('Could not find the storefront catalog while generating SEO pages.');
@@ -72,6 +124,7 @@ const localBusiness = {
     width: 512,
     height: 512
   },
+  description: 'Apple, Samsung, laptops, watches, audio, gaming, bags and lifestyle essentials at Shop #18A, Lugogo Mall, Kampala.',
   telephone: '+256752117111',
   email: 'kross1gadgets@gmail.com',
   priceRange: '$$',
@@ -85,7 +138,20 @@ const localBusiness = {
   openingHoursSpecification: [
     { '@type': 'OpeningHoursSpecification', dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'], opens: '09:00', closes: '20:00' },
     { '@type': 'OpeningHoursSpecification', dayOfWeek: 'Sunday', opens: '10:00', closes: '18:00' }
-  ]
+  ],
+  areaServed: { '@type': 'City', name: 'Kampala' },
+  contactPoint: { '@type': 'ContactPoint', telephone: '+256752117111', contactType: 'sales', availableLanguage: 'English' },
+  hasOfferCatalog: {
+    '@type': 'OfferCatalog',
+    name: 'Kross One Gadgets catalogue',
+    itemListElement: [
+      { '@type': 'OfferCatalog', name: 'Apple products in Kampala', url: `${siteUrl}/collections/apple-products-kampala/` },
+      { '@type': 'OfferCatalog', name: 'iPhones in Kampala', url: `${siteUrl}/collections/iphones-kampala/` },
+      { '@type': 'OfferCatalog', name: 'Samsung phones', url: `${siteUrl}/collections/mobiles/` },
+      { '@type': 'OfferCatalog', name: 'Laptops', url: `${siteUrl}/collections/laptops/` },
+      { '@type': 'OfferCatalog', name: 'iPads and tablets', url: `${siteUrl}/collections/ipads-tablets/` }
+    ]
+  }
 };
 
 const website = {
@@ -162,14 +228,14 @@ const head = ({ title, description, canonical, image, schema }) => `<!doctype ht
     .actions { display:flex; flex-wrap:wrap; gap:12px; margin:28px 0 50px; } .button { display:inline-flex; align-items:center; min-height:46px; padding:0 20px; border:1px solid var(--gold); border-radius:999px; color:#1a1304; background:linear-gradient(135deg,#f0d38a,#c9922e); font-weight:800; } .button.secondary { color:#eee6d3; background:transparent; border-color:var(--line); }
     .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:16px; } .card { overflow:hidden; min-width:0; border:1px solid var(--line); border-radius:18px; background:linear-gradient(145deg,rgba(255,255,255,.05),rgba(255,255,255,.015)); } .card img { display:block; width:100%; aspect-ratio:1/0.82; object-fit:cover; background:#111; } .card div { padding:17px; } .kicker { color:#988e78; font-size:10px; font-weight:800; letter-spacing:.16em; text-transform:uppercase; } .card h2 { margin:7px 0 8px; font-size:20px; letter-spacing:-.025em; } .card p { margin:0; color:#bdb4a4; font-size:14px; }
     .detail { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:clamp(24px,5vw,60px); align-items:start; } .detail img { width:100%; max-height:580px; border:1px solid var(--line); border-radius:22px; object-fit:contain; background:#111; } .specs { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; margin-top:24px; } .spec { padding:13px; border:1px solid var(--line); border-radius:13px; background:rgba(255,255,255,.025); } .spec b { display:block; margin-bottom:4px; color:#978b70; font-size:10px; letter-spacing:.13em; text-transform:uppercase; }
-    .visit { max-width:760px; padding:28px; border:1px solid var(--line); border-radius:22px; background:rgba(255,255,255,.035); } .visit h2 { margin-top:0; } .faq { margin-top:56px; padding-top:34px; border-top:1px solid var(--line); } .faq h2 { margin:0 0 22px; font-size:clamp(27px,4vw,42px); } .faq-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:14px; } .faq article { padding:18px; border:1px solid var(--line); border-radius:16px; background:rgba(255,255,255,.025); } .faq h3 { margin:0 0 9px; font-size:17px; } .faq p { margin:0; color:#bdb4a4; font-size:14px; } footer { padding:28px 0; border-top:1px solid var(--line); color:#9f9787; font-size:13px; } footer nav { justify-content:flex-start; margin-bottom:16px; } footer a { color:#e1be70; }
+    .visit { max-width:760px; margin-bottom:32px; padding:28px; border:1px solid var(--line); border-radius:22px; background:rgba(255,255,255,.035); } .visit h2 { margin-top:0; } .faq { margin-top:56px; padding-top:34px; border-top:1px solid var(--line); } .faq h2 { margin:0 0 22px; font-size:clamp(27px,4vw,42px); } .faq-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:14px; } .faq article { padding:18px; border:1px solid var(--line); border-radius:16px; background:rgba(255,255,255,.025); } .faq h3 { margin:0 0 9px; font-size:17px; } .faq p { margin:0; color:#bdb4a4; font-size:14px; } footer { padding:28px 0; border-top:1px solid var(--line); color:#9f9787; font-size:13px; } footer nav { justify-content:flex-start; margin-bottom:16px; } footer a { color:#e1be70; }
     @media (max-width:720px) { header { padding:16px 0; align-items:flex-start; flex-direction:column; } nav { justify-content:flex-start; } .detail { grid-template-columns:1fr; } .specs { grid-template-columns:1fr; } }
   </style>
 </head>`;
 
 const pageFooter = () => `<footer><div class="shell"><nav aria-label="Explore Kross One Gadgets">${collectionPages.map((page) => `<a href="/collections/${page.slug}/">${markup(page.slug === 'shop' ? 'Shop all gadgets' : page.title)}</a>`).join('')}</nav>Kross One Gadgets · Shop #18A, Lugogo Mall, Kampala · <a href="tel:+256752117111">0752 117 111</a> · <a href="mailto:kross1gadgets@gmail.com">kross1gadgets@gmail.com</a></div></footer>`;
 
-const primaryNavigationSlugs = ['shop', 'mobiles', 'laptops', 'ipads-tablets', 'audio', 'watches', 'visit'];
+const primaryNavigationSlugs = ['shop', 'apple-products-kampala', 'iphones-kampala', 'laptops', 'ipads-tablets', 'audio', 'watches', 'visit'];
 const pageHeader = () => `<header class="shell"><a class="brand" href="/"><img src="/assets/kross-one-gadgets-logo-square.png" alt="Kross One Gadgets"><span>KROSS ONE GADGETS<small>Apple & Samsung Store · Lugogo Mall</small></span></a><nav aria-label="Primary">${primaryNavigationSlugs.map((slug) => collectionPages.find((page) => page.slug === slug)).filter(Boolean).map((page) => `<a href="${collectionUrl(page.slug).replace(siteUrl, '')}">${markup(page.slug === 'shop' ? 'Shop' : page.title)}</a>`).join('')}</nav></header>`;
 
 const productCard = (product) => `<article class="card"><a href="${productUrl(product.id).replace(siteUrl, '')}"><img src="${productImage(product).replace(siteUrl, '')}" alt="${markup(product.name)}" loading="lazy" decoding="async"><div><span class="kicker">${markup(categoryName(product.cat))}</span><h2>${markup(product.name)}</h2><p>${markup(product.blurb)}</p></div></a></article>`;
@@ -187,9 +253,9 @@ const renderCollection = (page, catalog) => {
     return `${head({ title: page.title, description: page.description, canonical, image: `${siteUrl}/assets/og-kross-one-gadgets-v3.png`, schema })}<body>${pageHeader()}<main class="shell"><p class="eyebrow">Visit the shop</p><h1>Kross One Gadgets, Lugogo Mall.</h1><p class="intro">Tell us the model. We reply with today’s price, the condition and the warranty — nothing hidden.</p><section class="visit"><h2>Shop #18A, Lugogo Mall</h2><p>Lugogo Bypass, Kampala</p><p><b>Monday–Saturday:</b> 9:00–20:00<br><b>Sunday:</b> 10:00–18:00</p><div class="actions"><a class="button" href="https://wa.me/256752117111?text=Hello%20Kross%20One%20Gadgets%2C%20I%20would%20like%20today%27s%20price.">Talk on WhatsApp</a><a class="button secondary" href="/#/visit">Open the interactive visit page</a></div></section>${renderFaq(faqs)}</main>${pageFooter()}</body></html>`;
   }
 
-  const products = page.categories ? catalog.filter((product) => page.categories.includes(product.cat)) : catalog;
+  const products = productsForCollection(page, catalog);
   const canonical = collectionUrl(page.slug);
-  const faqs = collectionFaqs(page.title);
+  const faqs = page.faqs || collectionFaqs(page.title);
   const schema = {
     '@context': 'https://schema.org',
     '@graph': [
@@ -201,8 +267,14 @@ const renderCollection = (page, catalog) => {
     ]
   };
   const image = products.length ? productImage(products[0]) : `${siteUrl}/assets/og-kross-one-gadgets-v3.png`;
-  const liveRoute = page.slug === 'shop' ? '/#/shop' : page.slug === 'ipads-tablets' ? '/#/shop/tablets' : page.slug === 'bags-travel' ? '/#/shop/bags' : page.slug === 'fragrance-grooming' ? '/#/shop/lifestyle' : `/#/shop/${page.categories[0]}`;
-  return `${head({ title: page.title, description: page.description, canonical, image, schema })}<body>${pageHeader()}<main class="shell"><p class="eyebrow">Kross One Gadgets · Lugogo Mall</p><h1>${markup(page.title)}.</h1><p class="intro">${markup(page.description)} Ask Kross One Gadgets for today’s price, condition and warranty before you visit.</p><div class="actions"><a class="button" href="${liveRoute}">Browse the interactive collection</a><a class="button secondary" href="/collections/visit/">Visit the shop</a></div><section class="grid" aria-label="${markup(page.title)} catalogue">${products.map(productCard).join('')}</section>${renderFaq(faqs)}</main>${pageFooter()}</body></html>`;
+  const liveRoute = page.liveRoute || (page.slug === 'shop' ? '/#/shop' : page.slug === 'ipads-tablets' ? '/#/shop/tablets' : page.slug === 'bags-travel' ? '/#/shop/bags' : page.slug === 'fragrance-grooming' ? '/#/shop/lifestyle' : `/#/shop/${page.categories[0]}`);
+  const enquiry = page.productFilter === 'iphone'
+    ? 'Hello Kross One Gadgets, I would like to confirm which iPhones are in stock today.'
+    : 'Hello Kross One Gadgets, I would like to confirm which Apple products are in stock today.';
+  const localPanel = page.localIntent
+    ? `<section class="visit" aria-labelledby="local-shop-title"><h2 id="local-shop-title">Visit Shop #18A at Lugogo Mall.</h2><p>Kross One Gadgets is an independent electronics retailer on Lugogo Bypass in Kampala. Browse the current catalogue below, then contact the team to confirm the exact model, price, condition and warranty before travelling.</p><p><b>Monday–Saturday:</b> 9:00–20:00<br><b>Sunday:</b> 10:00–18:00</p><div class="actions"><a class="button" href="https://wa.me/256752117111?text=${encodeURIComponent(enquiry)}">Check availability on WhatsApp</a><a class="button secondary" href="/collections/visit/">Directions and store details</a></div></section>`
+    : '';
+  return `${head({ title: page.title, description: page.description, canonical, image, schema })}<body>${pageHeader()}<main class="shell"><p class="eyebrow">Kross One Gadgets · Lugogo Mall</p><h1>${markup(page.title)}.</h1><p class="intro">${markup(page.description)} Ask Kross One Gadgets for today’s price, condition and warranty before you visit.</p><div class="actions"><a class="button" href="${liveRoute}">Browse the interactive collection</a><a class="button secondary" href="/collections/visit/">Visit the shop</a></div>${localPanel}<section class="grid" aria-label="${markup(page.title)} catalogue">${products.map(productCard).join('')}</section>${renderFaq(faqs)}</main>${pageFooter()}</body></html>`;
 };
 
 const renderProduct = (product) => {
