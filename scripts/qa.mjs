@@ -31,6 +31,7 @@ const builtAppLogic = await readFile(path.join(root, 'dist', 'app-logic.js'), 'u
 const builtAdminLogic = await readFile(path.join(root, 'dist', 'admin-logic.js'), 'utf8');
 const builtRobots = await readFile(path.join(root, 'dist', 'robots.txt'), 'utf8');
 const builtLlms = await readFile(path.join(root, 'dist', 'llms.txt'), 'utf8');
+const builtLlmsFull = await readFile(path.join(root, 'dist', 'llms-full.txt'), 'utf8');
 const builtGoogleVerification = await readFile(path.join(root, 'dist', 'googlee264a0cdaaba06d8.html'), 'utf8');
 const builtSitemap = await readFile(path.join(root, 'dist', 'sitemap.xml'), 'utf8');
 const builtRouterLinks = await readFile(path.join(root, 'dist', 'router-links.js'), 'utf8');
@@ -39,7 +40,10 @@ const builtLaptopCollection = await readFile(path.join(root, 'dist', 'collection
 const builtIpadCollection = await readFile(path.join(root, 'dist', 'collections', 'ipads-tablets', 'index.html'), 'utf8');
 const builtAppleCollection = await readFile(path.join(root, 'dist', 'collections', 'apple-products-kampala', 'index.html'), 'utf8');
 const builtIphoneCollection = await readFile(path.join(root, 'dist', 'collections', 'iphones-kampala', 'index.html'), 'utf8');
+const builtSamsungUltraCollection = await readFile(path.join(root, 'dist', 'collections', 'samsung-galaxy-ultra-kampala', 'index.html'), 'utf8');
 const builtProductPage = await readFile(path.join(root, 'dist', 'products', 'macbook-air-13-m5', 'index.html'), 'utf8');
+const builtIphoneProductPage = await readFile(path.join(root, 'dist', 'products', 'iphone-17-pro-max', 'index.html'), 'utf8');
+const builtSamsungUltraProductPage = await readFile(path.join(root, 'dist', 'products', 'galaxy-s26-ultra', 'index.html'), 'utf8');
 const seoCatalog = parseCatalog(html);
 
 const requireText = (source, needle, label) => {
@@ -56,7 +60,7 @@ const hashText = (source) => createHash('sha256').update(source.replace(/\r\n/g,
 const hashBytes = (source) => createHash('sha256').update(source).digest('hex');
 
 // Storefront: keep the approved v2 client revision and its runtime/assets lossless.
-if (hashText(html) !== 'd51b387a7c04bb5baefb3438b4ff8eac80f7362c66fb1a17530f7149ce7a1223') {
+if (hashText(html) !== '1ee742b6fd98649d5d783b864270eae40e4d582e7cb2ec130c76e766ecee2a1e') {
   throw new Error('index.html differs from the approved responsive Kross One Gadgets v2 client revision.');
 }
 if (hashText(support) !== '8a955e8f2bf16b5a69dc1e14015c15db35632676c50a978d5ac94a6f8adc84db') {
@@ -115,6 +119,9 @@ requireText(html, 'assets/kross-one-gadgets-logo-square.png', 'square Kross One 
 requireText(html, '"@type": "WebSite"', 'website structured data');
 requireText(html, '"@type": "SiteNavigationElement"', 'site navigation structured data');
 requireText(html, '"@type": "OfferCatalog"', 'local inventory catalogue structured data');
+requireText(html, '"sameAs": [', 'social entity identity links');
+requireText(html, '"knowsAbout": ["Apple iPhone", "Samsung Galaxy"', 'store expertise entity signals');
+requireText(html, '<link rel="alternate" type="text/plain" href="/llms.txt"', 'machine-readable store summary discovery');
 requireText(adminHtml, 'name="robots" content="noindex,nofollow,noarchive,nosnippet"', 'admin search exclusion');
 requireText(vercelConfig, 'Content-Security-Policy', 'Vercel content security policy');
 requireText(vercelConfig, '"type": "host"', 'retired Vercel host redirect condition');
@@ -135,6 +142,7 @@ requireText(html, 'href="/collections/shop/" data-app-route="#/shop"', 'crawlabl
 requireText(html, 'href="/collections/visit/" data-app-route="#/visit"', 'crawlable visit navigation with interactive route');
 requireText(html, 'href="/collections/apple-products-kampala/"', 'crawlable Apple products navigation');
 requireText(html, "href: '/collections/iphones-kampala/'", 'crawlable iPhones in Kampala navigation');
+requireText(html, 'href="/collections/samsung-galaxy-ultra-kampala/"', 'crawlable Samsung Galaxy Ultra navigation');
 requireText(html, "href: '/products/' + encodeURIComponent(p.id) + '/'", 'crawlable product links');
 requireText(routerLinks, "document.addEventListener('click'", 'delegated interactive routing');
 requireText(routerLinks, "anchor.dataset.appRoute", 'interactive route metadata');
@@ -229,7 +237,7 @@ if (seoCatalog.filter((product) => product.cat === 'laptops').length < 6) {
 if (seoCatalog.filter((product) => product.cat === 'tablets').length < 5) {
   throw new Error('The storefront must include at least five authentic iPad models.');
 }
-if (collectionPages.length < 10) throw new Error('Crawlable collection pages are incomplete.');
+if (collectionPages.length < 13) throw new Error('Crawlable collection pages are incomplete.');
 
 const ownerMediaNames = [
   'apple-watch-ultra-2.mp4', 'bose-qc-ultra-white.webp', 'bose-soundlink-max-black.jpg',
@@ -329,31 +337,46 @@ if (hashBytes(builtFavicon) !== hashBytes(favicon)) throw new Error('The convent
 if (favicon.length < 1_000) throw new Error('The conventional favicon is unexpectedly small.');
 requireText(builtRobots, `Sitemap: ${siteUrl}/sitemap.xml`, 'built canonical robots sitemap directive');
 requireText(builtLlms, `Canonical website: ${siteUrl}/`, 'AI discovery canonical identity');
+requireText(builtLlms, `${siteUrl}/llms-full.txt`, 'detailed AI discovery guide link');
+requireText(builtLlmsFull, 'Kross One Gadgets is an independent electronics and lifestyle retailer', 'truthful machine-readable store identity');
+requireText(builtLlmsFull, `${siteUrl}/collections/samsung-galaxy-ultra-kampala/`, 'machine-readable Samsung Galaxy Ultra guide');
 requireText(builtHtml, `${siteUrl}/#website`, 'built custom-domain WebSite identity');
 requireText(builtSitemap, `${siteUrl}/collections/laptops/`, 'generated laptops collection sitemap URL');
 requireText(builtSitemap, `${siteUrl}/collections/apple-products-kampala/`, 'generated Apple products collection sitemap URL');
 requireText(builtSitemap, `${siteUrl}/collections/iphones-kampala/`, 'generated iPhones collection sitemap URL');
+requireText(builtSitemap, `${siteUrl}/collections/samsung-galaxy-ultra-kampala/`, 'generated Samsung Galaxy Ultra collection sitemap URL');
 requireText(builtSitemap, `${siteUrl}/products/macbook-air-13-m5/`, 'generated product sitemap URL');
 if (builtSitemap.includes('kross-one-gadget-shop.vercel.app')) throw new Error('The generated sitemap still contains the retired Vercel origin.');
 const sitemapUrlCount = [...builtSitemap.matchAll(/<loc>/g)].length;
 if (sitemapUrlCount !== 1 + collectionPages.length + seoCatalog.length) throw new Error(`Generated sitemap URL count is incorrect: ${sitemapUrlCount}.`);
 requireText(builtLaptopCollection, 'MacBook Air 13-inch', 'crawlable laptops collection content');
 requireText(builtIpadCollection, 'iPad Pro 13-inch', 'crawlable iPads collection content');
-requireText(builtAppleCollection, 'Shop Apple Products in Kampala', 'local Apple collection heading');
+requireText(builtAppleCollection, 'Apple Products &amp; iPhones in Kampala, Uganda', 'local Apple collection heading');
+requireText(builtAppleCollection, '<title>Apple Shop Kampala &amp; Uganda | Kross One Gadgets</title>', 'focused Apple shop search title');
+requireText(builtAppleCollection, 'Looking for an Apple shop in Kampala?', 'substantive Apple shop local content');
 requireText(builtAppleCollection, 'iPhone 17 Pro Max', 'local Apple collection iPhone inventory');
 requireText(builtAppleCollection, 'MacBook Air 13-inch', 'local Apple collection MacBook inventory');
 requireText(builtAppleCollection, 'iPad Pro 13-inch', 'local Apple collection iPad inventory');
 requireText(builtAppleCollection, 'independent electronics retailer', 'truthful local Apple retailer disclosure');
 requireText(builtIphoneCollection, 'iPhones in Kampala', 'local iPhone collection heading');
+requireText(builtIphoneCollection, '<title>iPhones Kampala &amp; Uganda | Kross One Gadgets</title>', 'focused iPhone search title');
+requireText(builtIphoneCollection, 'Brand-new and certified pre-owned iPhones', 'substantive iPhone buying guidance');
 requireText(builtIphoneCollection, 'iPhone 17 Pro Max', 'local iPhone collection inventory');
 requireText(builtIphoneCollection, 'Shop #18A at Lugogo Mall', 'local iPhone collection store detail');
 if (builtIphoneCollection.includes('MacBook Air 13-inch')) throw new Error('The iPhones in Kampala collection must not contain unrelated MacBooks.');
+requireText(builtSamsungUltraCollection, '<title>Samsung Galaxy Ultra Kampala &amp; Uganda | Kross One Gadgets</title>', 'focused Samsung Galaxy Ultra search title');
+requireText(builtSamsungUltraCollection, 'Samsung Galaxy S26 Ultra', 'local Samsung Galaxy Ultra inventory');
+requireText(builtSamsungUltraCollection, 'Latest Samsung Galaxy Ultra phones in Kampala', 'substantive Samsung Ultra local content');
+requireText(builtSamsungUltraCollection, '"@type":"BreadcrumbList"', 'Samsung Ultra breadcrumb structured data');
 requireText(builtLaptopCollection, '"@type":"FAQPage"', 'visible collection FAQ structured data');
 requireText(builtLaptopCollection, 'aria-label="Primary"', 'crawlable primary collection navigation');
 requireText(builtLaptopCollection, 'aria-label="Explore Kross One Gadgets"', 'crawlable sitewide collection footer');
 requireText(builtLaptopCollection, '<link rel="icon" href="/favicon.ico" sizes="any">', 'collection root favicon discovery');
 requireText(builtProductPage, '"@type":"Product"', 'product structured data');
-for (const [label, document] of [['home', builtHtml], ['laptops collection', builtLaptopCollection], ['iPads collection', builtIpadCollection], ['Apple products collection', builtAppleCollection], ['iPhones collection', builtIphoneCollection], ['product', builtProductPage]]) validateJsonLd(label, document);
+requireText(builtIphoneProductPage, '<title>iPhone 17 Pro Max in Kampala, Uganda | Kross One Gadgets</title>', 'local iPhone product title');
+requireText(builtSamsungUltraProductPage, '<title>Samsung Galaxy S26 Ultra in Kampala, Uganda | Kross One Gadgets</title>', 'local Samsung Ultra product title');
+requireText(builtSamsungUltraProductPage, '"brand":{"@type":"Brand","name":"Samsung"}', 'Samsung product brand structured data');
+for (const [label, document] of [['home', builtHtml], ['laptops collection', builtLaptopCollection], ['iPads collection', builtIpadCollection], ['Apple products collection', builtAppleCollection], ['iPhones collection', builtIphoneCollection], ['Samsung Galaxy Ultra collection', builtSamsungUltraCollection], ['product', builtProductPage], ['iPhone product', builtIphoneProductPage], ['Samsung Ultra product', builtSamsungUltraProductPage]]) validateJsonLd(label, document);
 
 const assetFiles = await readdir(path.join(root, 'public', 'assets'));
 console.log(`QA passed: approved responsive v2 client revision, strict-CSP precompiled storefront + admin logic, custom-domain canonical signals, crawlable collections/products/FAQ data, AI discovery index, expanded search prompts, phone/tablet orbit, official catalog media with owner-media exclusion, ${assetRefs.length} storefront and ${adminAssetRefs.length} admin local references, ${assetFiles.length} packaged assets, routes/enquiry flow, admin gate/2FA, and exact reviewed dist output.`);
