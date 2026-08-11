@@ -24,11 +24,36 @@ export const collectionPages = [
   { slug: 'mobiles', title: 'Apple & Samsung Phones', description: 'Explore current Apple iPhone, Samsung Galaxy Ultra and Galaxy Fold-series devices at Kross One Gadgets in Lugogo Mall.', categories: ['mobiles'] },
   {
     slug: 'apple-products-kampala',
-    title: 'Shop Apple Products in Kampala',
-    description: 'Browse iPhone, iPad, MacBook, Apple Watch and AirPods at Kross One Gadgets, Shop #18A, Lugogo Mall, Kampala. Ask for current availability, price, condition and warranty.',
+    title: 'Apple Products & iPhones in Kampala, Uganda',
+    seoTitle: 'Apple Shop Kampala & Uganda',
+    description: 'Compare iPhone, iPad, MacBook, Apple Watch and AirPods at Kross One Gadgets, Lugogo Mall. Confirm today’s stock, price, condition and warranty.',
     productFilter: 'apple',
     liveRoute: '/#/shop',
     localIntent: true,
+    inventoryTitle: 'Apple devices in the Kross One catalogue',
+    about: ['Apple products', 'iPhones', 'MacBook', 'iPad', 'Apple Watch', 'AirPods', 'Kampala', 'Uganda'],
+    content: [
+      {
+        heading: 'Looking for an Apple shop in Kampala?',
+        paragraphs: [
+          'Kross One Gadgets is an independent electronics retailer at Shop #18A, Lugogo Mall. Customers looking for Apple products in Kampala can compare current iPhone, iPad, MacBook, Apple Watch and AirPods models here before contacting the shop.',
+          'The catalogue is a model guide, not a promise that every colour or storage option is on the shelf. The team confirms the exact device, condition, price and applicable warranty for the item available that day.'
+        ]
+      },
+      {
+        heading: 'Apple products for Kampala and Uganda customers',
+        paragraphs: [
+          'The range covers current iPhones, MacBook Air and MacBook Pro, iPad Pro and iPad Air, Apple Watch and AirPods. Customers outside Kampala can ask whether delivery is available to their location in Uganda after the exact item has been confirmed.'
+        ],
+        points: ['Confirm the exact model and generation', 'Check storage, colour and device condition', 'Ask for the warranty terms on that item', 'Arrange Lugogo Mall collection or ask about delivery']
+      },
+      {
+        heading: 'An independent Apple-products retailer',
+        paragraphs: [
+          'Kross One Gadgets does not present itself as an Apple-owned store or Apple Authorised Reseller. It is an independent Kampala electronics shop that helps customers verify the details of the device offered before purchase.'
+        ]
+      }
+    ],
     faqs: [
       {
         question: 'Where can I shop for Apple products in Kampala?',
@@ -41,16 +66,45 @@ export const collectionPages = [
       {
         question: 'Is Kross One Gadgets an official Apple Store?',
         answer: 'Kross One Gadgets is an independent electronics retailer. Before purchase, the team confirms the exact item condition, applicable warranty and supplier terms for the device in stock.'
+      },
+      {
+        question: 'Can customers looking for an Apple shop in Uganda order from outside Kampala?',
+        answer: 'Customers elsewhere in Uganda can contact Kross One Gadgets with the exact Apple model they need. The team will confirm stock and advise whether delivery is available to that location.'
       }
     ]
   },
   {
     slug: 'iphones-kampala',
-    title: 'iPhones in Kampala',
-    description: 'Browse current iPhone models at Kross One Gadgets, Shop #18A, Lugogo Mall, Kampala. Ask for today\'s available storage, colour, price, condition and warranty.',
+    title: 'iPhones in Kampala & Uganda',
+    seoTitle: 'iPhones Kampala & Uganda',
+    description: 'Compare current iPhones at Kross One Gadgets, Shop #18A, Lugogo Mall, Kampala. Confirm today’s model, storage, colour, price, condition and warranty.',
     productFilter: 'iphone',
     liveRoute: '/#/shop/mobiles',
     localIntent: true,
+    inventoryTitle: 'Current iPhone models in the catalogue',
+    about: ['iPhones', 'iPhone shop', 'Apple smartphones', 'Kampala', 'Uganda'],
+    content: [
+      {
+        heading: 'Compare iPhones in Kampala before you visit',
+        paragraphs: [
+          'Kross One Gadgets lists the iPhone models customers most often ask for, including the current iPhone 17 range and selected earlier Pro models. Each product page shows the model details available for comparison.',
+          'Because phone stock changes quickly, send the exact model, storage and preferred colour on WhatsApp before travelling to Lugogo Mall.'
+        ]
+      },
+      {
+        heading: 'Brand-new and certified pre-owned iPhones',
+        paragraphs: [
+          'Condition matters as much as the model name. Kross One Gadgets confirms whether the particular iPhone is brand new or certified pre-owned, together with its warranty terms. A condition shown for one listing is never silently applied to another device.'
+        ],
+        points: ['Model and generation', 'Storage and colour', 'Brand-new or certified condition', 'Price and item-specific warranty']
+      },
+      {
+        heading: 'Shopping for an iPhone elsewhere in Uganda?',
+        paragraphs: [
+          'Customers outside Kampala can ask whether delivery is available to their district. The shop first confirms the exact iPhone and purchase details, then advises on collection or delivery options.'
+        ]
+      }
+    ],
     faqs: [
       {
         question: 'Which iPhone models are available in Kampala?',
@@ -63,6 +117,61 @@ export const collectionPages = [
       {
         question: 'How do I confirm an iPhone price and warranty?',
         answer: 'Send the model and preferred storage or colour by WhatsApp. The store will confirm the current price, whether the item is brand new or certified pre-owned, and the warranty terms for that exact device.'
+      },
+      {
+        question: 'Where is the Kross One iPhone shop in Kampala?',
+        answer: 'Kross One Gadgets is at Shop #18A, Lugogo Mall on Lugogo Bypass, Kampala. Contact the team before visiting so the requested iPhone can be confirmed.'
+      }
+    ]
+  },
+  {
+    slug: 'samsung-galaxy-ultra-kampala',
+    title: 'Samsung Galaxy Ultra in Kampala & Uganda',
+    seoTitle: 'Samsung Galaxy Ultra Kampala & Uganda',
+    description: 'Compare Samsung Galaxy S26 Ultra models at Kross One Gadgets, Lugogo Mall, Kampala. Confirm today’s storage, colour, price and warranty before you visit.',
+    productFilter: 'samsung-ultra',
+    liveRoute: '/#/shop/mobiles',
+    localIntent: true,
+    inventoryTitle: 'Samsung Galaxy Ultra models in the catalogue',
+    about: ['Samsung Galaxy Ultra', 'Samsung Galaxy S26 Ultra', 'Samsung phones', 'Kampala', 'Uganda'],
+    content: [
+      {
+        heading: 'Latest Samsung Galaxy Ultra phones in Kampala',
+        paragraphs: [
+          'Kross One Gadgets carries Samsung flagship models through its Lugogo Mall shop. The current catalogue includes the Samsung Galaxy S26 Ultra and its available catalogue variations for customers comparing the latest Ultra phone in Kampala.',
+          'Contact the shop before travelling so the exact storage, colour, price and warranty can be confirmed for the device available that day.'
+        ]
+      },
+      {
+        heading: 'Samsung Galaxy S26 Ultra buying details',
+        paragraphs: [
+          'The Galaxy S26 Ultra catalogue highlights Samsung’s current Ultra flagship, including its 6.9-inch display, 200MP main camera and integrated S Pen. Final purchase details come from the exact device and supplier terms, not a generic promise.'
+        ],
+        points: ['Confirm storage and colour', 'Ask for today’s price', 'Verify the exact warranty terms', 'Arrange Lugogo Mall collection or ask about delivery']
+      },
+      {
+        heading: 'Samsung Ultra enquiries from across Uganda',
+        paragraphs: [
+          'Customers outside Kampala can send the requested Galaxy Ultra model to the shop. Kross One Gadgets will confirm the item first and advise whether delivery is available to the customer’s location.'
+        ]
+      }
+    ],
+    faqs: [
+      {
+        question: 'Where can I buy a Samsung Galaxy Ultra in Kampala?',
+        answer: 'Visit Kross One Gadgets at Shop #18A, Lugogo Mall, Lugogo Bypass, Kampala. Confirm the exact Samsung Ultra model and stock before travelling.'
+      },
+      {
+        question: 'Is the Samsung Galaxy S26 Ultra available in Kampala?',
+        answer: 'The Galaxy S26 Ultra is included in the Kross One Gadgets catalogue. Contact the shop to confirm the storage, colour and exact device available today.'
+      },
+      {
+        question: 'Can I order a Samsung Ultra from elsewhere in Uganda?',
+        answer: 'Send the requested model and your location to Kross One Gadgets. The team will confirm the phone and advise whether delivery is available to your area.'
+      },
+      {
+        question: 'How do I confirm the Samsung Ultra price and warranty?',
+        answer: 'Ask for the exact model and configuration on WhatsApp. Kross One Gadgets will reply with today’s price and the warranty terms for that particular item.'
       }
     ]
   },
@@ -100,6 +209,7 @@ const appleProductPattern = /(?:iphone|ipad|macbook|apple watch|airpods|beats)/i
 const productsForCollection = (page, catalog) => {
   if (page.productFilter === 'apple') return catalog.filter((product) => appleProductPattern.test(product.name));
   if (page.productFilter === 'iphone') return catalog.filter((product) => /iphone/i.test(product.name));
+  if (page.productFilter === 'samsung-ultra') return catalog.filter((product) => /samsung galaxy s\d+ ultra/i.test(product.name));
   return page.categories ? catalog.filter((product) => page.categories.includes(product.cat)) : catalog;
 };
 
@@ -125,6 +235,7 @@ const localBusiness = {
     height: 512
   },
   description: 'Apple, Samsung, laptops, watches, audio, gaming, bags and lifestyle essentials at Shop #18A, Lugogo Mall, Kampala.',
+  foundingDate: '2013',
   telephone: '+256752117111',
   email: 'kross1gadgets@gmail.com',
   priceRange: '$$',
@@ -141,12 +252,19 @@ const localBusiness = {
   ],
   areaServed: { '@type': 'City', name: 'Kampala' },
   contactPoint: { '@type': 'ContactPoint', telephone: '+256752117111', contactType: 'sales', availableLanguage: 'English' },
+  sameAs: [
+    'https://instagram.com/krossonegadgetshop',
+    'https://tiktok.com/@krossonegadgetshop',
+    'https://facebook.com/krossonegadgetshop'
+  ],
+  knowsAbout: ['Apple iPhone', 'Samsung Galaxy', 'MacBook', 'iPad', 'Apple Watch', 'smartphones', 'consumer electronics'],
   hasOfferCatalog: {
     '@type': 'OfferCatalog',
     name: 'Kross One Gadgets catalogue',
     itemListElement: [
       { '@type': 'OfferCatalog', name: 'Apple products in Kampala', url: `${siteUrl}/collections/apple-products-kampala/` },
       { '@type': 'OfferCatalog', name: 'iPhones in Kampala', url: `${siteUrl}/collections/iphones-kampala/` },
+      { '@type': 'OfferCatalog', name: 'Samsung Galaxy Ultra in Kampala', url: `${siteUrl}/collections/samsung-galaxy-ultra-kampala/` },
       { '@type': 'OfferCatalog', name: 'Samsung phones', url: `${siteUrl}/collections/mobiles/` },
       { '@type': 'OfferCatalog', name: 'Laptops', url: `${siteUrl}/collections/laptops/` },
       { '@type': 'OfferCatalog', name: 'iPads and tablets', url: `${siteUrl}/collections/ipads-tablets/` }
@@ -206,6 +324,7 @@ const head = ({ title, description, canonical, image, schema }) => `<!doctype ht
   <link rel="icon" href="/favicon.ico" sizes="any">
   <link rel="icon" href="/assets/kross-one-gadgets-logo-square.png" type="image/png" sizes="512x512">
   <link rel="apple-touch-icon" href="/assets/kross-one-gadgets-logo-square.png">
+  <link rel="alternate" type="text/plain" href="/llms.txt" title="Kross One Gadgets machine-readable summary">
   <meta name="theme-color" content="#08080b">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Kross One Gadgets">
@@ -228,19 +347,23 @@ const head = ({ title, description, canonical, image, schema }) => `<!doctype ht
     .actions { display:flex; flex-wrap:wrap; gap:12px; margin:28px 0 50px; } .button { display:inline-flex; align-items:center; min-height:46px; padding:0 20px; border:1px solid var(--gold); border-radius:999px; color:#1a1304; background:linear-gradient(135deg,#f0d38a,#c9922e); font-weight:800; } .button.secondary { color:#eee6d3; background:transparent; border-color:var(--line); }
     .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:16px; } .card { overflow:hidden; min-width:0; border:1px solid var(--line); border-radius:18px; background:linear-gradient(145deg,rgba(255,255,255,.05),rgba(255,255,255,.015)); } .card img { display:block; width:100%; aspect-ratio:1/0.82; object-fit:cover; background:#111; } .card div { padding:17px; } .kicker { color:#988e78; font-size:10px; font-weight:800; letter-spacing:.16em; text-transform:uppercase; } .card h2 { margin:7px 0 8px; font-size:20px; letter-spacing:-.025em; } .card p { margin:0; color:#bdb4a4; font-size:14px; }
     .detail { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:clamp(24px,5vw,60px); align-items:start; } .detail img { width:100%; max-height:580px; border:1px solid var(--line); border-radius:22px; object-fit:contain; background:#111; } .specs { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; margin-top:24px; } .spec { padding:13px; border:1px solid var(--line); border-radius:13px; background:rgba(255,255,255,.025); } .spec b { display:block; margin-bottom:4px; color:#978b70; font-size:10px; letter-spacing:.13em; text-transform:uppercase; }
-    .visit { max-width:760px; margin-bottom:32px; padding:28px; border:1px solid var(--line); border-radius:22px; background:rgba(255,255,255,.035); } .visit h2 { margin-top:0; } .faq { margin-top:56px; padding-top:34px; border-top:1px solid var(--line); } .faq h2 { margin:0 0 22px; font-size:clamp(27px,4vw,42px); } .faq-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:14px; } .faq article { padding:18px; border:1px solid var(--line); border-radius:16px; background:rgba(255,255,255,.025); } .faq h3 { margin:0 0 9px; font-size:17px; } .faq p { margin:0; color:#bdb4a4; font-size:14px; } footer { padding:28px 0; border-top:1px solid var(--line); color:#9f9787; font-size:13px; } footer nav { justify-content:flex-start; margin-bottom:16px; } footer a { color:#e1be70; }
+    .editorial { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr)); gap:16px; margin:0 0 32px; } .editorial article { padding:clamp(22px,3vw,30px); border:1px solid var(--line); border-radius:20px; background:linear-gradient(145deg,rgba(212,175,90,.075),rgba(255,255,255,.018)); } .editorial h2 { margin:0 0 13px; font-size:clamp(22px,2.7vw,31px); line-height:1.12; letter-spacing:-.025em; } .editorial p { margin:0 0 13px; color:#c2baab; } .editorial p:last-child { margin-bottom:0; } .editorial ul { margin:16px 0 0; padding-left:19px; color:#d7cebd; } .editorial li + li { margin-top:7px; } .inventory { padding-top:18px; } .inventory h2 { margin:0 0 24px; font-size:clamp(27px,4vw,42px); letter-spacing:-.035em; } .local-note { max-width:680px; margin:20px 0 0; padding:16px 18px; border-left:3px solid var(--gold); color:#c9c0af; background:rgba(212,175,90,.06); } .visit { max-width:760px; margin-bottom:32px; padding:28px; border:1px solid var(--line); border-radius:22px; background:rgba(255,255,255,.035); } .visit h2 { margin-top:0; } .faq { margin-top:56px; padding-top:34px; border-top:1px solid var(--line); } .faq h2 { margin:0 0 22px; font-size:clamp(27px,4vw,42px); } .faq-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:14px; } .faq article { padding:18px; border:1px solid var(--line); border-radius:16px; background:rgba(255,255,255,.025); } .faq h3 { margin:0 0 9px; font-size:17px; } .faq p { margin:0; color:#bdb4a4; font-size:14px; } footer { padding:28px 0; border-top:1px solid var(--line); color:#9f9787; font-size:13px; } footer nav { justify-content:flex-start; margin-bottom:16px; } footer a { color:#e1be70; }
     @media (max-width:720px) { header { padding:16px 0; align-items:flex-start; flex-direction:column; } nav { justify-content:flex-start; } .detail { grid-template-columns:1fr; } .specs { grid-template-columns:1fr; } }
   </style>
 </head>`;
 
 const pageFooter = () => `<footer><div class="shell"><nav aria-label="Explore Kross One Gadgets">${collectionPages.map((page) => `<a href="/collections/${page.slug}/">${markup(page.slug === 'shop' ? 'Shop all gadgets' : page.title)}</a>`).join('')}</nav>Kross One Gadgets · Shop #18A, Lugogo Mall, Kampala · <a href="tel:+256752117111">0752 117 111</a> · <a href="mailto:kross1gadgets@gmail.com">kross1gadgets@gmail.com</a></div></footer>`;
 
-const primaryNavigationSlugs = ['shop', 'apple-products-kampala', 'iphones-kampala', 'laptops', 'ipads-tablets', 'audio', 'watches', 'visit'];
+const primaryNavigationSlugs = ['shop', 'apple-products-kampala', 'iphones-kampala', 'samsung-galaxy-ultra-kampala', 'laptops', 'ipads-tablets', 'audio', 'visit'];
 const pageHeader = () => `<header class="shell"><a class="brand" href="/"><img src="/assets/kross-one-gadgets-logo-square.png" alt="Kross One Gadgets"><span>KROSS ONE GADGETS<small>Apple & Samsung Store · Lugogo Mall</small></span></a><nav aria-label="Primary">${primaryNavigationSlugs.map((slug) => collectionPages.find((page) => page.slug === slug)).filter(Boolean).map((page) => `<a href="${collectionUrl(page.slug).replace(siteUrl, '')}">${markup(page.slug === 'shop' ? 'Shop' : page.title)}</a>`).join('')}</nav></header>`;
 
 const productCard = (product) => `<article class="card"><a href="${productUrl(product.id).replace(siteUrl, '')}"><img src="${productImage(product).replace(siteUrl, '')}" alt="${markup(product.name)}" loading="lazy" decoding="async"><div><span class="kicker">${markup(categoryName(product.cat))}</span><h2>${markup(product.name)}</h2><p>${markup(product.blurb)}</p></div></a></article>`;
 
 const renderFaq = (faqs) => `<section class="faq" aria-labelledby="questions-title"><p class="eyebrow">Clear answers before you buy</p><h2 id="questions-title">What customers ask us.</h2><div class="faq-grid">${faqs.map(({ question, answer }) => `<article><h3>${markup(question)}</h3><p>${markup(answer)}</p></article>`).join('')}</div></section>`;
+
+const renderEditorial = (sections = []) => sections.length
+  ? `<section class="editorial" aria-label="Local shopping guide">${sections.map(({ heading, paragraphs = [], points = [] }) => `<article><h2>${markup(heading)}</h2>${paragraphs.map((paragraph) => `<p>${markup(paragraph)}</p>`).join('')}${points.length ? `<ul>${points.map((point) => `<li>${markup(point)}</li>`).join('')}</ul>` : ''}</article>`).join('')}</section>`
+  : '';
 
 const renderCollection = (page, catalog) => {
   if (page.slug === 'visit') {
@@ -261,7 +384,8 @@ const renderCollection = (page, catalog) => {
     '@graph': [
       localBusiness,
       website,
-      { '@type': 'CollectionPage', '@id': canonical, url: canonical, name: page.title, description: page.description, isPartOf: { '@id': `${siteUrl}/#website` }, mainEntity: { '@type': 'ItemList', numberOfItems: products.length, itemListElement: products.map((product, position) => ({ '@type': 'ListItem', position: position + 1, url: productUrl(product.id), name: product.name })) } },
+      { '@type': 'CollectionPage', '@id': canonical, url: canonical, name: page.title, headline: page.seoTitle || page.title, description: page.description, inLanguage: 'en', isPartOf: { '@id': `${siteUrl}/#website` }, about: (page.about || []).map((name) => ({ '@type': 'Thing', name })), mainEntity: { '@type': 'ItemList', numberOfItems: products.length, itemListElement: products.map((product, position) => ({ '@type': 'ListItem', position: position + 1, url: productUrl(product.id), name: product.name })) } },
+      { '@type': 'BreadcrumbList', itemListElement: [{ '@type': 'ListItem', position: 1, name: 'Home', item: `${siteUrl}/` }, { '@type': 'ListItem', position: 2, name: page.title, item: canonical }] },
       faqSchema(faqs),
       ...navigation()
     ]
@@ -270,16 +394,21 @@ const renderCollection = (page, catalog) => {
   const liveRoute = page.liveRoute || (page.slug === 'shop' ? '/#/shop' : page.slug === 'ipads-tablets' ? '/#/shop/tablets' : page.slug === 'bags-travel' ? '/#/shop/bags' : page.slug === 'fragrance-grooming' ? '/#/shop/lifestyle' : `/#/shop/${page.categories[0]}`);
   const enquiry = page.productFilter === 'iphone'
     ? 'Hello Kross One Gadgets, I would like to confirm which iPhones are in stock today.'
-    : 'Hello Kross One Gadgets, I would like to confirm which Apple products are in stock today.';
+    : page.productFilter === 'samsung-ultra'
+      ? 'Hello Kross One Gadgets, I would like to confirm which Samsung Galaxy Ultra models are in stock today.'
+      : 'Hello Kross One Gadgets, I would like to confirm which Apple products are in stock today.';
   const localPanel = page.localIntent
     ? `<section class="visit" aria-labelledby="local-shop-title"><h2 id="local-shop-title">Visit Shop #18A at Lugogo Mall.</h2><p>Kross One Gadgets is an independent electronics retailer on Lugogo Bypass in Kampala. Browse the current catalogue below, then contact the team to confirm the exact model, price, condition and warranty before travelling.</p><p><b>Monday–Saturday:</b> 9:00–20:00<br><b>Sunday:</b> 10:00–18:00</p><div class="actions"><a class="button" href="https://wa.me/256752117111?text=${encodeURIComponent(enquiry)}">Check availability on WhatsApp</a><a class="button secondary" href="/collections/visit/">Directions and store details</a></div></section>`
     : '';
-  return `${head({ title: page.title, description: page.description, canonical, image, schema })}<body>${pageHeader()}<main class="shell"><p class="eyebrow">Kross One Gadgets · Lugogo Mall</p><h1>${markup(page.title)}.</h1><p class="intro">${markup(page.description)} Ask Kross One Gadgets for today’s price, condition and warranty before you visit.</p><div class="actions"><a class="button" href="${liveRoute}">Browse the interactive collection</a><a class="button secondary" href="/collections/visit/">Visit the shop</a></div>${localPanel}<section class="grid" aria-label="${markup(page.title)} catalogue">${products.map(productCard).join('')}</section>${renderFaq(faqs)}</main>${pageFooter()}</body></html>`;
+  return `${head({ title: page.seoTitle || page.title, description: page.description, canonical, image, schema })}<body>${pageHeader()}<main class="shell"><p class="eyebrow">Kross One Gadgets · Lugogo Mall</p><h1>${markup(page.title)}.</h1><p class="intro">${markup(page.description)} Ask Kross One Gadgets for today’s price, condition and warranty before you visit.</p><div class="actions"><a class="button" href="${liveRoute}">Browse the interactive collection</a><a class="button secondary" href="/collections/visit/">Visit the shop</a></div>${renderEditorial(page.content)}${localPanel}<section class="inventory" aria-labelledby="inventory-title"><p class="eyebrow">Models customers ask for</p><h2 id="inventory-title">${markup(page.inventoryTitle || `${page.title} catalogue`)}</h2><div class="grid" aria-label="${markup(page.title)} catalogue">${products.map(productCard).join('')}</div></section>${renderFaq(faqs)}</main>${pageFooter()}</body></html>`;
 };
 
 const renderProduct = (product) => {
   const canonical = productUrl(product.id);
   const specs = Array.isArray(product.specs) ? product.specs : [];
+  const phoneLocalIntent = /(?:iphone|samsung galaxy s\d+ ultra)/i.test(product.name);
+  const seoTitle = phoneLocalIntent ? `${product.name} in Kampala, Uganda` : product.name;
+  const productBrand = /iphone|ipad|macbook|apple watch|airpods/i.test(product.name) ? 'Apple' : /samsung/i.test(product.name) ? 'Samsung' : null;
   const schema = {
     '@context': 'https://schema.org',
     '@graph': [
@@ -294,6 +423,7 @@ const renderProduct = (product) => {
         image: productImage(product),
         sku: product.id,
         category: categoryName(product.cat),
+        ...(productBrand ? { brand: { '@type': 'Brand', name: productBrand } } : {}),
         additionalProperty: specs.map(([name, value]) => ({ '@type': 'PropertyValue', name, value }))
       },
       {
@@ -309,7 +439,8 @@ const renderProduct = (product) => {
   const categoryCollection = collectionSlugForCategory[product.cat] || 'shop';
   const specMarkup = specs.map(([name, value]) => `<div class="spec"><b>${markup(name)}</b>${markup(value)}</div>`).join('');
   const whatsapp = `https://wa.me/256752117111?text=${encodeURIComponent(`Hello Kross One Gadgets, I saw the ${product.name} on your website. What is today’s price, condition and warranty?`)}`;
-  return `${head({ title: product.name, description: `${product.blurb} Ask Kross One Gadgets in Lugogo Mall for today’s price, condition and warranty.`, canonical, image: productImage(product), schema })}<body>${pageHeader()}<main class="shell"><p class="eyebrow"><a href="/collections/${categoryCollection}/">${markup(categoryName(product.cat))}</a> · Kross One Gadgets</p><section class="detail"><img src="${productImage(product).replace(siteUrl, '')}" alt="${markup(product.name)}"><div><h1>${markup(product.name)}.</h1><p class="intro">${markup(product.blurb)}</p><div class="actions"><a class="button" href="${whatsapp}">Ask today’s price</a><a class="button secondary" href="/#/p/${encodeURIComponent(product.id)}">Open product gallery</a></div><div class="specs">${specMarkup}</div></div></section></main>${pageFooter()}</body></html>`;
+  const localNote = phoneLocalIntent ? `<p class="local-note">Looking for the ${markup(product.name)} in Kampala or Uganda? This model is listed by Kross One Gadgets at Lugogo Mall. Contact the shop to confirm the exact configuration, stock, price, condition and warranty before purchase.</p>` : '';
+  return `${head({ title: seoTitle, description: `${product.blurb} Ask Kross One Gadgets in Lugogo Mall, Kampala for today’s price, condition and warranty.`, canonical, image: productImage(product), schema })}<body>${pageHeader()}<main class="shell"><p class="eyebrow"><a href="/collections/${categoryCollection}/">${markup(categoryName(product.cat))}</a> · Kross One Gadgets</p><section class="detail"><img src="${productImage(product).replace(siteUrl, '')}" alt="${markup(product.name)}"><div><h1>${markup(product.name)}.</h1><p class="intro">${markup(product.blurb)}</p>${localNote}<div class="actions"><a class="button" href="${whatsapp}">Ask today’s price</a><a class="button secondary" href="/#/p/${encodeURIComponent(product.id)}">Open product gallery</a></div><div class="specs">${specMarkup}</div></div></section></main>${pageFooter()}</body></html>`;
 };
 
 const sitemap = (urls) => `<?xml version="1.0" encoding="UTF-8"?>
