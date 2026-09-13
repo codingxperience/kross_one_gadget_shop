@@ -108,6 +108,65 @@ directories, social profiles, aggregator sites — for the same three fields.
 Realistically this is where months of the ranking gap lives. Reviews accumulate slowly;
 starting now matters more than starting perfectly.
 
+#### CONFIRMED 2026-09-13: the profile has no primary category
+
+The Business Profile editor shows **Primary category** empty, with the validation error
+"A primary category is required."
+
+This is the strongest single explanation for the local-pack absence found so far, and it
+outranks everything else in this document. Primary category is the main relevance signal
+Google uses to decide which businesses are eligible for a category query. With no category
+declared, the profile cannot be matched to "apple shop kampala", "iphones in kampala", or
+any other category search, regardless of reviews, proximity, or website quality.
+
+The rest of the profile is in good order: the name is the real business name, it is
+claimed, it shows 54 customer interactions, the address reads Shop #18A, Lugogo Mall,
+Lugogo By-Pass, Kampala, and the phone is 0752 117 111 — all matching this site.
+
+**Set the primary category to `Electronics store`.**
+
+Reasoning:
+
+- It is what the current local-pack holders use. From the SERP screenshots: APPLE SHOP
+  UGANDA IPHONES SERVICES, "iPhones in Kampala", and Apple Store & Repairs are all
+  *Electronics store*; only Apple Store Kampala iPhone Gadget Center uses *Cell phone
+  store*. Three of four pack positions are Electronics store.
+- It covers the actual range — phones, laptops, tablets, audio, watches, gaming, cameras —
+  where *Cell phone store* would understate the business.
+- It matches the `ElectronicsStore` schema.org type this site already publishes, so Google
+  reads one consistent entity across the profile and the website.
+
+Secondary categories, each supported by real catalogue lines:
+
+| Category | Catalogue basis |
+| --- | --- |
+| Cell phone store | iPhone, Galaxy S26 Ultra, Fold 8, Flip 8 — targets "iphones in kampala" directly |
+| Computer store | MacBook Air and Pro, HP, Lenovo |
+| Video game store | EA Sports FC 26, Ride 5, Elite controller, PlayStation |
+| Watch store | Apple Watch Ultra, Galaxy Watch 8, Huawei Watch Ultimate |
+
+Add `Perfume store` and `Camera store` only if fragrance and cameras are genuine revenue
+lines rather than incidental stock — categories added for token inventory dilute relevance
+instead of adding it.
+
+Do **not** add `Mobile phone repair shop` or `Computer repair service` unless the shop
+genuinely repairs devices. Those categories attract repair intent rather than purchase
+intent, which competes against the goal.
+
+#### CONFIRMED 2026-09-13: closing time conflict
+
+The Business Profile shows "Closes 7:30 pm". The Lugogo Mall directory independently shows
+19:30. This site publishes 20:00 for Monday to Saturday, in the page copy, the
+`openingHoursSpecification` schema and `llms-full.txt`.
+
+Two independent sources agree against the site, so the site is the likely error. Confirm
+the real closing time with the shop, then make all four sources agree. The site has not
+been changed, because guessing at a business's opening hours is not a code decision.
+
+The map pin on the profile reads "YK Lugogo Mall", matching the "Kross Tech – YK Lugogo
+Mall" directory entry described below — further evidence the two listings describe the same
+premises.
+
 #### Ten-minute profile audit
 
 Open the profile and record these. Each one is a known local ranking input, and each is
