@@ -2,7 +2,8 @@ import { readFile, readdir, stat } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { collectionPages, parseCatalog, siteUrl } from './seo-pages.mjs';
+import { collectionPages, parseCatalog, siteUrl, HOME_DIRECTORY_START, HOME_DIRECTORY_END } from './seo-pages.mjs';
+import { loadPricing } from './pricing.mjs';
 import { extractComponentLogic } from './precompile-dc.mjs';
 import { rewriteSiteOrigin } from './site-config.mjs';
 
@@ -43,6 +44,7 @@ const builtIphoneCollection = await readFile(path.join(root, 'dist', 'collection
 const builtSamsungUltraCollection = await readFile(path.join(root, 'dist', 'collections', 'samsung-galaxy-ultra-kampala', 'index.html'), 'utf8');
 const builtProductPage = await readFile(path.join(root, 'dist', 'products', 'macbook-air-13-m5', 'index.html'), 'utf8');
 const builtIphoneProductPage = await readFile(path.join(root, 'dist', 'products', 'iphone-17-pro-max', 'index.html'), 'utf8');
+const builtPricesPage = await readFile(path.join(root, 'dist', 'prices', 'index.html'), 'utf8');
 const builtSamsungUltraProductPage = await readFile(path.join(root, 'dist', 'products', 'galaxy-s26-ultra', 'index.html'), 'utf8');
 const seoCatalog = parseCatalog(html);
 
@@ -320,7 +322,26 @@ if (missingAssets.length) throw new Error(`Missing local assets: ${missingAssets
 const runtimeTag = '<script src="./support.js"></script>';
 const expectedBuiltHtml = rewriteSiteOrigin(html).replace(runtimeTag, `<script src="./app-logic.js"></script>\n${runtimeTag}`);
 const expectedBuiltAdminHtml = adminHtml.replace(runtimeTag, `<script src="./admin-logic.js"></script>\n${runtimeTag}`);
-if (builtHtml !== expectedBuiltHtml) throw new Error('dist/index.html is not the exact approved storefront plus its precompiled logic bundle.');
+// The home page carries one documented addition: the visible crawlable directory,
+// fenced by markers and appended after the design markup. Lift it out, check it, and
+// require everything else to remain byte-identical to the approved storefront.
+const directoryStart = builtHtml.indexOf(HOME_DIRECTORY_START);
+const directoryEnd = builtHtml.indexOf(HOME_DIRECTORY_END);
+if (directoryStart === -1 || directoryEnd === -1) throw new Error('dist/index.html is missing the crawlable home directory section.');
+if (directoryEnd < directoryStart) throw new Error('The home directory markers in dist/index.html are out of order.');
+const homeDirectoryMarkup = builtHtml.slice(directoryStart + HOME_DIRECTORY_START.length, directoryEnd);
+const builtHtmlWithoutDirectory = builtHtml.slice(0, directoryStart) + builtHtml.slice(directoryEnd + HOME_DIRECTORY_END.length);
+if (builtHtmlWithoutDirectory !== expectedBuiltHtml) throw new Error('dist/index.html is not the exact approved storefront plus its precompiled logic bundle and the fenced home directory.');
+if (builtHtml.indexOf('</body>') < directoryEnd) throw new Error('The home directory must sit inside the document body, before </body>.');
+
+// The directory only earns its place if it is genuinely visible and genuinely links out.
+for (const required of ['/collections/iphones-kampala/', '/collections/apple-products-kampala/', '/prices/', '/collections/visit/']) {
+  if (!homeDirectoryMarkup.includes(`href="${required}"`)) throw new Error(`The home directory is missing a link to ${required}.`);
+}
+if (/display:\s*none|visibility:\s*hidden|font-size:\s*0|text-indent:\s*-/i.test(homeDirectoryMarkup)) {
+  throw new Error('The home directory must stay visible to visitors — hidden keyword text is cloaking.');
+}
+if (!homeDirectoryMarkup.includes('not an Apple-owned store')) throw new Error('The home directory must keep the independent-retailer disclosure.');
 if (builtAdminHtml !== expectedBuiltAdminHtml) throw new Error('dist/admin.html is not the exact admin source plus its precompiled logic bundle.');
 if (builtHtml.indexOf('app-logic.js') > builtHtml.indexOf('support.js')) throw new Error('Storefront precompiled logic must load before support.js.');
 if (builtAdminHtml.indexOf('admin-logic.js') > builtAdminHtml.indexOf('support.js')) throw new Error('Admin precompiled logic must load before support.js.');
@@ -348,7 +369,9 @@ requireText(builtSitemap, `${siteUrl}/collections/samsung-galaxy-ultra-kampala/`
 requireText(builtSitemap, `${siteUrl}/products/macbook-air-13-m5/`, 'generated product sitemap URL');
 if (builtSitemap.includes('kross-one-gadget-shop.vercel.app')) throw new Error('The generated sitemap still contains the retired Vercel origin.');
 const sitemapUrlCount = [...builtSitemap.matchAll(/<loc>/g)].length;
-if (sitemapUrlCount !== 1 + collectionPages.length + seoCatalog.length) throw new Error(`Generated sitemap URL count is incorrect: ${sitemapUrlCount}.`);
+// Home page + price list + every collection + every product.
+if (sitemapUrlCount !== 2 + collectionPages.length + seoCatalog.length) throw new Error(`Generated sitemap URL count is incorrect: ${sitemapUrlCount}.`);
+requireText(builtSitemap, `${siteUrl}/prices/`, 'generated price list sitemap URL');
 requireText(builtLaptopCollection, 'MacBook Air 13-inch', 'crawlable laptops collection content');
 requireText(builtIpadCollection, 'iPad Pro 13-inch', 'crawlable iPads collection content');
 requireText(builtAppleCollection, 'Apple Products &amp; iPhones in Kampala, Uganda', 'local Apple collection heading');
@@ -373,8 +396,57 @@ requireText(builtLaptopCollection, 'aria-label="Primary"', 'crawlable primary co
 requireText(builtLaptopCollection, 'aria-label="Explore Kross One Gadgets"', 'crawlable sitewide collection footer');
 requireText(builtLaptopCollection, '<link rel="icon" href="/favicon.ico" sizes="any">', 'collection root favicon discovery');
 requireText(builtProductPage, '"@type":"Product"', 'product structured data');
-requireText(builtIphoneProductPage, '<title>iPhone 17 Pro Max in Kampala, Uganda | Kross One Gadgets</title>', 'local iPhone product title');
-requireText(builtSamsungUltraProductPage, '<title>Samsung Galaxy S26 Ultra in Kampala, Uganda | Kross One Gadgets</title>', 'local Samsung Ultra product title');
+// The product title changes shape once a price is published, so accept either form but
+// insist the model name and the Uganda qualifier are both present.
+const iphoneTitle = (builtIphoneProductPage.match(/<title>([\s\S]*?)<\/title>/) || [])[1] || '';
+if (!iphoneTitle.includes('iPhone 17 Pro Max') || !/Uganda|Kampala/.test(iphoneTitle)) {
+  throw new Error(`The iPhone product title lost its local qualifier: ${iphoneTitle}`);
+}
+
+// Price list page.
+requireText(builtPricesPage, 'Gadget and iPhone price list, Kampala.', 'price list heading');
+requireText(builtPricesPage, '"@type":"FAQPage"', 'price list FAQ structured data');
+requireText(builtPricesPage, '"@type":"BreadcrumbList"', 'price list breadcrumb structured data');
+requireText(builtPricesPage, `rel="canonical" href="${siteUrl}/prices/"`, 'price list canonical URL');
+requireText(builtPricesPage, 'How pricing works at Kross One Gadgets', 'price list explanatory content');
+
+// Every product page carries visible questions and a related-models block.
+requireText(builtProductPage, '"@type":"FAQPage"', 'product FAQ structured data');
+requireText(builtIphoneProductPage, 'aria-label="Related products"', 'product related-models block');
+
+// Offer integrity: a Product may only advertise an Offer when data/pricing.json actually
+// carries a price for it. An Offer without a real price is worse than no Offer at all.
+const pricingBook = await loadPricing();
+const visibleText = (document) => document
+  .slice(document.indexOf('<body'))
+  .replace(/<script[\s\S]*?<\/script>/gi, '')
+  .replace(/<style[\s\S]*?<\/style>/gi, '')
+  .replace(/<[^>]+>/g, ' ')
+  .replace(/\s+/g, ' ')
+  .trim();
+
+const thinProductPages = [];
+for (const product of seoCatalog) {
+  const document = await readFile(path.join(root, 'dist', 'products', product.id, 'index.html'), 'utf8');
+  const hasOffer = document.includes('"@type":"Offer"') || document.includes('"@type":"AggregateOffer"');
+  const shouldHaveOffer = pricingBook.entries.has(product.id);
+  if (hasOffer !== shouldHaveOffer) {
+    throw new Error(`${product.id}: Offer markup ${hasOffer ? 'is present without' : 'is missing despite'} a price in data/pricing.json.`);
+  }
+  if (hasOffer && !document.includes(`"priceCurrency":"${pricingBook.currency}"`)) {
+    throw new Error(`${product.id}: Offer markup is missing its price currency.`);
+  }
+  // Guards against regressing to the thin, near-duplicate pages Google declined to index.
+  if (visibleText(document).length < 2_500) thinProductPages.push(product.id);
+}
+if (thinProductPages.length) {
+  throw new Error(`Product pages are too thin to earn indexing: ${thinProductPages.join(', ')}`);
+}
+// Same tolerance as the iPhone title: publishing a price rewrites the title around it.
+const samsungTitle = (builtSamsungUltraProductPage.match(/<title>([\s\S]*?)<\/title>/) || [])[1] || '';
+if (!samsungTitle.includes('Samsung Galaxy S26 Ultra') || !/Uganda|Kampala/.test(samsungTitle)) {
+  throw new Error(`The Samsung Ultra product title lost its local qualifier: ${samsungTitle}`);
+}
 requireText(builtSamsungUltraProductPage, '"brand":{"@type":"Brand","name":"Samsung"}', 'Samsung product brand structured data');
 for (const [label, document] of [['home', builtHtml], ['laptops collection', builtLaptopCollection], ['iPads collection', builtIpadCollection], ['Apple products collection', builtAppleCollection], ['iPhones collection', builtIphoneCollection], ['Samsung Galaxy Ultra collection', builtSamsungUltraCollection], ['product', builtProductPage], ['iPhone product', builtIphoneProductPage], ['Samsung Ultra product', builtSamsungUltraProductPage]]) validateJsonLd(label, document);
 
