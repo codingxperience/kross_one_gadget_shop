@@ -66,8 +66,69 @@ Nothing in this repository competes with this. Required:
   directory, Facebook, Instagram and any Uganda business directory. Inconsistency here
   quietly suppresses local ranking.
 
+#### Open item: the Lugogo Mall directory lists a different business name
+
+A web search for the shop surfaces a Lugogo Mall store-directory page at
+`lugogomall.com/store/kings-gadgets/` titled **"Kross Tech"**. That listing carries the
+phone number **+256 750 000 981**, which is this shop's own secondary number — it appears
+twelve times across this site, in the header call button, the footer, the contact panel
+and `llms-full.txt`. It describes the same trade: original phones of all brands, Apple Mac
+products, laptops, games, tablets, cameras and accessories.
+
+The listed hours also differ from the site's:
+
+| | Mall directory | This site |
+| --- | --- | --- |
+| Mon–Sat | 8:00 – 19:30 | 9:00 – 20:00 |
+| Sunday | 10:00 – 17:00 | 10:00 – 18:00 |
+
+It carries a third phone number too (`+256 77798000`) that appears nowhere on this site.
+
+This has not been verified directly — it comes from a search result, and the page itself
+could not be opened from the build environment. **Check `lugogomall.com/store/kings-gadgets/`
+and confirm what it says.** Three possibilities, each needing a different fix:
+
+1. It is this business under a former or alternate trading name. Ask the mall to correct
+   the name, hours and phone numbers to match the Google Business Profile exactly.
+2. It is a related or sister business. Decide which name is the one being promoted, and
+   make sure the two do not share a phone number — a shared number merges the entities in
+   Google's eyes and splits the local signal between them.
+3. It is a stale or erroneous mall listing. Ask for it to be corrected or removed.
+
+Why this matters more than it looks: a shopping mall's own directory is one of the
+strongest and most trusted local citations a shop inside it can have. When the most
+authoritative nearby source states a different business name, different hours and an extra
+phone number, it actively undermines the consistency Google looks for when deciding which
+local entity to trust and rank. This is plausibly a live contributor to the local-pack
+absence, and it costs nothing but an email to fix.
+
+Search the business name as a customer would and audit everything that comes back —
+directories, social profiles, aggregator sites — for the same three fields.
+
 Realistically this is where months of the ranking gap lives. Reviews accumulate slowly;
 starting now matters more than starting perfectly.
+
+#### Ten-minute profile audit
+
+Open the profile and record these. Each one is a known local ranking input, and each is
+commonly wrong on a profile that was set up quickly.
+
+| # | Check | Why it matters | Pass condition |
+| --- | --- | --- | --- |
+| 1 | Is it **verified**? | An unverified profile is not eligible for the local pack at all. | Badge shows verified, no "Claim this business" prompt |
+| 2 | **Primary category** | One of the strongest ranking inputs; the wrong one caps the shop out of the query entirely. | `Electronics store`, or `Cell phone store` if phones dominate sales |
+| 3 | **Business name** | Must be the real-world name. | "Kross One Gadgets" — no appended keywords |
+| 4 | **Review count and rating** | The visible gap against the leaders (160–272 reviews). | Record the number; this is the metric to grow |
+| 5 | **Address and pin** | The map pin is often dropped in the wrong part of a mall. | Shop #18A, pin on the correct building |
+| 6 | **Phone** | Must match the site and every citation. | `0752 117 111` primary, consistently |
+| 7 | **Website field** | Sends authority to the site and drives discovery clicks. | `https://www.kross-one-gadgets.co.ug/` |
+| 8 | **Hours** | Mismatched hours split trust across citations. | Mon–Sat 9:00–20:00, Sun 10:00–18:00 |
+| 9 | **Photos** | Profiles with current photos convert and rank better. | Exterior with signage, interior, products, staff |
+| 10 | **Products / Services** | Lets the profile match model-level queries. | Top models listed with prices |
+| 11 | **Duplicate profiles** | Two profiles for one shop split all signals. | Search the name and the phone; merge any duplicate |
+
+Item 11 connects to the open item below — check specifically whether a second profile
+exists under a different name at the same address.
 
 ### 2. Publish prices
 
