@@ -29,7 +29,18 @@ await Promise.all([
   writeFile(path.join(output, 'admin.html'), builtAdminHtml, 'utf8')
 ]);
 const seoBuild = await buildSeoPages({ sourceHtml: storefrontHtml, output });
-const llmsPath = path.join(output, 'llms.txt');
-await writeFile(llmsPath, rewriteSiteOrigin(await readFile(llmsPath, 'utf8')), 'utf8');
 
-console.log(`Production storefront and admin logic precompiled for a strict Content Security Policy at ${siteUrl}. Generated ${seoBuild.collectionCount} crawlable collection pages, ${seoBuild.catalogCount} product pages and ${seoBuild.sitemapCount} sitemap URLs.`);
+// Both machine-readable indexes must carry the canonical origin, not a retired one.
+await Promise.all(['llms.txt', 'llms-full.txt'].map(async (name) => {
+  const file = path.join(output, name);
+  await writeFile(file, rewriteSiteOrigin(await readFile(file, 'utf8')), 'utf8');
+}));
+
+console.log(`Production storefront and admin logic precompiled for a strict Content Security Policy at ${siteUrl}. Generated ${seoBuild.collectionCount} crawlable collection pages, ${seoBuild.catalogCount} product pages, a price list and ${seoBuild.sitemapCount} sitemap URLs.`);
+
+const unpriced = seoBuild.catalogCount - seoBuild.pricedCount;
+if (unpriced > 0) {
+  console.log(`Pricing: ${seoBuild.pricedCount} of ${seoBuild.catalogCount} products publish a price. ${unpriced} show "ask today's price" and carry no Offer markup — add them in data/pricing.json to become eligible for price-rich results.`);
+} else {
+  console.log(`Pricing: all ${seoBuild.catalogCount} products publish a price.`);
+}

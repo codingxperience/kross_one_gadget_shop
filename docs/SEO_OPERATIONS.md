@@ -1,5 +1,12 @@
 # Search and AI discovery operations
 
+> **Start with [SEARCH_VISIBILITY_PLAN.md](./SEARCH_VISIBILITY_PLAN.md).** It carries the
+> diagnosis of why the site was not appearing for "apple shop kampala" and "iphones in
+> kampala", and the ranked action list. The short version: those two queries are answered
+> by the Google local pack, so the Google Business Profile — not this repository — is the
+> highest-leverage lever, and prices are the largest remaining content gap. This file
+> covers the build and release mechanics.
+
 This project treats search visibility as an engineering and publishing system, not a keyword switch. The production build creates stable HTML URLs, machine-readable entity data, a complete sitemap, factual store answers and consistent brand metadata. Search engines still decide ranking, site links, favicons and rich-result presentation.
 
 ## What the build publishes
@@ -7,8 +14,14 @@ This project treats search visibility as an engineering and publishing system, n
 - One canonical home page with `ElectronicsStore`, `WebSite` and navigation structured data.
 - Ten crawlable collection pages under `/collections/` with visible catalogue content, internal links, factual customer questions and matching `FAQPage` data.
 - One crawlable page for every catalogue item under `/products/`, with `Product` and `BreadcrumbList` data.
-- A generated `sitemap.xml` containing the home page, every collection and every product.
-- A generated `robots.txt` pointing to the canonical sitemap.
+- A `/prices/` page listing every catalogue model by category, with `FAQPage` data.
+- Visible prices and `Offer`/`AggregateOffer` data for every product listed in
+  `data/pricing.json`. Products absent from that file publish no price and no offer.
+- A visible directory block on the home page, giving crawlers a link graph that does not
+  depend on the client-side runtime resolving its `{{ }}` bindings.
+- A generated `sitemap.xml` containing the home page, the price list, every collection and every product.
+- A generated `robots.txt` pointing to the canonical sitemap and explicitly allowing the
+  AI answer-engine crawlers.
 - A stable 512 × 512 brand icon and versioned 1200 × 630 social preview.
 - `llms.txt` as a supplementary factual index for agents that choose to read it. It is not treated as a ranking control.
 - A `noindex` response header and metadata for the browser-local admin prototype.
@@ -43,6 +56,17 @@ Run these commands before every production release:
 npm run build
 npm run qa
 ```
+
+To change published prices, edit the spreadsheet rather than the JSON:
+
+```bash
+npm run prices:template   # data/prices.csv, one row per catalogue product
+npm run prices:import     # validates and rewrites data/pricing.json
+npm run build
+```
+
+The importer writes nothing unless every row validates, and names the offending line and
+product for each problem.
 
 Then verify the deployed responses:
 

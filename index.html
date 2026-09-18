@@ -62,7 +62,7 @@
       },
       "geo": { "@type": "GeoCoordinates", "latitude": 0.32665, "longitude": 32.60683 },
       "openingHoursSpecification": [
-        { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"], "opens": "09:00", "closes": "20:00" },
+        { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"], "opens": "09:00", "closes": "19:30" },
         { "@type": "OpeningHoursSpecification", "dayOfWeek": "Sunday", "opens": "10:00", "closes": "18:00" }
       ],
       "areaServed": { "@type": "City", "name": "Kampala" },
@@ -684,12 +684,12 @@
         </div>
         <div data-reveal data-prod-card style="display:flex;flex-direction:column;background:linear-gradient(170deg,#101015,#0b0b0f);border:1px solid rgba(212,175,90,.15);border-radius:20px;overflow:hidden;opacity:0;transform:translateY(26px);transition:opacity .85s ease,transform .85s cubic-bezier(.2,.8,.2,1),border-color .4s,box-shadow .4s" style-hover="border-color:rgba(212,175,90,.5);box-shadow:0 26px 64px rgba(0,0,0,.6)">
           <div style="position:relative;aspect-ratio:16/10;overflow:hidden;background:#0e0e13">
-            <img data-prod-img src="assets/gaming-pc.jpeg" alt="Fixed by the people who sold it." loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform 1s cubic-bezier(.2,.8,.2,1)">
-            <span style="position:absolute;left:13px;top:13px;background:rgba(8,8,11,.82);backdrop-filter:blur(10px);border:1px solid rgba(212,175,90,.34);color:#e8dfc8;font-size:9.5px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;padding:6px 11px;border-radius:999px">Repairs & builds</span>
+            <img data-prod-img src="assets/iphone-camera.jpeg" alt="Check it before you pay." loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform 1s cubic-bezier(.2,.8,.2,1)">
+            <span style="position:absolute;left:13px;top:13px;background:rgba(8,8,11,.82);backdrop-filter:blur(10px);border:1px solid rgba(212,175,90,.34);color:#e8dfc8;font-size:9.5px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;padding:6px 11px;border-radius:999px">Original & verified</span>
           </div>
           <div style="display:flex;flex-direction:column;gap:9px;padding:clamp(18px,2.4vw,24px)">
-            <h3 style="margin:0;font-family:'Archivo',sans-serif;font-variation-settings:'wdth' 104;font-size:clamp(18px,2vw,23px);font-weight:800;letter-spacing:-.024em;line-height:1.2">Fixed by the people who sold it.</h3>
-            <p style="margin:0;font-size:14.5px;line-height:1.65;color:#8d8474;text-wrap:pretty">Screens, batteries, ports, water damage — diagnosed while you wait. Custom PC builds assembled, cabled and stress-tested on our bench.</p>
+            <h3 style="margin:0;font-family:'Archivo',sans-serif;font-variation-settings:'wdth' 104;font-size:clamp(18px,2vw,23px);font-weight:800;letter-spacing:-.024em;line-height:1.2">Check it before you pay.</h3>
+            <p style="margin:0;font-size:14.5px;line-height:1.65;color:#8d8474;text-wrap:pretty">We show you the IMEI or serial and you verify it with the maker on the spot. Sealed, open-box or pre-owned is said plainly, and the warranty is written down before any money moves.</p>
             <a href="{{ waGeneral }}" target="_blank" rel="noopener" style="margin-top:6px;display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:700;letter-spacing:.01em;color:#d4af5a;transition:gap .25s" style-hover="gap:13px">Ask on WhatsApp <span>→</span></a>
           </div>
         </div>
@@ -1316,9 +1316,10 @@ class Component extends DCLogic {
     const n = new Date();
     const eat = new Date(n.getTime() + (n.getTimezoneOffset() + 180) * 60000);
     const d = eat.getDay(), t = eat.getHours() + eat.getMinutes() / 60;
-    const o = d === 0 ? 10 : 9, c = d === 0 ? 18 : 20;
+    const o = d === 0 ? 10 : 9, c = d === 0 ? 18 : 19.5;
     const open = t >= o && t < c;
-    return { open, label: open ? 'Open now \u00B7 until ' + c + ':00' : 'Closed \u00B7 opens ' + o + ':00' };
+    const hhmm = (h) => Math.floor(h) + ':' + String(Math.round((h % 1) * 60)).padStart(2, '0');
+    return { open, label: open ? 'Open now \u00B7 until ' + hhmm(c) : 'Closed \u00B7 opens ' + hhmm(o) };
   }
 
   initMap() {
@@ -1812,7 +1813,7 @@ class Component extends DCLogic {
         { k: 'Address', v: 'Shop #18A, Lugogo Mall\nLugogo Bypass, Kampala' },
         { k: 'WhatsApp / Call', v: '0752 117 111\n0750 000 981' },
         { k: 'Email', v: 'kross1gadgets@gmail.com' },
-        { k: 'Open', v: 'Monday – Saturday · 9:00 – 20:00\nSunday · 10:00 – 18:00' },
+        { k: 'Open', v: 'Monday – Saturday · 9:00 – 19:30\nSunday · 10:00 – 18:00' },
         { k: 'Social', v: 'Facebook · Instagram · TikTok\n@krossonegadgetshop' }
       ],
 
