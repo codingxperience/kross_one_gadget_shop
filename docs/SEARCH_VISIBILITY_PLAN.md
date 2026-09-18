@@ -149,9 +149,19 @@ Add `Perfume store` and `Camera store` only if fragrance and cameras are genuine
 lines rather than incidental stock — categories added for token inventory dilute relevance
 instead of adding it.
 
-Do **not** add `Mobile phone repair shop` or `Computer repair service` unless the shop
-genuinely repairs devices. Those categories attract repair intent rather than purchase
-intent, which competes against the goal.
+**Confirmed 2026-09-18: the shop does not repair devices.** So `Mobile phone repair shop`
+and `Computer repair service` must not be added — they would attract repair intent the shop
+cannot serve.
+
+The same confirmation exposed a live error on the website. The home page carried a card
+headed "Fixed by the people who sold it.", badged "Repairs & builds", promising "Screens,
+batteries, ports, water damage — diagnosed while you wait." That card has been replaced
+with one covering what the shop actually does: IMEI and serial verification in the shop,
+a plain statement of sealed, open-box or pre-owned condition, and written warranty terms
+before payment. A QA check now fails the build if repair language reappears.
+
+Worth checking the Business Profile for the same claim — if "Repairs" is listed under its
+services, remove it there too.
 
 #### CONFIRMED 2026-09-13: closing time conflict
 
@@ -159,9 +169,15 @@ The Business Profile shows "Closes 7:30 pm". The Lugogo Mall directory independe
 19:30. This site publishes 20:00 for Monday to Saturday, in the page copy, the
 `openingHoursSpecification` schema and `llms-full.txt`.
 
-Two independent sources agree against the site, so the site is the likely error. Confirm
-the real closing time with the shop, then make all four sources agree. The site has not
-been changed, because guessing at a business's opening hours is not a code decision.
+**Resolved 2026-09-18.** The shop confirmed Monday–Saturday 9:00–19:30 and Sunday
+10:00–18:00. The site now publishes 19:30 everywhere it states a closing time: the visible
+copy, the `openingHoursSpecification` structured data, the open/closed indicator on the
+home page, the collection and product page copy, `llms.txt` and `llms-full.txt`. The
+opening time and the Sunday hours were left as they were, since only the mall directory
+disputed them and that listing is unreliable on this business (see below).
+
+A QA check now fails the build if any source reverts to 20:00, so the four sources cannot
+drift apart again unnoticed.
 
 The map pin on the profile reads "YK Lugogo Mall", matching the "Kross Tech – YK Lugogo
 Mall" directory entry described below — further evidence the two listings describe the same
@@ -181,7 +197,7 @@ commonly wrong on a profile that was set up quickly.
 | 5 | **Address and pin** | The map pin is often dropped in the wrong part of a mall. | Shop #18A, pin on the correct building |
 | 6 | **Phone** | Must match the site and every citation. | `0752 117 111` primary, consistently |
 | 7 | **Website field** | Sends authority to the site and drives discovery clicks. | `https://www.kross-one-gadgets.co.ug/` |
-| 8 | **Hours** | Mismatched hours split trust across citations. | Mon–Sat 9:00–20:00, Sun 10:00–18:00 |
+| 8 | **Hours** | Mismatched hours split trust across citations. | Mon–Sat 9:00–19:30, Sun 10:00–18:00 |
 | 9 | **Photos** | Profiles with current photos convert and rank better. | Exterior with signage, interior, products, staff |
 | 10 | **Products / Services** | Lets the profile match model-level queries. | Top models listed with prices |
 | 11 | **Duplicate profiles** | Two profiles for one shop split all signals. | Search the name and the phone; merge any duplicate |
@@ -202,16 +218,30 @@ The competitors who rank organically show prices directly in their snippets — 
 shows "iPhone 15 256GB. 2,450,000 UGX", kniezOn shows "Ush 650,000 UGX". This site
 published no prices at all, which is the largest single content gap against the demand.
 
-The build now supports prices. Edit **`data/pricing.json`**:
+The build now supports prices, and the easiest way in is a spreadsheet rather than JSON:
 
-```json
-"products": {
-  "iphone-17-pro-max": { "price": 6200000, "priceHigh": 8900000, "condition": "new", "availability": "InStock", "note": "256GB–2TB, sealed" },
-  "galaxy-s26-ultra":  { "price": 5400000, "condition": "new", "availability": "LimitedAvailability" }
-}
+```bash
+npm run prices:template   # writes data/prices.csv — one row per product
+# open data/prices.csv in Excel, Google Sheets or LibreOffice, fill in price_ugx, save as CSV
+npm run prices:import     # validates it and rewrites data/pricing.json
+npm run build             # publishes the prices
 ```
 
-Then `npm run build`. Each priced product automatically gains:
+`data/prices.csv` already lists all 71 products with their ids, names and categories. Only
+`price_ugx` has to be filled in; `price_high_ugx`, `condition`, `availability` and `note`
+are optional and have sensible defaults. Thousands separators are accepted, so
+`5,400,000` works as well as `5400000`.
+
+The importer refuses to write anything if any row is wrong — an unknown product id, a
+non-numeric price, a high price below the low price, a condition or availability outside
+the allowed set, or the same product twice. It names the line and the product for each
+problem, and `data/pricing.json` is left untouched until every row is valid. That keeps a
+half-corrected spreadsheet from publishing half-wrong prices.
+
+`data/pricing.json` can still be edited directly if preferred; the CSV is a convenience
+over the same data.
+
+Each priced product automatically gains:
 
 - a visible price on its product page, its collection cards and the price list;
 - `Offer` or `AggregateOffer` structured data with currency, condition and availability;

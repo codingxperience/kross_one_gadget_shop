@@ -290,7 +290,7 @@ const buildFaqs = (product, { priced, priceLabel, categoryLabel }) => {
 
   faqs.push({
     question: `Where can I buy the ${name} in Kampala?`,
-    answer: `Kross One Gadgets sells the ${name} from Shop #18A, Lugogo Mall, on Lugogo Bypass in Kampala. The shop opens Monday to Saturday from 9:00 to 20:00 and Sunday from 10:00 to 18:00. Confirm the item is in stock before travelling, because catalogue listings describe models rather than guaranteeing shelf stock.`
+    answer: `Kross One Gadgets sells the ${name} from Shop #18A, Lugogo Mall, on Lugogo Bypass in Kampala. The shop opens Monday to Saturday from 9:00 to 19:30 and Sunday from 10:00 to 18:00. Confirm the item is in stock before travelling, because catalogue listings describe models rather than guaranteeing shelf stock.`
   });
 
   if (isPreOwned(product)) {

@@ -57,6 +57,17 @@ npm run build
 npm run qa
 ```
 
+To change published prices, edit the spreadsheet rather than the JSON:
+
+```bash
+npm run prices:template   # data/prices.csv, one row per catalogue product
+npm run prices:import     # validates and rewrites data/pricing.json
+npm run build
+```
+
+The importer writes nothing unless every row validates, and names the offending line and
+product for each problem.
+
 Then verify the deployed responses:
 
 1. The home page renders without a red design-runtime error.

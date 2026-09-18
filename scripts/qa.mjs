@@ -62,7 +62,7 @@ const hashText = (source) => createHash('sha256').update(source.replace(/\r\n/g,
 const hashBytes = (source) => createHash('sha256').update(source).digest('hex');
 
 // Storefront: keep the approved v2 client revision and its runtime/assets lossless.
-if (hashText(html) !== '1ee742b6fd98649d5d783b864270eae40e4d582e7cb2ec130c76e766ecee2a1e') {
+if (hashText(html) !== '54445811301cf3f071d77135504b344e0bd8d069a5e67ecfbb324b7bcc967f73') {
   throw new Error('index.html differs from the approved responsive Kross One Gadgets v2 client revision.');
 }
 if (hashText(support) !== '8a955e8f2bf16b5a69dc1e14015c15db35632676c50a978d5ac94a6f8adc84db') {
@@ -361,6 +361,23 @@ requireText(builtLlms, `Canonical website: ${siteUrl}/`, 'AI discovery canonical
 requireText(builtLlms, `${siteUrl}/llms-full.txt`, 'detailed AI discovery guide link');
 requireText(builtLlmsFull, 'Kross One Gadgets is an independent electronics and lifestyle retailer', 'truthful machine-readable store identity');
 requireText(builtLlmsFull, `${siteUrl}/collections/samsung-galaxy-ultra-kampala/`, 'machine-readable Samsung Galaxy Ultra guide');
+
+// Opening hours must agree everywhere they are published. The site previously said 20:00
+// while the Google Business Profile and the Lugogo Mall directory both said 19:30, and
+// inconsistent hours across citations are one of the signals local search weighs.
+const CLOSING_TIME = '19:30';
+requireText(html, `"closes": "${CLOSING_TIME}"`, 'storefront closing time in structured data');
+requireText(html, `Monday – Saturday · 9:00 – ${CLOSING_TIME}`, 'storefront visible opening hours');
+requireText(builtLlms, `Monday to Saturday: 09:00–${CLOSING_TIME}`, 'llms.txt opening hours');
+requireText(builtLlmsFull, `Monday to Saturday: 09:00–${CLOSING_TIME}`, 'llms-full.txt opening hours');
+for (const [label, document] of [['storefront', html], ['collection page', builtLaptopCollection], ['product page', builtProductPage]]) {
+  if (/20:00|9:00 – 20:00|9:00–20:00/.test(document)) throw new Error(`${label}: the retired 20:00 closing time is back.`);
+}
+
+// The shop sells and trades in; it does not repair. Advertising repairs would send
+// customers to Lugogo Mall for a service that does not exist there.
+const repairClaims = /water damage|diagnosed while you wait|screens, batteries, ports|Repairs & builds|Fixed by the people who sold it/i;
+if (repairClaims.test(html)) throw new Error('The storefront advertises device repairs, which the shop does not offer.');
 requireText(builtHtml, `${siteUrl}/#website`, 'built custom-domain WebSite identity');
 requireText(builtSitemap, `${siteUrl}/collections/laptops/`, 'generated laptops collection sitemap URL');
 requireText(builtSitemap, `${siteUrl}/collections/apple-products-kampala/`, 'generated Apple products collection sitemap URL');
