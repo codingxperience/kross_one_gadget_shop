@@ -62,7 +62,7 @@ const hashText = (source) => createHash('sha256').update(source.replace(/\r\n/g,
 const hashBytes = (source) => createHash('sha256').update(source).digest('hex');
 
 // Storefront: keep the approved v2 client revision and its runtime/assets lossless.
-if (hashText(html) !== 'cd437c0da57d9f1f5f3e65d7e8425bf16876f57be28a4d3ec85d62b45e9b76f6') {
+if (hashText(html) !== '663a806b0bb71b5c3b102539d7f9e6558ce02709aa695a5d270a133beb157614') {
   throw new Error('index.html differs from the approved responsive Kross One Gadgets v2 client revision.');
 }
 if (hashText(support) !== '8a955e8f2bf16b5a69dc1e14015c15db35632676c50a978d5ac94a6f8adc84db') {
@@ -110,8 +110,8 @@ requireText(html, 'data-viewbtn', 'collection layout control');
 requireText(html, 'data-viewmode="{{ viewMode }}"', 'grid/list collection mode');
 requireText(html, 'data-recent-grid', 'recent inventory category emphasis');
 requireText(html, '[data-wa-fab] { display: none !important; }', 'single small-screen WhatsApp action');
-requireText(html, '<title>Kross One Gadgets | Apple &amp; Samsung Store in Kampala</title>', 'approved storefront title');
-requireText(html, 'property="og:title" content="Kross One Gadgets | Apple &amp; Samsung Store in Kampala"', 'approved Open Graph title');
+requireText(html, '<title>Kross One Gadgets | Apple &amp; Samsung Store | Kampala</title>', 'approved storefront title');
+requireText(html, 'property="og:title" content="Kross One Gadgets | Apple &amp; Samsung Store | Kampala"', 'approved Open Graph title');
 
 // The home page carries the most authority of any page here, so its title has to name the
 // city it trades in. It previously said "Lugogo Mall" without "Kampala", which left the
@@ -145,7 +145,7 @@ if (vercelConfig.includes("'unsafe-eval'")) throw new Error('The production Cont
 requireText(vercelConfig, 'X-Robots-Tag', 'Vercel admin search exclusion header');
 requireText(support, '__dcPrecompiledLogicFactories', 'precompiled design-logic runtime path');
 requireText(support, '__dcRequirePrecompiledLogic', 'strict precompiled design-logic guard');
-requireText(html, 'name="twitter:title" content="Kross One Gadgets | Apple &amp; Samsung Store in Kampala"', 'approved Twitter title');
+requireText(html, 'name="twitter:title" content="Kross One Gadgets | Apple &amp; Samsung Store | Kampala"', 'approved Twitter title');
 requireText(html, 'assets/og-kross-one-gadgets-v3.png', 'approved Kross One social preview');
 if (socialCard.length < 20_000) throw new Error('The versioned social card is unexpectedly small.');
 requireText(manifest, '"name": "Kross One Gadgets"', 'installable storefront name');
